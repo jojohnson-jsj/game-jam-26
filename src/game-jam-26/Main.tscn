@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bcurcavulpakc"]
+
+[ext_resource type="PackedScene" uid="uid://biqa8lcvxhxap" path="res://Player.tscn" id="1_glv2v"]
+
+[node name="Node2D" type="Node2D" unique_id=1255642466]
+
+[node name="Player" parent="." unique_id=727168745 instance=ExtResource("1_glv2v")]
+position = Vector2(533, 296)
+
+[node name="ColorRect" type="ColorRect" parent="Player" unique_id=1516195678]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+color = Color(1, 0.38991624, 0.40773427, 1)
