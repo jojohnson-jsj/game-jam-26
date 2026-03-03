@@ -19,3 +19,10 @@ func _physics_process(delta):
 	
 	velocity = direction * SPEED
 	move_and_slide()
+
+func _unhandled_input(event):
+	if event.is_action_pressed("interact"):
+		var bodies = $Area2D.get_overlapping_areas()
+		for body in bodies:
+			if body.has_method("interact"):
+				body.interact()
