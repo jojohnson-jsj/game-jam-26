@@ -15,6 +15,10 @@ run/main_scene="uid://bcurcavulpakc"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameManager="*uid://bo4006pl5j274"
+
 [input]
 
 interact={
