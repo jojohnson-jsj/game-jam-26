@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bbpdwsl6nejuo"]
+
+[node name="World" type="Node2D" unique_id=1775352503]
+y_sort_enabled = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1496329461]
+
+[node name="TileMap_Ground" type="TileMapLayer" parent="." unique_id=722919465]
+
+[node name="TileMap_Walls" type="TileMapLayer" parent="." unique_id=341702302]
+
+[node name="Objects" type="Node2D" parent="." unique_id=905508105]
