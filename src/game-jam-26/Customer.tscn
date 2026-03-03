@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://ddoft18538keq"]
 
+[ext_resource type="Script" uid="uid://c4h5dskaimgk" path="res://Customer.gd" id="1_4y7ah"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7xwk"]
 size = Vector2(16, 16)
 
 [node name="Customer" type="Area2D" unique_id=1785886218]
+script = ExtResource("1_4y7ah")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144732102]
 shape = SubResource("RectangleShape2D_r7xwk")
@@ -11,7 +14,7 @@ shape = SubResource("RectangleShape2D_r7xwk")
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1971116403]
 offset_right = 16.0
 offset_bottom = 16.0
-color = Color(0, 1, 1, 1)
+color = Color(1, 0, 0.88235295, 1)
 
 [node name="PatienceTimer" type="Timer" parent="." unique_id=75360181]
 

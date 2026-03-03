@@ -7,7 +7,7 @@ signal finished_eating
 enum State { WAITING_FOR_PLAYER, ORDER_TAKEN, EATING }
 
 var current_state = State.WAITING_FOR_PLAYER
-var order_item = "pie"
+var order_item = "latte"
 
 func _ready():
 	$PatienceTimer.wait_time = 30.0
@@ -23,6 +23,7 @@ func interact():
 			current_state = State.ORDER_TAKEN
 			$PatienceTimer.wait_time = 50.0
 			$PatienceTimer.start()
+			print("Order taken: ", order_item)
 		State.ORDER_TAKEN:
 			print("Order already taken, waiting for food")
 
