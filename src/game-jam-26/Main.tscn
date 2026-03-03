@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://biqa8lcvxhxap" path="res://Player.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://ddoft18538keq" path="res://Customer.tscn" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://dsbe5rtelwqia" path="res://Equipment.tscn" id="3_r0du0"]
 
 [node name="Node2D" type="Node2D" unique_id=1255642466]
 
@@ -10,3 +11,6 @@ position = Vector2(533, 296)
 
 [node name="Customer" parent="." unique_id=1785886218 instance=ExtResource("2_uu6xs")]
 position = Vector2(118, 472)
+
+[node name="Equipment" parent="." unique_id=1707120334 instance=ExtResource("3_r0du0")]
+position = Vector2(304, 230)
