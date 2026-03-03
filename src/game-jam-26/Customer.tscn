@@ -1,3 +1,18 @@
-[gd_scene format=3 uid="uid://ba7wsx5qtce38"]
+[gd_scene format=3 uid="uid://ddoft18538keq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r7xwk"]
+size = Vector2(16, 16)
 
 [node name="Customer" type="Area2D" unique_id=1785886218]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144732102]
+shape = SubResource("RectangleShape2D_r7xwk")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1971116403]
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0, 1, 1, 1)
+
+[node name="PatienceTimer" type="Timer" parent="." unique_id=75360181]
+
+[node name="EatingTimer" type="Timer" parent="." unique_id=332019129]
