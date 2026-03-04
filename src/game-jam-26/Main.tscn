@@ -1,16 +1,22 @@
 [gd_scene format=3 uid="uid://bcurcavulpakc"]
 
+[ext_resource type="Script" uid="uid://b4ogu2pxxedqh" path="res://Main.gd" id="1_fos0i"]
 [ext_resource type="PackedScene" uid="uid://biqa8lcvxhxap" path="res://Player.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://ddoft18538keq" path="res://Customer.tscn" id="2_uu6xs"]
 [ext_resource type="PackedScene" uid="uid://dsbe5rtelwqia" path="res://Equipment.tscn" id="3_r0du0"]
+[ext_resource type="PackedScene" uid="uid://ssjrlsucgxi2" path="res://Table.tscn" id="4_cm0pq"]
 
 [node name="Node2D" type="Node2D" unique_id=1255642466]
+script = ExtResource("1_fos0i")
 
 [node name="Player" parent="." unique_id=727168745 instance=ExtResource("1_glv2v")]
 position = Vector2(533, 296)
 
 [node name="Customer" parent="." unique_id=1785886218 instance=ExtResource("2_uu6xs")]
-position = Vector2(118, 472)
+position = Vector2(833, 531)
 
 [node name="Equipment" parent="." unique_id=1707120334 instance=ExtResource("3_r0du0")]
 position = Vector2(304, 230)
+
+[node name="Table" parent="." unique_id=1317159549 instance=ExtResource("4_cm0pq")]
+position = Vector2(164, 400)
