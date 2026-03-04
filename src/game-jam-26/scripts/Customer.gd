@@ -8,11 +8,13 @@ enum State { WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE }
 
 var current_state = State.WAITING_FOR_PLAYER
 var order_item = "latte"
+var queue_entry_time: int = 0
+var tip_delta: float = 0.0
 
 func _ready():
-	$PatienceTimer.wait_time = 30.0
+	$PatienceTimer.wait_time = 240.0
 	$PatienceTimer.one_shot = true
-	$EatingTimer.wait_time = 10.0
+	$EatingTimer.wait_time = 5.0
 	$EatingTimer.one_shot = true
 	$PatienceTimer.timeout.connect(_on_patience_expired)
 	$EatingTimer.timeout.connect(_on_finished_eating)
@@ -39,10 +41,12 @@ func interact(player_inventory: Array):
 			pass
 
 func receive_food():
+	tip_delta = (Time.get_ticks_msec() - queue_entry_time) / 1000.0
 	current_state = State.EATING
 	$PatienceTimer.stop()
 	$EatingTimer.start()
 	print("Customer is eating, will finish in ", $EatingTimer.wait_time, " seconds")
+	print("Tip delta: ", tip_delta, "s")
 
 func find_food_in_inventory(player_inventory: Array):
 	for item in player_inventory:
