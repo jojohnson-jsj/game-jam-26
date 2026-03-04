@@ -110,10 +110,11 @@ frame = 3
 frame_progress = 0.42661333
 
 [node name="SpriteRight" type="AnimatedSprite2D" parent="." unique_id=1773178089]
+visible = false
 sprite_frames = SubResource("SpriteFrames_p7iby")
 animation = &"walk right"
 autoplay = "walk right"
 
 [node name="SpriteIdle" type="Sprite2D" parent="." unique_id=456651588]
-visible = false
 texture = ExtResource("2_v6fml")
+flip_h = true
