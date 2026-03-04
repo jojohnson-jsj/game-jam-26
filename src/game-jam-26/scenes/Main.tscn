@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://bcurcavulpakc"]
 
-[ext_resource type="Script" path="res://Main.gd" id="1_fos0i"]
+[ext_resource type="Script" uid="uid://b4ogu2pxxedqh" path="res://scripts/Main.gd" id="1_fos0i"]
 [ext_resource type="PackedScene" uid="uid://biqa8lcvxhxap" path="res://scenes/Player.tscn" id="1_glv2v"]
-[ext_resource type="PackedScene" uid="uid://rw6wexuohnw" path="res://Customer.tscn" id="2_uu6xs"]
-[ext_resource type="PackedScene" uid="uid://b3mv5w3hdv300" path="res://Equipment.tscn" id="3_r0du0"]
-[ext_resource type="PackedScene" path="res://Table.tscn" id="4_cm0pq"]
-[ext_resource type="PackedScene" uid="uid://bbpdwsl6nejuo" path="res://scenes/World.tscn" id="4_rarhs"]
+[ext_resource type="PackedScene" uid="uid://rw6wexuohnw" path="res://scenes/Customer.tscn" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://b3mv5w3hdv300" path="res://scenes/Equipment.tscn" id="3_r0du0"]
+[ext_resource type="PackedScene" uid="uid://ssjrlsucgxi2" path="res://scenes/Table.tscn" id="4_cm0pq"]
+[ext_resource type="PackedScene" uid="uid://chudkoufngq7g" path="res://scenes/World.tscn" id="4_rarhs"]
 
 [node name="Node2D" type="Node2D" unique_id=1255642466]
 script = ExtResource("1_fos0i")

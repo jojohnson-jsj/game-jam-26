@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://biqa8lcvxhxap"]
 
-[ext_resource type="Script" uid="uid://d3lxg7ks1tstu" path="res://Player.gd" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://d3lxg7ks1tstu" path="res://scripts/Player.gd" id="1_xhfnw"]
 [ext_resource type="Texture2D" uid="uid://bti681g8c8i0a" path="res://assets/characters/idle/girl1_idle.png" id="2_v6fml"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
-size = Vector2(16, 16)
+size = Vector2(16, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(25, 25)
+size = Vector2(25, 33.5)
 
 [node name="Player" type="CharacterBody2D" unique_id=727168745]
 z_index = 5
@@ -19,12 +19,13 @@ texture = ExtResource("2_v6fml")
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=739622127]
+position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_kpjcp")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=276617451]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1778369816]
-scale = Vector2(5, 5)
+position = Vector2(0, -4.25)
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="OrderConnectionTimer" type="Timer" parent="." unique_id=1212068608]

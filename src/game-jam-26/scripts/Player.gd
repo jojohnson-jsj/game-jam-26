@@ -40,12 +40,12 @@ func _unhandled_input(event):
 					$OrderConnectionTimer.start()
 				body.interact(inventory)
 
-func _on_order_received(item_type: String, customer_id: String):
+func _on_order_received(item_type: String):
 	if pending_order_source != null:
 		pending_order_source.order_placed.disconnect(_on_order_received)
 		pending_order_source = null
 	$OrderConnectionTimer.stop()
-	inventory.append({"type": "order", "item": item_type, "customer_id": customer_id})
+	inventory.append({"type": "order", "item": item_type})
 	print("Inventory: ", inventory)
 
 func _on_order_connection_timeout():
