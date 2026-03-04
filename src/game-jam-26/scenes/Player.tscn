@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://biqa8lcvxhxap"]
 
 [ext_resource type="Script" uid="uid://d3lxg7ks1tstu" path="res://Player.gd" id="1_xhfnw"]
+[ext_resource type="Texture2D" uid="uid://bti681g8c8i0a" path="res://assets/characters/idle/girl1_idle.png" id="2_v6fml"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
 size = Vector2(16, 16)
@@ -8,17 +9,15 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 
 [node name="Player" type="CharacterBody2D" unique_id=727168745]
+collision_mask = 2
 script = ExtResource("1_xhfnw")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1062642989]
+texture = ExtResource("2_v6fml")
+offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=739622127]
 shape = SubResource("RectangleShape2D_kpjcp")
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1436652227]
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0, 1, 1, 1)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=276617451]
 

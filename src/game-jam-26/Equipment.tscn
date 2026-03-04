@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dsbe5rtelwqia"]
+[gd_scene format=3 uid="uid://b3mv5w3hdv300"]
 
 [ext_resource type="Script" uid="uid://cvc2vy4cyqusj" path="res://Equipment.gd" id="1_ij1m0"]
 
@@ -12,8 +12,10 @@ script = ExtResource("1_ij1m0")
 shape = SubResource("RectangleShape2D_7k06b")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1566819872]
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
 color = Color(0.89165145, 0.891651, 1.92523e-06, 1)
 
 [node name="CookTimer" type="Timer" parent="." unique_id=682313001]
