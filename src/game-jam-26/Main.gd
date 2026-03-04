@@ -1,7 +1,8 @@
 extends Node2D
 
 func _ready():
-	var customer = preload("res://Customer.tscn").instantiate()
-	$Table.add_child(customer)
-	$Table.seat_group([customer])
-	print("Customer position after seating: ", customer.position)
+	var customer1 = preload("res://Customer.tscn").instantiate()
+	var customer2 = preload("res://Customer.tscn").instantiate()
+	$Table.add_child(customer1)
+	$Table.add_child(customer2)
+	$Table.seat_group([customer1, customer2])
