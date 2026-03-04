@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://rw6wexuohnw"]
 
-[ext_resource type="Script" uid="uid://c4h5dskaimgk" path="res://Customer.gd" id="1_4y7ah"]
+[ext_resource type="Script" uid="uid://c4h5dskaimgk" path="res://scripts/Customer.gd" id="1_4y7ah"]
 [ext_resource type="Texture2D" uid="uid://cvi02hxtbue1t" path="res://assets/characters/idle/girl2_idle.png" id="2_0n5xi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7xwk"]
