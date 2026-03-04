@@ -24,7 +24,7 @@ shape = SubResource("RectangleShape2D_kpjcp")
 [node name="Area2D" type="Area2D" parent="." unique_id=276617451]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1778369816]
-scale = Vector2(20, 20)
+scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="OrderConnectionTimer" type="Timer" parent="." unique_id=1212068608]
