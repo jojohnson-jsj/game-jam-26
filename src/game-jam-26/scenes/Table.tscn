@@ -24,7 +24,13 @@ color = Color(0.9781607, 0.50033355, 0.2175745, 1)
 [node name="SeatPositions" type="Node2D" parent="." unique_id=2033366574]
 
 [node name="Seat1" type="Node2D" parent="SeatPositions" unique_id=494594800]
-position = Vector2(-40, 0)
+position = Vector2(-40, 16)
 
 [node name="Seat2" type="Node2D" parent="SeatPositions" unique_id=243069032]
-position = Vector2(40, 0)
+position = Vector2(40, 16)
+
+[node name="Seat3" type="Node2D" parent="SeatPositions" unique_id=1143843598]
+position = Vector2(-40, -16)
+
+[node name="Seat4" type="Node2D" parent="SeatPositions" unique_id=1663603902]
+position = Vector2(40, -16)
