@@ -6,7 +6,7 @@ var money: float = 0.0
 var tables: Array = []
 var waiting_queue: Array = []
 var day_active: bool = false
-var spawn_interval: float = 120.0
+var spawn_interval: float = 45.0
 var day_duration: float = 180.0
 
 var spawn_timer: Timer

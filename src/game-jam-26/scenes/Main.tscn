@@ -22,4 +22,13 @@ position = Vector2(-219, -106)
 z_as_relative = false
 
 [node name="Table" parent="." unique_id=1317159549 instance=ExtResource("4_cm0pq")]
-position = Vector2(-207, 66)
+position = Vector2(-161, 78)
+
+[node name="Table2" parent="." unique_id=1802998614 instance=ExtResource("4_cm0pq")]
+position = Vector2(20, 79)
+
+[node name="Table3" parent="." unique_id=606636795 instance=ExtResource("4_cm0pq")]
+position = Vector2(194, 78)
+
+[node name="Table4" parent="." unique_id=316754333 instance=ExtResource("4_cm0pq")]
+position = Vector2(193, -40)
