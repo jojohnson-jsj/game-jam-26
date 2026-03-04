@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://rr18t82q2qlk"]
+
+[ext_resource type="Script" uid="uid://dvfymfb0h6n5g" path="res://scripts/Money.gd" id="1_arnqv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5t3b"]
+size = Vector2(64, 64)
+
+[node name="Money" type="Area2D" unique_id=978526298]
+z_index = 6
+z_as_relative = false
+script = ExtResource("1_arnqv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=521109356]
+shape = SubResource("RectangleShape2D_j5t3b")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1462330604]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+color = Color(0.5205999, 1, 0.28129128, 1)

@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://b3mv5w3hdv300"]
 
-[ext_resource type="Script" uid="uid://cvc2vy4cyqusj" path="res://Equipment.gd" id="1_ij1m0"]
+[ext_resource type="Script" uid="uid://cvc2vy4cyqusj" path="res://scripts/Equipment.gd" id="1_ij1m0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7k06b"]
 size = Vector2(16, 16)
 
 [node name="Equipment" type="Area2D" unique_id=1707120334]
 z_index = 3
+z_as_relative = false
 script = ExtResource("1_ij1m0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1250493732]
