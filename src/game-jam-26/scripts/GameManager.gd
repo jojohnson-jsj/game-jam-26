@@ -6,8 +6,15 @@ var money: float = 0.0
 var tables: Array = []
 var waiting_queue: Array = []
 var day_active: bool = false
-var spawn_interval: float = 45.0
-var day_duration: float = 180.0
+
+@export var spawn_interval: float = 45.0
+@export var day_duration: float = 180.0
+@export var min_group_size: int = 1
+@export var max_group_size: int = 4
+@export var queue_patience: float = 30.0
+@export var tip_floor_time: float = 40.0
+@export var tip_ceiling_time: float = 120.0
+@export var tip_max_percent: float = 0.3
 
 var spawn_timer: Timer
 var day_timer: Timer
@@ -34,14 +41,11 @@ func get_item_price(item: String) -> float:
 	return ITEM_PRICES.get(item, 0.0)
 
 func calculate_tip(delta: float) -> float:
-	var floor_time = 40.0
-	var ceiling_time = 120.0
-	var max_tip = 0.3
-	if delta <= floor_time:
-		return max_tip
-	if delta >= ceiling_time:
+	if delta <= tip_floor_time:
+		return tip_max_percent
+	if delta >= tip_ceiling_time:
 		return 0.0
-	return max_tip * (1.0 - (delta - floor_time) / (ceiling_time - floor_time))
+	return tip_max_percent * (1.0 - (delta - tip_floor_time) / (tip_ceiling_time - tip_floor_time))
 
 func register_table(table):
 	tables.append(table)
@@ -53,25 +57,22 @@ func start_day():
 	day_active = true
 	spawn_timer.start()
 	day_timer.start()
-	spawn_group(randi_range(1, 4))
+	spawn_group(randi_range(min_group_size, max_group_size))
 	print("Day started")
 
 func _on_spawn_timer_timeout():
 	if not day_active:
 		return
-	var group_size = randi_range(1, 4)
-	spawn_group(group_size)
+	spawn_group(randi_range(min_group_size, max_group_size))
 
 func spawn_group(size: int):
 	var customer_list = []
 	for i in range(size):
 		var customer = preload("res://scenes/Customer.tscn").instantiate()
 		customer_list.append(customer)
-
 	var group = CustomerGroup.new()
 	group.group_patience_expired.connect(_on_group_patience_expired)
-	group.setup(customer_list, self)
-
+	group.setup(customer_list, self, queue_patience)
 	waiting_queue.append(group)
 	print("Group of ", size, " added to queue. Queue size: ", waiting_queue.size())
 	try_seat_next_group()
@@ -107,7 +108,7 @@ func _on_group_patience_expired(group: CustomerGroup):
 func _on_table_finished(payout: float, _table):
 	print("Table finished. Payout: $", payout)
 	try_seat_next_group()
-	
+
 func on_payment_collected():
 	print("Payment collected, checking queue")
 	try_seat_next_group()

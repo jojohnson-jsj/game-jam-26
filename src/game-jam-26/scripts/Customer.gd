@@ -7,14 +7,17 @@ signal customer_done
 enum State { WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE }
 
 var current_state = State.WAITING_FOR_PLAYER
-var order_item = "latte"
+@export var order_item: String = "latte"
+@export var initial_patience: float = 30.0
+@export var delivery_patience: float = 50.0
+@export var eating_time: float = 10.0
 var queue_entry_time: int = 0
 var tip_delta: float = 0.0
 
 func _ready():
-	$PatienceTimer.wait_time = 240.0
+	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.one_shot = true
-	$EatingTimer.wait_time = 5.0
+	$EatingTimer.wait_time = eating_time
 	$EatingTimer.one_shot = true
 	$PatienceTimer.timeout.connect(_on_patience_expired)
 	$EatingTimer.timeout.connect(_on_finished_eating)
@@ -27,7 +30,7 @@ func interact(player_inventory: Array):
 				return
 			emit_signal("order_placed", order_item)
 			current_state = State.ORDER_TAKEN
-			$PatienceTimer.wait_time = 50.0
+			$PatienceTimer.wait_time = delivery_patience
 			$PatienceTimer.start()
 		State.ORDER_TAKEN:
 			var food = find_food_in_inventory(player_inventory)
