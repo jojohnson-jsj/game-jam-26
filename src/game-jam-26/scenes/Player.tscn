@@ -11,6 +11,7 @@ size = Vector2(25, 33.5)
 
 [node name="Player" type="CharacterBody2D" unique_id=727168745]
 z_index = 5
+z_as_relative = false
 collision_mask = 2
 script = ExtResource("1_xhfnw")
 
