@@ -6,14 +6,17 @@
 size = Vector2(16, 16)
 
 [node name="Customer" type="Area2D" unique_id=1785886218]
+z_index = 1
 script = ExtResource("1_4y7ah")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144732102]
 shape = SubResource("RectangleShape2D_r7xwk")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1971116403]
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
 color = Color(1, 0, 0.88235295, 1)
 
 [node name="PatienceTimer" type="Timer" parent="." unique_id=75360181]

@@ -61,8 +61,9 @@ func _on_patience_expired():
 
 func _on_finished_eating():
 	current_state = State.DONE
-	emit_signal("customer_done")
+	$EatingTimer.stop()
 	print("Customer ", customer_id, " done eating")
+	emit_signal("customer_done")
 	
 func is_waiting_for_order() -> bool:
 	return current_state == State.WAITING_FOR_PLAYER

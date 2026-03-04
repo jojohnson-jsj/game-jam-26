@@ -6,6 +6,7 @@
 size = Vector2(16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
+size = Vector2(25, 25)
 
 [node name="Player" type="CharacterBody2D" unique_id=727168745]
 script = ExtResource("1_xhfnw")
@@ -16,14 +17,15 @@ script = ExtResource("1_xhfnw")
 shape = SubResource("RectangleShape2D_kpjcp")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1436652227]
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
 color = Color(0, 1, 1, 1)
 
 [node name="Area2D" type="Area2D" parent="." unique_id=276617451]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1778369816]
-scale = Vector2(20, 20)
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="OrderConnectionTimer" type="Timer" parent="." unique_id=1212068608]
