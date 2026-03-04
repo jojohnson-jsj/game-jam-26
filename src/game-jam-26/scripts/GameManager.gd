@@ -106,7 +106,10 @@ func _on_group_patience_expired(group: CustomerGroup):
 
 func _on_table_finished(payout: float, _table):
 	print("Table finished. Payout: $", payout)
-	add_money(payout)
+	try_seat_next_group()
+	
+func on_payment_collected():
+	print("Payment collected, checking queue")
 	try_seat_next_group()
 
 func _on_table_cleared(_table):

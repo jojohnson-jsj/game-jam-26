@@ -3,7 +3,7 @@ extends StaticBody2D
 signal table_finished(payout)
 signal table_vacated
 
-enum State { AVAILABLE, OCCUPIED }
+enum State { AVAILABLE, OCCUPIED, AWAITING_PAYMENT }
 
 var current_state = State.AVAILABLE
 var seated_customers: Array = []
@@ -42,7 +42,15 @@ func _on_customer_done():
 	if done_customers == seated_customers.size():
 		var payout = calculate_payout()
 		clear_table()
+		spawn_money(payout)
 		emit_signal("table_finished", payout)
+
+func spawn_money(payout: float):
+	var money = preload("res://scenes/Money.tscn").instantiate()
+	money.setup(payout, self)
+	get_parent().add_child(money)
+	money.global_position = global_position
+	print("Money spawned at: ", money.global_position)
 
 func _on_patience_expired():
 	print("Patience expired, clearing table")
@@ -57,4 +65,9 @@ func clear_table():
 		customer.queue_free()
 	seated_customers = []
 	done_customers = 0
+	current_state = State.AWAITING_PAYMENT
+
+func payment_collected():
 	current_state = State.AVAILABLE
+	print("Payment collected, table now available")
+	GameManager.on_payment_collected()
