@@ -6,6 +6,7 @@
 size = Vector2(16, 16)
 
 [node name="Equipment" type="Area2D" unique_id=1707120334]
+z_index = 3
 script = ExtResource("1_ij1m0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1250493732]

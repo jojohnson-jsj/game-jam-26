@@ -7,6 +7,7 @@
 size = Vector2(16, 16)
 
 [node name="Customer" type="Area2D" unique_id=1785886218]
+z_index = 4
 script = ExtResource("1_4y7ah")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1993485971]
