@@ -5,10 +5,11 @@ signal table_vacated
 
 enum State { AVAILABLE, OCCUPIED, AWAITING_PAYMENT }
 
+@export var capacity: int = 4
+
 var current_state = State.AVAILABLE
 var seated_customers: Array = []
 var done_customers: int = 0
-var capacity: int = 4
 
 func _ready():
 	GameManager.register_table(self)

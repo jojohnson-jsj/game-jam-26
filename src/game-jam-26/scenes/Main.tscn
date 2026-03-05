@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://biqa8lcvxhxap" path="res://scenes/Player.tscn" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://rw6wexuohnw" path="res://scenes/Customer.tscn" id="2_uu6xs"]
 [ext_resource type="PackedScene" uid="uid://b3mv5w3hdv300" path="res://scenes/Equipment.tscn" id="3_r0du0"]
-[ext_resource type="PackedScene" uid="uid://ssjrlsucgxi2" path="res://scenes/Table.tscn" id="4_cm0pq"]
 [ext_resource type="PackedScene" uid="uid://bbpdwsl6nejuo" path="res://scenes/World.tscn" id="4_rarhs"]
+[ext_resource type="PackedScene" uid="uid://djnjd1irws0x6" path="res://scenes/Table2.tscn" id="6_jlsqs"]
+[ext_resource type="PackedScene" uid="uid://gxjc2x6orfj" path="res://scenes/Table3.tscn" id="7_q8u5g"]
+[ext_resource type="PackedScene" uid="uid://djg4de6nvb5we" path="res://scenes/Table4.tscn" id="8_lhr70"]
 
 [node name="Node2D" type="Node2D" unique_id=1255642466]
 script = ExtResource("1_fos0i")
@@ -16,19 +18,37 @@ script = ExtResource("1_fos0i")
 position = Vector2(128, 128)
 
 [node name="Equipment" parent="." unique_id=1707120334 instance=ExtResource("3_r0du0")]
-position = Vector2(-219, -106)
+position = Vector2(-50, -65)
 
 [node name="World" parent="." unique_id=1775352503 instance=ExtResource("4_rarhs")]
 z_as_relative = false
 
-[node name="Table" parent="." unique_id=1317159549 instance=ExtResource("4_cm0pq")]
-position = Vector2(-161, 78)
+[node name="Table" parent="." unique_id=1317159549 instance=ExtResource("6_jlsqs")]
+position = Vector2(-104, 23)
 
-[node name="Table2" parent="." unique_id=1802998614 instance=ExtResource("4_cm0pq")]
-position = Vector2(20, 79)
+[node name="Table2" parent="." unique_id=1418531551 instance=ExtResource("6_jlsqs")]
+position = Vector2(-88, 87)
 
-[node name="Table3" parent="." unique_id=606636795 instance=ExtResource("4_cm0pq")]
-position = Vector2(194, 78)
+[node name="Table3" parent="." unique_id=232326530 instance=ExtResource("6_jlsqs")]
+position = Vector2(88, 87)
 
-[node name="Table4" parent="." unique_id=316754333 instance=ExtResource("4_cm0pq")]
-position = Vector2(193, -40)
+[node name="Table4" parent="." unique_id=1267098041 instance=ExtResource("6_jlsqs")]
+position = Vector2(104, 23)
+
+[node name="Table5" parent="." unique_id=1017731698 instance=ExtResource("7_q8u5g")]
+position = Vector2(216, 23)
+
+[node name="Table6" parent="." unique_id=69470295 instance=ExtResource("7_q8u5g")]
+position = Vector2(-216, 23)
+
+[node name="Table7" parent="." unique_id=565459842 instance=ExtResource("8_lhr70")]
+position = Vector2(-200, -57)
+
+[node name="Table8" parent="." unique_id=10337044 instance=ExtResource("8_lhr70")]
+position = Vector2(-200, 103)
+
+[node name="Table9" parent="." unique_id=1830917577 instance=ExtResource("8_lhr70")]
+position = Vector2(200, 104)
+
+[node name="Table10" parent="." unique_id=1399961121 instance=ExtResource("8_lhr70")]
+position = Vector2(200, -57)
