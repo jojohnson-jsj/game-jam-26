@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://djnjd1irws0x6"]
+
+[ext_resource type="Script" uid="uid://ciyi8ya07f1xj" path="res://scripts/Table.gd" id="1_4n73d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_muxx0"]
+size = Vector2(44, 32)
+
+[node name="Table" type="StaticBody2D" unique_id=1317159549]
+z_index = 2
+z_as_relative = false
+collision_layer = 2
+script = ExtResource("1_4n73d")
+capacity = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1220665819]
+shape = SubResource("RectangleShape2D_muxx0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1623828500]
+
+[node name="SeatPositions" type="Node2D" parent="." unique_id=2033366574]
+
+[node name="Seat1" type="Node2D" parent="SeatPositions" unique_id=494594800]
+position = Vector2(-31, -6)
+
+[node name="ColorRect" type="ColorRect" parent="SeatPositions/Seat1" unique_id=629045233]
+visible = false
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+color = Color(0.5372549, 1, 0.078431375, 1)
+
+[node name="Seat2" type="Node2D" parent="SeatPositions" unique_id=243069032]
+position = Vector2(31, -6)
+
+[node name="ColorRect" type="ColorRect" parent="SeatPositions/Seat2" unique_id=1711653552]
+visible = false
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+color = Color(0.5372549, 1, 0.078431375, 1)

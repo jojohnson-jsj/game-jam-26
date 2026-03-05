@@ -7,7 +7,6 @@ const FRICTION = 1400.0
 
 var inventory: Array = []
 var pending_order_source = null
-var facing = Vector2.DOWN
 var last_horizontal = 1  # 1 = right, -1 = left
 var was_moving = false
 
