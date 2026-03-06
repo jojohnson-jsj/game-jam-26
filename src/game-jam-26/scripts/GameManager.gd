@@ -70,7 +70,7 @@ func start_day():
 	day_active = true
 	spawn_timer.start()
 	day_timer.start()
-	spawn_group(randi_range(min_group_size, max_group_size))
+	call_deferred("spawn_group", randi_range(min_group_size, max_group_size))
 	print("Day started")
 
 

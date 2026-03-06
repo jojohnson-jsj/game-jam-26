@@ -20,11 +20,11 @@ var group = null
 const SPEED = 80.0
 const ARRIVAL_THRESHOLD = 4.0
 
-var _target_position: Vector2 = Vector2.ZERO
-var _navigating: bool = false
-
 
 func _ready():
+	$NavigationAgent2D.path_desired_distance = ARRIVAL_THRESHOLD
+	$NavigationAgent2D.target_desired_distance = ARRIVAL_THRESHOLD
+
 	$PatienceTimer.one_shot = true
 	$EatingTimer.wait_time = eating_time
 	$EatingTimer.one_shot = true
@@ -36,18 +36,22 @@ func _ready():
 
 
 func _process(delta):
-	if not _navigating:
+	if current_state != State.WALKING_TO_SEAT:
 		return
-	global_position = global_position.move_toward(_target_position, SPEED * delta)
-	if global_position.distance_to(_target_position) <= ARRIVAL_THRESHOLD:
-		_navigating = false
+	if $NavigationAgent2D.is_navigation_finished():
 		_on_arrived_at_seat()
+		return
+	var next = $NavigationAgent2D.get_next_path_position()
+	global_position = global_position.move_toward(next, SPEED * delta)
 
 
 func navigate_to(target_global: Vector2):
-	_target_position = target_global
-	_navigating = true
 	current_state = State.WALKING_TO_SEAT
+	call_deferred("_set_nav_target", target_global)
+
+
+func _set_nav_target(pos: Vector2):
+	$NavigationAgent2D.target_position = pos
 
 
 func _on_arrived_at_seat():

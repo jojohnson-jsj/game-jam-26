@@ -24,3 +24,5 @@ shape = SubResource("RectangleShape2D_r7xwk")
 [node name="PatienceTimer" type="Timer" parent="." unique_id=75360181]
 
 [node name="EatingTimer" type="Timer" parent="." unique_id=332019129]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=879445674]
