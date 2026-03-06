@@ -24001,6 +24001,8 @@ physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_js7pq")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_7g83o"]
+
 [node name="World" type="Node2D" unique_id=1775352503]
 y_sort_enabled = true
 
@@ -24040,3 +24042,6 @@ tile_set = SubResource("TileSet_eu7l1")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=35336604]
 zoom = Vector2(2, 2)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1886837511]
+navigation_polygon = SubResource("NavigationPolygon_7g83o")

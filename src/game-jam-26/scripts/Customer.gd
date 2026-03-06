@@ -4,24 +4,74 @@ signal order_placed(item_type)
 signal patience_expired
 signal customer_done
 
-enum State { WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE }
+enum State { WALKING_TO_SEAT, WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE }
 
-var current_state = State.WAITING_FOR_PLAYER
+var current_state = State.WALKING_TO_SEAT
+
 @export var order_item: String = "latte"
 @export var initial_patience: float = 30.0
 @export var delivery_patience: float = 50.0
 @export var eating_time: float = 10.0
+
 var queue_entry_time: int = 0
 var tip_delta: float = 0.0
+var group = null
+
+const SPEED = 80.0
+const ARRIVAL_THRESHOLD = 4.0
+
+var _target_position: Vector2 = Vector2.ZERO
+var _navigating: bool = false
+
 
 func _ready():
-	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.one_shot = true
 	$EatingTimer.wait_time = eating_time
 	$EatingTimer.one_shot = true
 	$PatienceTimer.timeout.connect(_on_patience_expired)
 	$EatingTimer.timeout.connect(_on_finished_eating)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	input_event.connect(_on_input_event)
+
+
+func _process(delta):
+	if not _navigating:
+		return
+	global_position = global_position.move_toward(_target_position, SPEED * delta)
+	if global_position.distance_to(_target_position) <= ARRIVAL_THRESHOLD:
+		_navigating = false
+		_on_arrived_at_seat()
+
+
+func navigate_to(target_global: Vector2):
+	_target_position = target_global
+	_navigating = true
+	current_state = State.WALKING_TO_SEAT
+
+
+func _on_arrived_at_seat():
+	current_state = State.WAITING_FOR_PLAYER
+	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.start()
+
+
+func _on_mouse_entered():
+	if group != null and not group.is_seated:
+		group.highlight()
+
+
+func _on_mouse_exited():
+	if group != null and not group.is_seated:
+		group.unhighlight()
+
+
+func _on_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if group != null:
+			group.unhighlight()
+			group.on_clicked()
+
 
 func interact(player_inventory: Array):
 	match current_state:
@@ -43,13 +93,14 @@ func interact(player_inventory: Array):
 		State.DONE:
 			pass
 
+
 func receive_food():
 	tip_delta = (Time.get_ticks_msec() - queue_entry_time) / 1000.0
 	current_state = State.EATING
 	$PatienceTimer.stop()
 	$EatingTimer.start()
-	print("Customer is eating, will finish in ", $EatingTimer.wait_time, " seconds")
-	print("Tip delta: ", tip_delta, "s")
+	print("Customer eating, finishes in ", $EatingTimer.wait_time, "s | tip_delta: ", tip_delta, "s")
+
 
 func find_food_in_inventory(player_inventory: Array):
 	for item in player_inventory:
@@ -57,14 +108,17 @@ func find_food_in_inventory(player_inventory: Array):
 			return item
 	return null
 
+
 func _on_patience_expired():
 	emit_signal("patience_expired")
+
 
 func _on_finished_eating():
 	current_state = State.DONE
 	$EatingTimer.stop()
 	print("Customer done eating")
 	emit_signal("customer_done")
+
 
 func is_waiting_for_order() -> bool:
 	return current_state == State.WAITING_FOR_PLAYER
