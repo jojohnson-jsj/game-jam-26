@@ -33,9 +33,11 @@ func stop_waiting_timer():
 func seat_at_table(table, room_scene: Node):
 	is_seated = true
 	var seat_positions = table.get_node("SeatPositions")
+	var table_center = table.global_position
 	for i in range(customers.size()):
 		var customer = customers[i]
 		var seat_node = seat_positions.get_child(i)
+		customer.table_center = table_center
 		customer.navigate_to(seat_node.global_position)
 	print("Group of ", customers.size(), " navigating to seats")
 

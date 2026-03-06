@@ -16,9 +16,12 @@ var current_state = State.WALKING_TO_SEAT
 var queue_entry_time: int = 0
 var tip_delta: float = 0.0
 var group = null
+var table_center: Vector2 = Vector2.ZERO
 
 const SPEED = 80.0
 const ARRIVAL_THRESHOLD = 4.0
+
+var _last_horizontal: float = 1.0
 
 
 func _ready():
@@ -34,6 +37,8 @@ func _ready():
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
 
+	_show_idle()
+
 
 func _process(delta):
 	if current_state != State.WALKING_TO_SEAT:
@@ -42,7 +47,46 @@ func _process(delta):
 		_on_arrived_at_seat()
 		return
 	var next = $NavigationAgent2D.get_next_path_position()
+	var direction = (next - global_position).normalized()
 	global_position = global_position.move_toward(next, SPEED * delta)
+	_update_animation(direction)
+
+
+func _update_animation(direction: Vector2):
+	if direction.x > 0.1:
+		_last_horizontal = 1.0
+		$SpriteIdle.visible = false
+		$SpriteRight.visible = true
+		$SpriteLeft.visible = false
+		if not $SpriteRight.is_playing():
+			$SpriteRight.play("walk")
+	elif direction.x < -0.1:
+		_last_horizontal = -1.0
+		$SpriteIdle.visible = false
+		$SpriteRight.visible = false
+		$SpriteLeft.visible = true
+		if not $SpriteLeft.is_playing():
+			$SpriteLeft.play("walk")
+	else:
+		$SpriteIdle.visible = false
+		if _last_horizontal > 0:
+			$SpriteRight.visible = true
+			$SpriteLeft.visible = false
+			if not $SpriteRight.is_playing():
+				$SpriteRight.play("walk")
+		else:
+			$SpriteRight.visible = false
+			$SpriteLeft.visible = true
+			if not $SpriteLeft.is_playing():
+				$SpriteLeft.play("walk")
+
+
+func _show_idle():
+	$SpriteIdle.visible = true
+	$SpriteRight.visible = false
+	$SpriteLeft.visible = false
+	$SpriteRight.stop()
+	$SpriteLeft.stop()
 
 
 func navigate_to(target_global: Vector2):
@@ -55,6 +99,8 @@ func _set_nav_target(pos: Vector2):
 
 
 func _on_arrived_at_seat():
+	_show_idle()
+	$SpriteIdle.flip_h = global_position.x < table_center.x
 	current_state = State.WAITING_FOR_PLAYER
 	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.start()

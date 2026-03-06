@@ -103,7 +103,14 @@ func _position_group(group: CustomerGroup, slot_index: int):
 
 func _reposition_queue():
 	for i in range(waiting_queue.size()):
-		_position_group(waiting_queue[i], i)
+		_walk_group_to_slot(waiting_queue[i], i)
+
+
+func _walk_group_to_slot(group: CustomerGroup, slot_index: int):
+	var slot_base = queue_origin + Vector2(-slot_index * QUEUE_SLOT_SPACING, 0)
+	for i in range(group.customers.size()):
+		var target = slot_base + Vector2(-i * CUSTOMER_STACK_SPACING, 0)
+		group.customers[i].navigate_to(target)
 
 
 func try_seat_next_group():
