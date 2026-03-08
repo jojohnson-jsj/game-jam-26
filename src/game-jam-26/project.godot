@@ -11,13 +11,17 @@ config_version=5
 [application]
 
 config/name="game-jam-26"
-run/main_scene="uid://bcurcavulpakc"
-config/features=PackedStringArray("4.6", "Mobile")
+run/main_scene="uid://dwpv8d7qv2wgp"
+config/features=PackedStringArray("4.6", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GameManager="*uid://bo4006pl5j274"
+
+[dotnet]
+
+project/assembly_name="game-jam-26"
 
 [input]
 
