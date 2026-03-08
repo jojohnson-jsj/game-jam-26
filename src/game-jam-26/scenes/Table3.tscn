@@ -42,7 +42,7 @@ offset_bottom = 2.0
 color = Color(0.5372549, 1, 0.078431375, 1)
 
 [node name="Seat3" type="Node2D" parent="SeatPositions" unique_id=1143843598]
-position = Vector2(1, -28)
+position = Vector2(2, -28)
 
 [node name="ColorRect" type="ColorRect" parent="SeatPositions/Seat3" unique_id=1660136379]
 visible = false

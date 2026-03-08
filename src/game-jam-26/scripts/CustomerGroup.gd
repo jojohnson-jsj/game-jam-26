@@ -30,7 +30,7 @@ func stop_waiting_timer():
 	waiting_timer.stop()
 
 
-func seat_at_table(table, room_scene: Node):
+func seat_at_table(table, _room_scene: Node):
 	is_seated = true
 	var seat_positions = table.get_node("SeatPositions")
 	var table_center = table.global_position
@@ -61,7 +61,7 @@ func on_clicked():
 func cleanup():
 	waiting_timer.queue_free()
 	for customer in customers:
-		customer.queue_free()
+		customer.walk_out(GameManager.door_point)
 	customers = []
 
 

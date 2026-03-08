@@ -61,7 +61,7 @@ func clear_table():
 			customer.patience_expired.disconnect(_on_patience_expired)
 		if customer.customer_done.is_connected(_on_customer_done):
 			customer.customer_done.disconnect(_on_customer_done)
-		customer.queue_free()
+		customer.walk_out(GameManager.door_point)
 	seated_customers = []
 	done_customers = 0
 	current_state = State.AWAITING_PAYMENT

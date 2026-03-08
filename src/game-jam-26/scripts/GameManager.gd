@@ -7,7 +7,7 @@ var tables: Array = []
 var waiting_queue: Array = []
 var day_active: bool = false
 
-@export var spawn_interval: float = 20.0
+@export var spawn_interval: float = 15.0
 @export var day_duration: float = 180.0
 @export var min_group_size: int = 1
 @export var max_group_size: int = 4
@@ -16,12 +16,14 @@ var day_active: bool = false
 @export var tip_ceiling_time: float = 120.0
 @export var tip_max_percent: float = 0.3
 
-const QUEUE_SLOT_SPACING: float = 48.0
+const QUEUE_SLOT_SPACING: float = 12.0
 const CUSTOMER_STACK_SPACING: float = 12.0
 
 var spawn_timer: Timer
 var day_timer: Timer
 var queue_origin: Vector2 = Vector2.ZERO
+var door_point: Vector2 = Vector2.ZERO
+
 
 const ITEM_PRICES = {
 	"latte": 3.0,
@@ -42,6 +44,8 @@ func _ready():
 	day_timer.timeout.connect(_on_day_ended)
 	add_child(day_timer)
 
+func set_door_point(pos: Vector2):
+	door_point = pos
 
 func get_item_price(item: String) -> float:
 	return ITEM_PRICES.get(item, 0.0)
@@ -85,45 +89,58 @@ func spawn_group(size: int):
 	for i in range(size):
 		var customer = preload("res://scenes/Customer.tscn").instantiate()
 		get_tree().current_scene.add_child(customer)
+		customer.global_position = door_point
 		customer_list.append(customer)
 
 	var group = CustomerGroup.new()
 	group.group_patience_expired.connect(_on_group_patience_expired)
 	group.setup(customer_list, self, queue_patience)
 	waiting_queue.append(group)
-	_position_group(group, waiting_queue.size() - 1)
+	call_deferred("_position_group", group, waiting_queue.size() - 1)
 	print("Group of ", size, " added to queue. Queue size: ", waiting_queue.size())
+	
+
+func _get_slot_base(slot_index: int) -> Vector2:
+	var offset = 0.0
+	for i in range(slot_index):
+		if i >= waiting_queue.size():
+			break
+		offset += waiting_queue[i].customers.size() * CUSTOMER_STACK_SPACING + QUEUE_SLOT_SPACING
+	return queue_origin + Vector2(-offset, 0)
 
 
 func _position_group(group: CustomerGroup, slot_index: int):
-	var slot_base = queue_origin + Vector2(-slot_index * QUEUE_SLOT_SPACING, 0)
+	var slot_base = _get_slot_base(slot_index)
 	for i in range(group.customers.size()):
-		group.customers[i].global_position = slot_base + Vector2(-i * CUSTOMER_STACK_SPACING, 0)
-
+		var target = slot_base + Vector2(-i * CUSTOMER_STACK_SPACING, 0)
+		group.customers[i].walk_to(target)
+		
 
 func _reposition_queue():
+	print("Repositioning queue, size: ", waiting_queue.size())
 	for i in range(waiting_queue.size()):
 		_walk_group_to_slot(waiting_queue[i], i)
 
 
 func _walk_group_to_slot(group: CustomerGroup, slot_index: int):
-	var slot_base = queue_origin + Vector2(-slot_index * QUEUE_SLOT_SPACING, 0)
+	var slot_base = _get_slot_base(slot_index)
 	for i in range(group.customers.size()):
 		var target = slot_base + Vector2(-i * CUSTOMER_STACK_SPACING, 0)
-		group.customers[i].navigate_to(target)
+		group.customers[i].walk_to(target)
 
 
 func try_seat_next_group():
 	if waiting_queue.is_empty():
 		return
-	var group = waiting_queue[0]
-	var table = find_best_table(group.customers.size())
-	if table == null:
-		print("No available table for group of ", group.customers.size())
+	for i in range(waiting_queue.size()):
+		var group = waiting_queue[i]
+		var table = find_best_table(group.customers.size())
+		if table == null:
+			continue
+		waiting_queue.remove_at(i)
+		seat_group_at_table(group, table)
+		_reposition_queue()
 		return
-	waiting_queue.pop_front()
-	seat_group_at_table(group, table)
-	_reposition_queue()
 
 
 func find_best_table(group_size: int):
@@ -162,17 +179,15 @@ func _on_group_patience_expired(group: CustomerGroup):
 func _on_table_finished(payout: float, _table):
 	print("Table finished. Payout: $", payout)
 	add_money(payout)
-	try_seat_next_group()
+	
 
 
 func on_payment_collected():
 	print("Payment collected, checking queue")
-	try_seat_next_group()
 
 
 func _on_table_cleared(_table):
 	print("Table cleared, trying to seat next group")
-	try_seat_next_group()
 
 
 func add_money(amount: float):

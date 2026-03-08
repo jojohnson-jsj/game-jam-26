@@ -50,5 +50,8 @@ position = Vector2(200, 104)
 position = Vector2(200, -57)
 
 [node name="QueueOrigin" type="Node2D" parent="." unique_id=772506101]
-position = Vector2(0, 125)
+position = Vector2(-16, 125)
 scale = Vector2(-20.721113, 10.18)
+
+[node name="DoorPoint" type="Node2D" parent="." unique_id=1178043524]
+position = Vector2(0, 140)

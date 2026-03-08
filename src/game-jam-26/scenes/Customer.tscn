@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://f2i0pnw13ffo" path="res://assets/characters/walk/spritesheet format/girl2_walk_left-Sheet.png" id="4_qs715"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bgmn7"]
+radius = 32.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qs715"]
 atlas = ExtResource("3_wpj86")
@@ -87,9 +88,10 @@ script = ExtResource("1_4y7ah")
 
 [node name="SpriteIdle" type="Sprite2D" parent="." unique_id=1993485971]
 texture = ExtResource("2_0n5xi")
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144732102]
-position = Vector2(0, 8)
+position = Vector2(0, 2)
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_bgmn7")
 

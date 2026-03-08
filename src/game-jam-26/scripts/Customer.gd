@@ -4,7 +4,7 @@ signal order_placed(item_type)
 signal patience_expired
 signal customer_done
 
-enum State { WALKING_TO_SEAT, WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE }
+enum State { WALKING_TO_DOOR, WALKING_TO_SEAT, WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE, WALKING_OUT }
 
 var current_state = State.WALKING_TO_SEAT
 
@@ -22,6 +22,8 @@ const SPEED = 80.0
 const ARRIVAL_THRESHOLD = 4.0
 
 var _last_horizontal: float = 1.0
+var _walk_target: Vector2 = Vector2.ZERO
+var _walking_to_slot: bool = false
 
 
 func _ready():
@@ -41,8 +43,29 @@ func _ready():
 
 
 func _process(delta):
+	if current_state == State.WAITING_FOR_PLAYER and group != null and not group.is_seated:
+		$SpriteIdle.flip_h = true
+
+	if current_state == State.WALKING_OUT:
+		var direction = (_walk_target - global_position).normalized()
+		global_position = global_position.move_toward(_walk_target, SPEED * delta)
+		_update_animation(direction)
+		if global_position.distance_to(_walk_target) <= ARRIVAL_THRESHOLD:
+			queue_free()
+		return
+
 	if current_state != State.WALKING_TO_SEAT:
 		return
+
+	if _walking_to_slot:
+		var slot_direction = (_walk_target - global_position).normalized()
+		global_position = global_position.move_toward(_walk_target, SPEED * delta)
+		_update_animation(slot_direction)
+		if global_position.distance_to(_walk_target) <= ARRIVAL_THRESHOLD:
+			_walking_to_slot = false
+			_on_arrived_at_slot()
+		return
+
 	if $NavigationAgent2D.is_navigation_finished():
 		_on_arrived_at_seat()
 		return
@@ -90,9 +113,23 @@ func _show_idle():
 
 
 func navigate_to(target_global: Vector2):
+	_walking_to_slot = false
 	current_state = State.WALKING_TO_SEAT
 	call_deferred("_set_nav_target", target_global)
 
+
+func walk_to(target_global: Vector2):
+	_walk_target = target_global
+	_walking_to_slot = true
+	current_state = State.WALKING_TO_SEAT
+
+
+func walk_out(door_pos: Vector2):
+	$PatienceTimer.stop()
+	$EatingTimer.stop()
+	current_state = State.WALKING_OUT
+	_walk_target = door_pos
+	_walking_to_slot = true
 
 func _set_nav_target(pos: Vector2):
 	$NavigationAgent2D.target_position = pos
@@ -104,6 +141,11 @@ func _on_arrived_at_seat():
 	current_state = State.WAITING_FOR_PLAYER
 	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.start()
+
+
+func _on_arrived_at_slot():
+	_show_idle()
+	current_state = State.WAITING_FOR_PLAYER
 
 
 func _on_mouse_entered():
