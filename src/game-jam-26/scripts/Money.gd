@@ -7,9 +7,11 @@ func setup(payout: float, table):
 	amount = payout
 	source_table = table
 
-func interact(_player_inventory: Array):
-	print("Collected $", amount)
+func collect():
 	GameManager.add_money(amount)
 	if source_table != null:
 		source_table.payment_collected()
 	queue_free()
+
+func interact(_player_inventory: Array):
+	collect()

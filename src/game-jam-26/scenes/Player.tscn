@@ -8,7 +8,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_mdl7e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(27, 30)
+size = Vector2(31, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qu4a1"]
 atlas = ExtResource("2_3li8b")
@@ -98,10 +98,8 @@ shape = SubResource("CircleShape2D_mdl7e")
 [node name="Area2D" type="Area2D" parent="." unique_id=276617451]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1778369816]
-visible = false
 z_index = 6
 z_as_relative = false
-position = Vector2(-0.5, 2)
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="OrderConnectionTimer" type="Timer" parent="." unique_id=1212068608]
