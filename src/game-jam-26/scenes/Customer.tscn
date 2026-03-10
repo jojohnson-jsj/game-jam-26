@@ -83,7 +83,6 @@ animations = [{
 [node name="Customer" type="Area2D" unique_id=1785886218]
 z_index = 4
 z_as_relative = false
-position = Vector2(-2, -2)
 script = ExtResource("1_4y7ah")
 
 [node name="SpriteIdle" type="Sprite2D" parent="." unique_id=1993485971]
@@ -99,6 +98,9 @@ shape = SubResource("CircleShape2D_bgmn7")
 
 [node name="EatingTimer" type="Timer" parent="." unique_id=332019129]
 
+[node name="ThinkingTimer" type="Timer" parent="." unique_id=1335406471]
+one_shot = true
+
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=879445674]
 
 [node name="SpriteRight" type="AnimatedSprite2D" parent="." unique_id=1966111466]
@@ -108,3 +110,11 @@ animation = &"walk"
 [node name="SpriteLeft" type="AnimatedSprite2D" parent="." unique_id=1051540974]
 sprite_frames = SubResource("SpriteFrames_ppwom")
 animation = &"walk"
+
+[node name="ThinkingLabel" type="Label" parent="." unique_id=688494813]
+visible = false
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 34.0
+offset_bottom = -6.0
+text = "..."

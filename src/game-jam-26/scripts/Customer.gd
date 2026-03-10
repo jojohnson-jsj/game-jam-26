@@ -4,7 +4,7 @@ signal order_placed(item_type)
 signal patience_expired
 signal customer_done
 
-enum State { WALKING_TO_DOOR, WALKING_TO_SEAT, WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE, WALKING_OUT }
+enum State { WALKING_TO_SEAT, THINKING, WAITING_FOR_PLAYER, ORDER_TAKEN, EATING, DONE, WALKING_OUT }
 
 var current_state = State.WALKING_TO_SEAT
 
@@ -12,6 +12,8 @@ var current_state = State.WALKING_TO_SEAT
 @export var initial_patience: float = 30.0
 @export var delivery_patience: float = 50.0
 @export var eating_time: float = 10.0
+@export var thinking_time_min: float = 3.0
+@export var thinking_time_max: float = 8.0
 
 var queue_entry_time: int = 0
 var tip_delta: float = 0.0
@@ -33,12 +35,17 @@ func _ready():
 	$PatienceTimer.one_shot = true
 	$EatingTimer.wait_time = eating_time
 	$EatingTimer.one_shot = true
+	$ThinkingTimer.one_shot = true
+
 	$PatienceTimer.timeout.connect(_on_patience_expired)
 	$EatingTimer.timeout.connect(_on_finished_eating)
+	$ThinkingTimer.timeout.connect(_on_thinking_finished)
+
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
 
+	$ThinkingLabel.visible = false
 	_show_idle()
 
 
@@ -76,6 +83,8 @@ func _process(delta):
 
 
 func _update_animation(direction: Vector2):
+	if direction.length() < 0.1:
+		return
 	if direction.x > 0.1:
 		_last_horizontal = 1.0
 		$SpriteIdle.visible = false
@@ -127,9 +136,12 @@ func walk_to(target_global: Vector2):
 func walk_out(door_pos: Vector2):
 	$PatienceTimer.stop()
 	$EatingTimer.stop()
+	$ThinkingTimer.stop()
+	$ThinkingLabel.visible = false
 	current_state = State.WALKING_OUT
 	_walk_target = door_pos
-	_walking_to_slot = true
+	_walking_to_slot = false
+
 
 func _set_nav_target(pos: Vector2):
 	$NavigationAgent2D.target_position = pos
@@ -138,9 +150,10 @@ func _set_nav_target(pos: Vector2):
 func _on_arrived_at_seat():
 	_show_idle()
 	$SpriteIdle.flip_h = global_position.x < table_center.x
-	current_state = State.WAITING_FOR_PLAYER
-	$PatienceTimer.wait_time = initial_patience
-	$PatienceTimer.start()
+	current_state = State.THINKING
+	$ThinkingLabel.visible = true
+	$ThinkingTimer.wait_time = randf_range(thinking_time_min, thinking_time_max)
+	$ThinkingTimer.start()
 
 
 func _on_arrived_at_slot():
@@ -148,21 +161,11 @@ func _on_arrived_at_slot():
 	current_state = State.WAITING_FOR_PLAYER
 
 
-func _on_mouse_entered():
-	if group != null and not group.is_seated:
-		group.highlight()
-
-
-func _on_mouse_exited():
-	if group != null and not group.is_seated:
-		group.unhighlight()
-
-
-func _on_input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if group != null:
-			group.unhighlight()
-			group.on_clicked()
+func _on_thinking_finished():
+	$ThinkingLabel.visible = false
+	current_state = State.WAITING_FOR_PLAYER
+	$PatienceTimer.wait_time = initial_patience
+	$PatienceTimer.start()
 
 
 func interact(player_inventory: Array):
@@ -170,6 +173,7 @@ func interact(player_inventory: Array):
 		State.WAITING_FOR_PLAYER:
 			if player_inventory.size() >= 2:
 				return
+			modulate = Color(1, 1, 1)
 			emit_signal("order_placed", order_item)
 			current_state = State.ORDER_TAKEN
 			$PatienceTimer.wait_time = delivery_patience
@@ -191,7 +195,6 @@ func receive_food():
 	current_state = State.EATING
 	$PatienceTimer.stop()
 	$EatingTimer.start()
-	print("Customer eating, finishes in ", $EatingTimer.wait_time, "s | tip_delta: ", tip_delta, "s")
 
 
 func find_food_in_inventory(player_inventory: Array):
@@ -208,8 +211,39 @@ func _on_patience_expired():
 func _on_finished_eating():
 	current_state = State.DONE
 	$EatingTimer.stop()
-	print("Customer done eating")
 	emit_signal("customer_done")
+
+
+func _on_mouse_entered():
+	if group != null and not group.is_seated:
+		group.highlight()
+	elif current_state == State.WAITING_FOR_PLAYER:
+		var player = get_tree().get_first_node_in_group("player")
+		if player and player.has_qr_cat:
+			modulate = Color(1.4, 1.4, 1.4)
+
+
+func _on_mouse_exited():
+	if group != null and not group.is_seated:
+		group.unhighlight()
+	elif current_state == State.WAITING_FOR_PLAYER:
+		modulate = Color(1, 1, 1)
+
+
+func _on_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		# Click to seat only with Queue Cat
+		if group != null and not group.is_seated and GameManager.has_queue_cat:
+			group.unhighlight()
+			group.on_clicked()
+			return
+
+		# QR Cat — click seated customer to take order
+		if current_state == State.WAITING_FOR_PLAYER:
+			var player = get_tree().get_first_node_in_group("player")
+			if player and player.has_qr_cat:
+				modulate = Color(1, 1, 1)
+				player.receive_order_from_qr(self)
 
 
 func is_waiting_for_order() -> bool:

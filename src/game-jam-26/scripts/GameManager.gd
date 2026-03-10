@@ -16,7 +16,7 @@ var day_active: bool = false
 @export var tip_ceiling_time: float = 120.0
 @export var tip_max_percent: float = 0.3
 
-const QUEUE_SLOT_SPACING: float = 12.0
+const QUEUE_SLOT_SPACING: float = 24.0
 const CUSTOMER_STACK_SPACING: float = 12.0
 
 var spawn_timer: Timer
@@ -24,6 +24,7 @@ var day_timer: Timer
 var queue_origin: Vector2 = Vector2.ZERO
 var door_point: Vector2 = Vector2.ZERO
 
+var has_queue_cat: bool = true
 
 const ITEM_PRICES = {
 	"latte": 3.0,
@@ -44,8 +45,6 @@ func _ready():
 	day_timer.timeout.connect(_on_day_ended)
 	add_child(day_timer)
 
-func set_door_point(pos: Vector2):
-	door_point = pos
 
 func get_item_price(item: String) -> float:
 	return ITEM_PRICES.get(item, 0.0)
@@ -63,11 +62,14 @@ func register_table(table):
 	tables.append(table)
 	table.table_finished.connect(_on_table_finished.bind(table))
 	table.table_vacated.connect(_on_table_cleared.bind(table))
-	print("Table registered. Total tables: ", tables.size())
 
 
 func set_queue_origin(origin: Vector2):
 	queue_origin = origin
+
+
+func set_door_point(pos: Vector2):
+	door_point = pos
 
 
 func start_day():
@@ -96,9 +98,9 @@ func spawn_group(size: int):
 	group.group_patience_expired.connect(_on_group_patience_expired)
 	group.setup(customer_list, self, queue_patience)
 	waiting_queue.append(group)
-	call_deferred("_position_group", group, waiting_queue.size() - 1)
+	_position_group(group, waiting_queue.size() - 1)
 	print("Group of ", size, " added to queue. Queue size: ", waiting_queue.size())
-	
+
 
 func _get_slot_base(slot_index: int) -> Vector2:
 	var offset = 0.0
@@ -114,10 +116,9 @@ func _position_group(group: CustomerGroup, slot_index: int):
 	for i in range(group.customers.size()):
 		var target = slot_base + Vector2(-i * CUSTOMER_STACK_SPACING, 0)
 		group.customers[i].walk_to(target)
-		
+
 
 func _reposition_queue():
-	print("Repositioning queue, size: ", waiting_queue.size())
 	for i in range(waiting_queue.size()):
 		_walk_group_to_slot(waiting_queue[i], i)
 
@@ -177,17 +178,15 @@ func _on_group_patience_expired(group: CustomerGroup):
 
 
 func _on_table_finished(payout: float, _table):
-	print("Table finished. Payout: $", payout)
 	add_money(payout)
-	
 
 
 func on_payment_collected():
-	print("Payment collected, checking queue")
+	pass
 
 
 func _on_table_cleared(_table):
-	print("Table cleared, trying to seat next group")
+	pass
 
 
 func add_money(amount: float):

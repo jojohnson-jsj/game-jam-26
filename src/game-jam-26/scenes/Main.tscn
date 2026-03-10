@@ -6,12 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://bbpdwsl6nejuo" path="res://scenes/World.tscn" id="4_rarhs"]
 [ext_resource type="PackedScene" uid="uid://djnjd1irws0x6" path="res://scenes/Table2.tscn" id="6_jlsqs"]
 [ext_resource type="PackedScene" uid="uid://gxjc2x6orfj" path="res://scenes/Table3.tscn" id="7_q8u5g"]
+[ext_resource type="PackedScene" uid="uid://b70xdv1onn4jk" path="res://scenes/Trash.tscn" id="8_jlsqs"]
 [ext_resource type="PackedScene" uid="uid://djg4de6nvb5we" path="res://scenes/Table4.tscn" id="8_lhr70"]
+[ext_resource type="PackedScene" uid="uid://cvl7vyogrjn00" path="res://scenes/NonTableCatBed.tscn" id="9_lhr70"]
+[ext_resource type="PackedScene" uid="uid://coqdvv1kdb4wu" path="res://scenes/TableCatBed.tscn" id="10_wp0k4"]
 
 [node name="Node2D" type="Node2D" unique_id=1255642466]
 script = ExtResource("1_fos0i")
 
-[node name="Player" parent="." unique_id=727168745 instance=ExtResource("1_glv2v")]
+[node name="Player" parent="." unique_id=727168745 groups=["player"] instance=ExtResource("1_glv2v")]
 
 [node name="Equipment" parent="." unique_id=1707120334 instance=ExtResource("3_r0du0")]
 position = Vector2(-50, -65)
@@ -55,3 +58,13 @@ scale = Vector2(-20.721113, 10.18)
 
 [node name="DoorPoint" type="Node2D" parent="." unique_id=1178043524]
 position = Vector2(0, 140)
+
+[node name="Trash" parent="." unique_id=253568466 instance=ExtResource("8_jlsqs")]
+position = Vector2(99, -69)
+
+[node name="NonTableCatBed" parent="." unique_id=1468040532 instance=ExtResource("9_lhr70")]
+position = Vector2(-134, -82)
+
+[node name="TableCatBed" parent="." unique_id=901635110 instance=ExtResource("10_wp0k4")]
+position = Vector2(-105, 50)
+assigned_table = NodePath("../Table")
