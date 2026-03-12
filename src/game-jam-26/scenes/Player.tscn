@@ -121,3 +121,11 @@ autoplay = "walk right"
 [node name="SpriteIdle" type="Sprite2D" parent="." unique_id=456651588]
 texture = ExtResource("2_v6fml")
 flip_h = true
+
+[node name="InventorySlot1" type="Sprite2D" parent="." unique_id=940084519]
+visible = false
+position = Vector2(-20, -8)
+
+[node name="InventorySlot2" type="Sprite2D" parent="." unique_id=135988541]
+visible = false
+position = Vector2(20, -8)
