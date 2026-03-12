@@ -1,6 +1,7 @@
 extends Node
 
 signal money_changed(new_total)
+signal day_ended(final_money)
 
 var money: float = 0.0
 var tables: Array = []
@@ -30,6 +31,23 @@ const ITEM_PRICES = {
 	"latte": 3.0,
 	"pie": 8.0
 }
+
+# Texture registries — add new item types here as art becomes available
+const ORDER_SPRITES = {
+	"latte": preload("res://assets/food/orders/order_sprite_latte.png"),
+}
+
+const FOOD_SPRITES = {
+	"latte": preload("res://assets/food/food/food_sprite_latte.png"),
+}
+
+
+func get_order_sprite(item_type: String) -> Texture2D:
+	return ORDER_SPRITES.get(item_type, null)
+
+
+func get_food_sprite(item_type: String) -> Texture2D:
+	return FOOD_SPRITES.get(item_type, null)
 
 
 func _ready():
@@ -177,14 +195,17 @@ func _on_group_patience_expired(group: CustomerGroup):
 	print("Group removed from queue. Queue size: ", waiting_queue.size())
 
 
+# Hook for UI and future systems — money is added via Money.collect()
 func _on_table_finished(payout: float, _table):
-	add_money(payout)
+	print("Table finished. Payout: $", payout)
 
 
+# Hook for future systems
 func on_payment_collected():
 	pass
 
 
+# Hook for future systems
 func _on_table_cleared(_table):
 	pass
 
@@ -202,3 +223,4 @@ func _on_day_ended():
 		group.cleanup()
 	waiting_queue.clear()
 	print("Day ended. Final money: $", money)
+	emit_signal("day_ended", money)

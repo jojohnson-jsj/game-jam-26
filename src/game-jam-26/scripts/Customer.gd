@@ -46,6 +46,7 @@ func _ready():
 	input_event.connect(_on_input_event)
 
 	$ThinkingLabel.visible = false
+	$OrderIndicator.visible = false
 	_show_idle()
 
 
@@ -121,6 +122,24 @@ func _show_idle():
 	$SpriteLeft.stop()
 
 
+func _show_order_indicator():
+	var tex = GameManager.get_order_sprite(order_item)
+	if tex:
+		$OrderIndicator.texture = tex
+	$OrderIndicator.visible = true
+
+
+func _show_food_indicator():
+	var tex = GameManager.get_food_sprite(order_item)
+	if tex:
+		$OrderIndicator.texture = tex
+	$OrderIndicator.visible = true
+
+
+func _hide_order_indicator():
+	$OrderIndicator.visible = false
+
+
 func navigate_to(target_global: Vector2):
 	_walking_to_slot = false
 	current_state = State.WALKING_TO_SEAT
@@ -138,6 +157,7 @@ func walk_out(door_pos: Vector2):
 	$EatingTimer.stop()
 	$ThinkingTimer.stop()
 	$ThinkingLabel.visible = false
+	_hide_order_indicator()
 	current_state = State.WALKING_OUT
 	_walk_target = door_pos
 	_walking_to_slot = false
@@ -164,6 +184,7 @@ func _on_arrived_at_slot():
 func _on_thinking_finished():
 	$ThinkingLabel.visible = false
 	current_state = State.WAITING_FOR_PLAYER
+	_show_order_indicator()
 	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.start()
 
@@ -176,6 +197,7 @@ func interact(player_inventory: Array):
 			modulate = Color(1, 1, 1)
 			emit_signal("order_placed", order_item)
 			current_state = State.ORDER_TAKEN
+			_show_food_indicator()
 			$PatienceTimer.wait_time = delivery_patience
 			$PatienceTimer.start()
 		State.ORDER_TAKEN:
@@ -193,6 +215,7 @@ func interact(player_inventory: Array):
 func receive_food():
 	tip_delta = (Time.get_ticks_msec() - queue_entry_time) / 1000.0
 	current_state = State.EATING
+	_hide_order_indicator()
 	$PatienceTimer.stop()
 	$EatingTimer.start()
 
@@ -232,13 +255,10 @@ func _on_mouse_exited():
 
 func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		# Click to seat only with Queue Cat
 		if group != null and not group.is_seated and GameManager.has_queue_cat:
 			group.unhighlight()
 			group.on_clicked()
 			return
-
-		# QR Cat — click seated customer to take order
 		if current_state == State.WAITING_FOR_PLAYER:
 			var player = get_tree().get_first_node_in_group("player")
 			if player and player.has_qr_cat:

@@ -10,7 +10,7 @@ enum State { AVAILABLE, OCCUPIED, AWAITING_PAYMENT }
 var current_state = State.AVAILABLE
 var seated_customers: Array = []
 var done_customers: int = 0
-var has_money_cat: bool = false
+var has_money_cat: bool = true
 
 
 func _ready():
