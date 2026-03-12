@@ -21,8 +21,12 @@ GameManager="*uid://bo4006pl5j274"
 
 [display]
 
-window/size/mode=3
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[dotnet]
+
+project/assembly_name="game-jam-26"
 
 [input]
 

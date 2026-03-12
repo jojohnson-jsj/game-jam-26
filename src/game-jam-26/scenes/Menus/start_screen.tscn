@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://dwpv8d7qv2wgp"]
 
 [ext_resource type="Script" uid="uid://bj25y0mjfv43o" path="res://scenes/Menus/start_screen.gd" id="1_l7wnx"]
+[ext_resource type="Texture2D" uid="uid://b6h4587taciwr" path="res://assets/ui-assets/Screenshot 2026-03-05 at 7.19.37 PM.png" id="2_qu8gf"]
+[ext_resource type="Texture2D" uid="uid://byppt5bvdfjan" path="res://assets/ui-assets/open-sign-button.png" id="3_g3ik0"]
+[ext_resource type="Texture2D" uid="uid://bj160e16lng71" path="res://assets/ui-assets/open-sign-button-on-hover.png" id="4_g3ik0"]
 
-[node name="Start Screen" type="Control" unique_id=287380041]
+[node name="Start Screen" type="Control" unique_id=450327167]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,45 +14,54 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l7wnx")
 
-[node name="playButton" type="Button" parent="." unique_id=1680510172]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=9180092]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.411
-anchor_top = 0.215
-anchor_right = 0.65500003
-anchor_bottom = 0.32700002
-offset_left = -0.47201538
-offset_top = -0.32000732
-offset_right = -0.5600586
-offset_bottom = 0.10398865
-text = "play"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("2_qu8gf")
+expand_mode = 2
 
-[node name="pullButton" type="Button" parent="." unique_id=580357383]
+[node name="playButton" type="TextureButton" parent="." unique_id=1687524796]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.42100003
-anchor_top = 0.40100002
-anchor_right = 0.65500003
-anchor_bottom = 0.532
-offset_left = 0.007965088
-offset_top = 0.15197754
-offset_right = 0.4399414
-offset_bottom = 0.26400757
+anchor_left = 0.70100003
+anchor_top = 0.33600003
+anchor_right = 0.897
+anchor_bottom = 0.68700004
+offset_left = -0.552063
+offset_top = 0.27198792
+offset_right = -0.34399414
+offset_bottom = -0.17602539
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("3_g3ik0")
+texture_hover = ExtResource("4_g3ik0")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=374865539]
+layout_mode = 0
+offset_right = 562.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="pullButton" type="Button" parent="VBoxContainer" unique_id=580357383]
+layout_mode = 2
 text = "Pull"
 
-[node name="quitButton" type="Button" parent="." unique_id=1748306720]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.41700003
-anchor_top = 0.606
-anchor_right = 0.69900006
-anchor_bottom = 0.72800004
-offset_left = -0.3840332
-offset_top = 0.3119812
-offset_right = -0.24804688
-offset_bottom = 0.25598145
-text = "quit"
+[node name="quitButton" type="Button" parent="VBoxContainer" unique_id=1748306720]
+layout_mode = 2
+text = "Quit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1459204023]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1287693381]
+layout_mode = 2
 
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="pullButton" to="." method="_on_pull_button_pressed"]
-[connection signal="pressed" from="quitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/pullButton" to="." method="_on_pull_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/quitButton" to="." method="_on_quit_button_pressed"]
