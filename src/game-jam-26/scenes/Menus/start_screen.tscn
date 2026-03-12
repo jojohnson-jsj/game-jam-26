@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://b6h4587taciwr" path="res://assets/ui-assets/Screenshot 2026-03-05 at 7.19.37 PM.png" id="2_qu8gf"]
 [ext_resource type="Texture2D" uid="uid://byppt5bvdfjan" path="res://assets/ui-assets/open-sign-button.png" id="3_g3ik0"]
 [ext_resource type="Texture2D" uid="uid://bj160e16lng71" path="res://assets/ui-assets/open-sign-button-on-hover.png" id="4_g3ik0"]
+[ext_resource type="Texture2D" uid="uid://b6508vkiocayx" path="res://assets/ui-assets/pixil-frame-0(3).png" id="5_5ac0w"]
+[ext_resource type="Texture2D" uid="uid://dwd0xnuwewqgn" path="res://assets/ui-assets/shop-button-on-hover.png" id="6_lgysu"]
 
 [node name="Start Screen" type="Control" unique_id=450327167]
 layout_mode = 3
@@ -48,20 +50,21 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="pullButton" type="Button" parent="VBoxContainer" unique_id=580357383]
-layout_mode = 2
-text = "Pull"
-
 [node name="quitButton" type="Button" parent="VBoxContainer" unique_id=1748306720]
 layout_mode = 2
 text = "Quit"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1459204023]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1287693381]
-layout_mode = 2
+[node name="pullButton" type="TextureButton" parent="." unique_id=2097651631]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 50.0
+offset_right = 534.0
+offset_bottom = 144.0
+texture_normal = ExtResource("5_5ac0w")
+texture_hover = ExtResource("6_lgysu")
+ignore_texture_size = true
+stretch_mode = 0
 
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/pullButton" to="." method="_on_pull_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/quitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="pullButton" to="." method="_on_pull_button_pressed"]
