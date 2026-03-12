@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Cat" format=3 uid="uid://b53uvxysh44vc"]
+
+[ext_resource type="Script" uid="uid://dnwup0dvp3tga" path="res://scripts/Cat.gd" id="1_l2f3d"]
+
+[resource]
+script = ExtResource("1_l2f3d")
+cat_name = "QR"
+ability_type = 3
+metadata/_custom_type_script = "uid://dnwup0dvp3tga"

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cvl7vyogrjn00"]
+
+[ext_resource type="Script" uid="uid://dbfyhojndvdgf" path="res://scripts/CatBed.gd" id="1_sg57d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_df32p"]
+
+[node name="NonTableCatBed" type="Node2D" unique_id=1468040532]
+script = ExtResource("1_sg57d")
+unlocked = true
+
+[node name="Sprite2D - for art replacement later" type="Sprite2D" parent="." unique_id=1582445583]
+visible = false
+
+[node name="CollisionShape2D - for click to place later" type="CollisionShape2D" parent="." unique_id=179880126]
+shape = SubResource("RectangleShape2D_df32p")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1049302189]
+offset_left = -10.0
+offset_top = -5.0
+offset_right = 10.0
+offset_bottom = 5.0
+color = Color(0.8891074, 0.00062165677, 0.88702315, 1)

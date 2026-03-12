@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Cat" format=3 uid="uid://dld1y44p3aov8"]
+
+[ext_resource type="Script" uid="uid://dnwup0dvp3tga" path="res://scripts/Cat.gd" id="1_gcu0y"]
+
+[resource]
+script = ExtResource("1_gcu0y")
+cat_name = "Money"
+cat_type = 0
+ability_type = 2
+metadata/_custom_type_script = "uid://dnwup0dvp3tga"

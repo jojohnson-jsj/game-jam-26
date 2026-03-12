@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b70xdv1onn4jk"]
+
+[ext_resource type="Script" uid="uid://lcj4oqd00g8" path="res://scripts/Trash.gd" id="1_21d64"]
+
+[node name="Trash" type="Area2D" unique_id=253568466]
+script = ExtResource("1_21d64")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=659195291]
+
+[node name="Sprite2D - for actual art replacement later" type="Sprite2D" parent="CollisionShape2D" unique_id=106191669]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CollisionShape2D" unique_id=1182794135]
+offset_left = -10.0
+offset_top = -15.0
+offset_right = 10.0
+offset_bottom = 15.0
+color = Color(0.13333334, 0.2627451, 1, 1)
