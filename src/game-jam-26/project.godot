@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 GameManager="*uid://bo4006pl5j274"
 
+[display]
+
+window/size/mode=3
+window/stretch/mode="canvas_items"
+
 [input]
 
 interact={
