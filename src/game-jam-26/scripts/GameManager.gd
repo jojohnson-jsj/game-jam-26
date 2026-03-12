@@ -178,7 +178,7 @@ func _on_group_patience_expired(group: CustomerGroup):
 
 
 func _on_table_finished(payout: float, _table):
-	add_money(payout)
+	print("Table finished. Payout: $", payout)
 
 
 func on_payment_collected():
