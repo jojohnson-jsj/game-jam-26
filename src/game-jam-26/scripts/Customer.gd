@@ -20,7 +20,7 @@ var tip_delta: float = 0.0
 var group = null
 var table_center: Vector2 = Vector2.ZERO
 
-const SPEED = 80.0
+var speed = 80.0
 const ARRIVAL_THRESHOLD = 4.0
 
 var _last_horizontal: float = 1.0
@@ -29,6 +29,12 @@ var _walking_to_slot: bool = false
 
 
 func _ready():
+	
+	eating_time = max(1.0, eating_time - GlobalInventory.get_eating_time_reduction())
+	thinking_time_min = max(1.0, thinking_time_min - GlobalInventory.get_thinking_time_reduction())
+	thinking_time_max = max(1.0, thinking_time_max - GlobalInventory.get_thinking_time_reduction())
+	speed *= (1.0 + GlobalInventory.get_npc_speed_bonus()) 
+	
 	$NavigationAgent2D.path_desired_distance = ARRIVAL_THRESHOLD
 	$NavigationAgent2D.target_desired_distance = ARRIVAL_THRESHOLD
 
@@ -56,7 +62,7 @@ func _process(delta):
 
 	if current_state == State.WALKING_OUT:
 		var direction = (_walk_target - global_position).normalized()
-		global_position = global_position.move_toward(_walk_target, SPEED * delta)
+		global_position = global_position.move_toward(_walk_target, speed * delta)
 		_update_animation(direction)
 		if global_position.distance_to(_walk_target) <= ARRIVAL_THRESHOLD:
 			queue_free()
@@ -67,7 +73,7 @@ func _process(delta):
 
 	if _walking_to_slot:
 		var slot_direction = (_walk_target - global_position).normalized()
-		global_position = global_position.move_toward(_walk_target, SPEED * delta)
+		global_position = global_position.move_toward(_walk_target, speed * delta)
 		_update_animation(slot_direction)
 		if global_position.distance_to(_walk_target) <= ARRIVAL_THRESHOLD:
 			_walking_to_slot = false
@@ -79,7 +85,7 @@ func _process(delta):
 		return
 	var next = $NavigationAgent2D.get_next_path_position()
 	var direction = (next - global_position).normalized()
-	global_position = global_position.move_toward(next, SPEED * delta)
+	global_position = global_position.move_toward(next, speed * delta)
 	_update_animation(direction)
 
 

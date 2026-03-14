@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-const SPEED = 150.0
 const INVENTORY_MAX = 2
 const ACCELERATION = 1800.0
 const FRICTION = 1400.0
@@ -9,6 +8,7 @@ const FRICTION = 1400.0
 @export var DASH_DURATION = 0.12
 @export var DASH_COOLDOWN = 5.0
 
+var speed = 150.0
 var inventory: Array = []
 var _nearby_groups: Array = []
 var pending_order_source = null
@@ -28,6 +28,8 @@ var _dash_direction: Vector2 = Vector2.ZERO
 
 
 func _ready():
+	speed *= (1.0 + GlobalInventory.get_speed_bonus())
+	
 	$OrderConnectionTimer.wait_time = 0.5
 	$OrderConnectionTimer.one_shot = true
 	$OrderConnectionTimer.timeout.connect(_on_order_connection_timeout)
@@ -60,7 +62,7 @@ func _physics_process(delta):
 		$SpriteRight.visible = last_horizontal == 1
 		$SpriteLeft.play()
 		$SpriteRight.play()
-		velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
+		velocity = velocity.move_toward(direction * speed, ACCELERATION * delta)
 	else:
 		if was_moving:
 			$SpriteLeft.visible = false

@@ -33,7 +33,7 @@ func seat_group(customers: Array):
 func calculate_payout() -> float:
 	var total = 0.0
 	for customer in seated_customers:
-		var flat_rate = GameManager.get_item_price(customer.order_item)
+		var flat_rate = GameManager.get_item_price(customer.order_item) * (1.0 + GlobalInventory.get_price_bonus())
 		var tip = flat_rate * GameManager.calculate_tip(customer.tip_delta)
 		total += flat_rate + tip
 	return total

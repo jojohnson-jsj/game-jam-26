@@ -9,6 +9,9 @@ var current_state = State.IDLE
 
 
 func _ready():
+	
+	cook_time = max(1.0, cook_time - GlobalInventory.get_cooking_bonus())
+	
 	$CookTimer.wait_time = cook_time
 	$CookTimer.one_shot = true
 	$CookTimer.timeout.connect(_on_cooking_finished)

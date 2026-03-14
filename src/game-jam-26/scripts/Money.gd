@@ -8,7 +8,7 @@ func setup(payout: float, table):
 	source_table = table
 
 func collect():
-	GameManager.add_money(amount)
+	Wallet.add_money(amount)
 	if source_table != null:
 		source_table.payment_collected()
 	queue_free()

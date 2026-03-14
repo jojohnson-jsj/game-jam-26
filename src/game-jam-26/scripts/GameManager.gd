@@ -1,9 +1,7 @@
 extends Node
 
-signal money_changed(new_total)
 signal day_ended(final_money)
 
-var money: float = 0.0
 var tables: Array = []
 var waiting_queue: Array = []
 var day_active: bool = false
@@ -91,6 +89,11 @@ func set_door_point(pos: Vector2):
 
 
 func start_day():
+	spawn_timer.wait_time = max(5.0, spawn_interval - GlobalInventory.get_spawn_interval_reduction())
+	queue_patience = 30.0 + GlobalInventory.get_patience_bonus()
+	tip_floor_time = 40.0 + GlobalInventory.get_tip_floor_bonus()
+	has_queue_cat = GlobalInventory.owns_cat('host_cat')
+	
 	day_active = true
 	spawn_timer.start()
 	day_timer.start()
@@ -210,17 +213,11 @@ func _on_table_cleared(_table):
 	pass
 
 
-func add_money(amount: float):
-	money += amount
-	emit_signal("money_changed", money)
-	print("Total money: $", money)
-
-
 func _on_day_ended():
 	day_active = false
 	spawn_timer.stop()
 	for group in waiting_queue:
 		group.cleanup()
 	waiting_queue.clear()
-	print("Day ended. Final money: $", money)
-	emit_signal("day_ended", money)
+	print("Day ended. Final money: $", Wallet.money_owned)
+	emit_signal("day_ended", Wallet.money_owned)
