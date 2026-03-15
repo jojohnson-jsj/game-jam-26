@@ -24,3 +24,7 @@ func _on_quit_button_pressed() -> void:
 
 func _on_inventory_button_pressed() -> void:
 	pass # Replace with function body.
+
+
+func _on_cat_button_pressed() -> void:
+	$catButton/AudioStreamPlayer.play()

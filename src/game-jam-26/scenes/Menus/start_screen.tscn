@@ -6,11 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://bj160e16lng71" path="res://assets/ui-assets/open-sign-button-on-hover.png" id="4_g3ik0"]
 [ext_resource type="Texture2D" uid="uid://b6508vkiocayx" path="res://assets/ui-assets/pixil-frame-0(3).png" id="5_5ac0w"]
 [ext_resource type="Texture2D" uid="uid://dwd0xnuwewqgn" path="res://assets/ui-assets/shop-button-on-hover.png" id="6_lgysu"]
-[ext_resource type="Texture2D" path="res://assets/ui-assets/Exit-button.png" id="7_wj6aw"]
+[ext_resource type="Texture2D" uid="uid://bchcjitojdyv2" path="res://assets/ui-assets/Exit-button.png" id="7_wj6aw"]
 [ext_resource type="Texture2D" uid="uid://der640forgg82" path="res://assets/ui-assets/Exit-button-on-hover.png" id="8_vt7cx"]
 [ext_resource type="Texture2D" uid="uid://cegj70y8sat13" path="res://assets/ui-assets/my-cats-button.png" id="9_u5u2e"]
 [ext_resource type="Texture2D" uid="uid://chs1mdpg5qbyj" path="res://assets/ui-assets/my-cats-button-on-hover.png" id="10_3dybp"]
-[ext_resource type="Texture2D" uid="uid://b2xd2x2engcqc" path="res://assets/ui-assets/pixil-frame-0(2).png" id="11_3dybp"]
+[ext_resource type="Texture2D" uid="uid://qomyhs3o2ojq" path="res://assets/ui-assets/table-cat.png" id="11_13f6g"]
+[ext_resource type="AudioStream" uid="uid://brl4tu6iyxp4y" path="res://assets/sound assests/meow-sarah.mp3" id="12_a3nwe"]
+[ext_resource type="Texture2D" uid="uid://b1stiyjrnrck0" path="res://assets/ui-assets/table-cat-on-hold.png" id="12_tbwny"]
 
 [node name="Start Screen" type="Control" unique_id=450327167]
 layout_mode = 3
@@ -100,19 +102,24 @@ stretch_mode = 0
 [node name="catButton" type="TextureButton" parent="." unique_id=592934944]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.21700001
-anchor_top = 0.26900002
-anchor_right = 0.47700003
-anchor_bottom = 0.70100003
-offset_left = 0.015991211
-offset_top = -0.31201172
-offset_right = -0.5040283
-offset_bottom = -0.24801636
-texture_normal = ExtResource("11_3dybp")
+anchor_left = 0.21100001
+anchor_top = 0.29000002
+anchor_right = 0.48900002
+anchor_bottom = 0.67300004
+offset_left = -0.072006226
+offset_top = 0.07998657
+offset_right = -0.32800293
+offset_bottom = -0.104034424
+texture_normal = ExtResource("11_13f6g")
+texture_hover = ExtResource("12_tbwny")
 ignore_texture_size = true
 stretch_mode = 0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="catButton" unique_id=258851386]
+stream = ExtResource("12_a3nwe")
 
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="pullButton" to="." method="_on_pull_button_pressed"]
 [connection signal="pressed" from="quitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="inventoryButton" to="." method="_on_inventory_button_pressed"]
+[connection signal="pressed" from="catButton" to="." method="_on_cat_button_pressed"]

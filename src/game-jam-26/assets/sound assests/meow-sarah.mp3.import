@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://brl4tu6iyxp4y"
+path="res://.godot/imported/meow-sarah.mp3-bee77357d54e570c8c694613e93db2f2.mp3str"
+
+[deps]
+
+source_file="res://assets/sound assests/meow-sarah.mp3"
+dest_files=["res://.godot/imported/meow-sarah.mp3-bee77357d54e570c8c694613e93db2f2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
