@@ -92,7 +92,6 @@ func start_day():
 	spawn_timer.wait_time = max(5.0, spawn_interval - GlobalInventory.get_spawn_interval_reduction())
 	queue_patience = 30.0 + GlobalInventory.get_patience_bonus()
 	tip_floor_time = 40.0 + GlobalInventory.get_tip_floor_bonus()
-	has_queue_cat = GlobalInventory.owns_cat('host_cat')
 	
 	day_active = true
 	spawn_timer.start()
