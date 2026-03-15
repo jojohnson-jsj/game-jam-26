@@ -7,8 +7,11 @@ var current_state = State.IDLE
 @export var item_type: String = "latte"
 @export var cook_time: float = 10.0
 
+var order_queue: Array = []
+var max_queue_size = 1 # affected by hopper cat 
 
 func _ready():
+	max_queue_size = 1 + (1 if GlobalInventory.owns_cat('hopper_cat') else 0)
 	
 	cook_time = max(1.0, cook_time - GlobalInventory.get_cooking_bonus())
 	
@@ -31,11 +34,19 @@ func interact(player_inventory: Array):
 			if order == null:
 				return
 			player_inventory.erase(order)
+			order_queue.append(order)
 			$CookTimer.start()
 			current_state = State.COOKING
 			print("Started cooking: ", item_type)
 		State.COOKING:
-			print("Still cooking, please wait")
+			if order_queue.size() < max_queue_size: # hopper cat
+				var order = find_order_in_inventory(player_inventory)
+				if order != null:
+					player_inventory.erase(order)
+					order_queue.append(order)
+					print('queued order: ', item_type)
+			else:
+				print("Still cooking, please wait")
 		State.READY:
 			if player_inventory.size() < 2:
 				# Normal pickup
@@ -67,4 +78,8 @@ func find_order_in_inventory(player_inventory: Array):
 func _on_cooking_finished():
 	current_state = State.READY
 	$SpriteReady.visible = true
+	order_queue.pop_front()
+	if not order_queue.is_empty():
+		$CookTimer.start()
+		current_state = State.COOKING
 	print("Order ready: ", item_type)

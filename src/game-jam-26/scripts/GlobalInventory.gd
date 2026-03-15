@@ -1,8 +1,8 @@
 extends Node2D
 
 #persist across days -- store money, all cats owned and euqipment unlocks
-
 signal inventory_changed
+var day:int = 1 
 
 # Cats Dictionary
 var cats: Dictionary = {
@@ -25,6 +25,9 @@ var cats: Dictionary = {
 	'reccomendation_cat': {'owned': false, 'copies': 0, 'stars': 4},
 }
 
+func debug_cats() -> void: 
+	print(JSON.stringify(cats, "\t"))
+
 #Equipment unlocks 
 var equipment_unlocked: Dictionary = {
 	'latte_machine': true,
@@ -32,7 +35,7 @@ var equipment_unlocked: Dictionary = {
 }
 
 #gacha pity 
-var gacha_pity:int = 0 #pity currently: 10 -- reset on 5-star
+var gacha_pity:int = 1 #pity currently: 10 -- reset on 5-star
 const PITY_THRESHOLD:int = 10
 const PULL_COST:int = 160 
 

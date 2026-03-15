@@ -108,6 +108,11 @@ func _on_spawn_timer_timeout():
 
 
 func spawn_group(size: int):
+	
+	#reroll groups of 1 for valentines cat 
+	if size == 1 and randf() < GlobalInventory.get_valentines_reduction():
+		size = randi_range(2, max_group_size)
+	
 	var customer_list = []
 	for i in range(size):
 		var customer = preload("res://scenes/Customer.tscn").instantiate()
@@ -215,6 +220,7 @@ func _on_table_cleared(_table):
 
 func _on_day_ended():
 	day_active = false
+	GlobalInventory.day += 1
 	spawn_timer.stop()
 	for group in waiting_queue:
 		group.cleanup()
