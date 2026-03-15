@@ -63,6 +63,8 @@ func interact(player_inventory: Array):
 				player_inventory.erase(order)
 				player_inventory.append({"type": "food", "item": item_type})
 				$SpriteReady.visible = false
+				order_queue.pop_front()
+				order_queue.append(order)
 				$CookTimer.start()
 				current_state = State.COOKING
 				print("Swapped order for food, started cooking next: ", item_type)
