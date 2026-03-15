@@ -265,7 +265,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 			group.unhighlight()
 			group.on_clicked()
 			return
-		if current_state == State.WAITING_FOR_PLAYER:
+		if current_state == State.WAITING_FOR_PLAYER and (group == null or group.is_seated):
 			var player = get_tree().get_first_node_in_group("player")
 			if player and player.has_qr_cat:
 				modulate = Color(1, 1, 1)
