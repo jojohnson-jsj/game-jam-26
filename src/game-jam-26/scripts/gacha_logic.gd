@@ -6,13 +6,19 @@ const FOUR_STAR_POOL = ['patience_cat', 'cooking_cat', 'quality_control_cat', 'c
 const FIVE_STAR_RATE = 0.1 
 const FOUR_STAR_RATE = 1 
 
+func _get_five_star_rate() -> float:
+	if GlobalInventory.gacha_pity < 8:
+		return FIVE_STAR_RATE
+	# Ramps from 0.06 to 1.0 over pulls 8-10
+	return FIVE_STAR_RATE + (1.0 - FIVE_STAR_RATE) * ((GlobalInventory.gacha_pity - 7) / 3.0)
+
 func pull_cat() -> String:
 	if not Wallet.remove_money(GlobalInventory.PULL_COST):
 		return ""
 	
 	var cat_id:String
-	if GlobalInventory.gacha_pity >= GlobalInventory.PITY_THRESHOLD or randf() < FIVE_STAR_RATE:
-		GlobalInventory.gacha_pity = 1
+	if randf() < _get_five_star_rate():
+		GlobalInventory.gacha_pity = 0
 		cat_id = FIVE_STAR_POOL[randi() % FIVE_STAR_POOL.size()]
 	else:
 		GlobalInventory.gacha_pity += 1
@@ -32,7 +38,7 @@ func debug_pull(count: int = 10) -> void:
 	Wallet.add_money(GlobalInventory.PULL_COST * count)  # fund it
 	for i in range(count):
 		var pity_before = GlobalInventory.gacha_pity
-		var rate = FIVE_STAR_RATE
+		var rate = _get_five_star_rate()
 		var result = pull_cat()
 		var rarity = "5★" if FIVE_STAR_POOL.has(result) else "4★"
 		print("Pull %d | pity: %d | rate: %.0f%% | got: %s %s" % [i+1, pity_before, rate*100, rarity, result])
