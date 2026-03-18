@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://datq8my45k4rh" path="res://assets/food/machines/latte_machine.png" id="2_vv10o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7k06b"]
-size = Vector2(14, 16)
+size = Vector2(22, 29)
 
 [node name="Equipment" type="Area2D" unique_id=1707120334]
 z_index = 3
@@ -12,6 +12,7 @@ z_as_relative = false
 script = ExtResource("1_ij1m0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1250493732]
+position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_7k06b")
 
 [node name="CookTimer" type="Timer" parent="." unique_id=682313001]

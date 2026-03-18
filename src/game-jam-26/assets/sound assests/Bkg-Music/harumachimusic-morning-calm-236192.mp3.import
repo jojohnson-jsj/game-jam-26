@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://i1u8kvx4g1ic"
+path="res://.godot/imported/harumachimusic-morning-calm-236192.mp3-4b2d197596d828804e9c84514310239e.mp3str"
+
+[deps]
+
+source_file="res://assets/sound assests/Bkg-Music/harumachimusic-morning-calm-236192.mp3"
+dest_files=["res://.godot/imported/harumachimusic-morning-calm-236192.mp3-4b2d197596d828804e9c84514310239e.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://qomyhs3o2ojq" path="res://assets/ui-assets/table-cat.png" id="11_13f6g"]
 [ext_resource type="AudioStream" uid="uid://brl4tu6iyxp4y" path="res://assets/sound assests/meow-sarah.mp3" id="12_a3nwe"]
 [ext_resource type="Texture2D" uid="uid://b1stiyjrnrck0" path="res://assets/ui-assets/table-cat-on-hold.png" id="12_tbwny"]
+[ext_resource type="AudioStream" uid="uid://i1u8kvx4g1ic" path="res://assets/sound assests/Bkg-Music/harumachimusic-morning-calm-236192.mp3" id="14_tbwny"]
 
 [node name="Start Screen" type="Control" unique_id=450327167]
 layout_mode = 3
@@ -117,6 +118,11 @@ stretch_mode = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="catButton" unique_id=258851386]
 stream = ExtResource("12_a3nwe")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=822307243]
+stream = ExtResource("14_tbwny")
+volume_db = 10.0
+autoplay = true
 
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="pullButton" to="." method="_on_pull_button_pressed"]
