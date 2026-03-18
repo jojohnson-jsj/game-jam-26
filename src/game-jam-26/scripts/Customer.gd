@@ -15,6 +15,11 @@ var current_state = State.WALKING_TO_SEAT
 @export var thinking_time_min: float = 3.0
 @export var thinking_time_max: float = 8.0
 
+## Customers served within this many seconds (from queue entry) get a heart emoji.
+@export var fast_service_threshold: float = 20.0
+## Customers served within this many seconds get a smile emoji (above fast threshold).
+@export var smile_service_threshold: float = 35.0
+
 var queue_entry_time: int = 0
 var tip_delta: float = 0.0
 var group = null
@@ -27,14 +32,64 @@ var _last_horizontal: float = 1.0
 var _walk_target: Vector2 = Vector2.ZERO
 var _walking_to_slot: bool = false
 
+# Set by GameManager before add_child so groups never share a sprite.
+# -1 means pick randomly (fallback).
+var assigned_variant_index: int = -1
+
+# Whether the player is currently within interact range of this customer.
+var _player_in_range: bool = false
+
+# ── Emoji ─────────────────────────────────────────────────────────────────────
+
+const EMOJI_HEART   = preload("res://assets/characters/emojis/emoji_heart.png")
+const EMOJI_SMILE   = preload("res://assets/characters/emojis/emoji_smile.png")
+const EMOJI_VEIN    = preload("res://assets/characters/emojis/emoji_vein.png")
+const EMOJI_TORNADO = preload("res://assets/characters/emojis/emoji_tornado.png")
+const EMOJI_ANGRY   = preload("res://assets/characters/emojis/emoji_angry.png")
+
+var _emoji_indicator: Sprite2D = null
+var _showing_heart: bool = false
+
+# ── Character variants ────────────────────────────────────────────────────────
+# Individual const preloads — this pattern is always safe in GDScript 4.
+# Putting preload() inside a const Array-of-Dicts can trip the parser, so we
+# keep the preloads flat and assemble the array at runtime in _ready().
+
+const _ANGLER_IDLE    = preload("res://assets/characters/idle/angler_idle.png")
+const _ANGLER_RIGHT   = preload("res://assets/characters/walk/spritesheet format/angler_walk_right-Sheet.png")
+const _ANGLER_LEFT    = preload("res://assets/characters/walk/spritesheet format/angler_walk_left-Sheet.png")
+
+const _DOCTOR_IDLE    = preload("res://assets/characters/idle/doctor_idle.png")
+const _DOCTOR_RIGHT   = preload("res://assets/characters/walk/spritesheet format/doctor_walk_right-Sheet.png")
+const _DOCTOR_LEFT    = preload("res://assets/characters/walk/spritesheet format/doctor_walk_left-Sheet.png")
+
+const _GIRL2_IDLE     = preload("res://assets/characters/idle/girl2_idle.png")
+const _GIRL2_RIGHT    = preload("res://assets/characters/walk/spritesheet format/girl2_walk_right-Sheet.png")
+const _GIRL2_LEFT     = preload("res://assets/characters/walk/spritesheet format/girl2_walk_left-Sheet.png")
+
+const _OLD_MAN_IDLE   = preload("res://assets/characters/idle/old_man_idle.png")
+const _OLD_MAN_RIGHT  = preload("res://assets/characters/walk/spritesheet format/old_man_walk_right-Sheet.png")
+const _OLD_MAN_LEFT   = preload("res://assets/characters/walk/spritesheet format/old_man_walk_left-Sheet.png")
+
+const _SMITH_IDLE     = preload("res://assets/characters/idle/smith_idle.png")
+const _SMITH_RIGHT    = preload("res://assets/characters/walk/spritesheet format/smith_walk_right-Sheet.png")
+const _SMITH_LEFT     = preload("res://assets/characters/walk/spritesheet format/smith_walk_left-Sheet.png")
+
+const _WITCH_IDLE     = preload("res://assets/characters/idle/witch_idle.png")
+const _WITCH_RIGHT    = preload("res://assets/characters/walk/spritesheet format/witch_walk_right-Sheet.png")
+const _WITCH_LEFT     = preload("res://assets/characters/walk/spritesheet format/witch_walk_left-Sheet.png")
+
+# Assembled in _ready() from the consts above. Each entry has idle, walk_right,
+# and walk_left keys. The walk sheets are 4 frames of 32×32 laid out horizontally.
+var _character_variants: Array
+
 
 func _ready():
-	
 	eating_time = max(1.0, eating_time - GlobalInventory.get_eating_time_reduction())
 	thinking_time_min = max(1.0, thinking_time_min - GlobalInventory.get_thinking_time_reduction())
 	thinking_time_max = max(1.0, thinking_time_max - GlobalInventory.get_thinking_time_reduction())
-	speed *= (1.0 + GlobalInventory.get_npc_speed_bonus()) 
-	
+	speed *= (1.0 + GlobalInventory.get_npc_speed_bonus())
+
 	$NavigationAgent2D.path_desired_distance = ARRIVAL_THRESHOLD
 	$NavigationAgent2D.target_desired_distance = ARRIVAL_THRESHOLD
 
@@ -55,20 +110,25 @@ func _ready():
 	$OrderIndicator.visible = false
 	_show_idle()
 
+	_build_character_variants()
+	_apply_random_variant()
+	_create_emoji_indicator()
+
 
 func _process(delta):
 	if current_state == State.WAITING_FOR_PLAYER and group != null and not group.is_seated:
 		$SpriteIdle.flip_h = true
 
 	if current_state == State.WALKING_OUT:
-		var direction = (_walk_target - global_position).normalized()
+		var walk_dir = (_walk_target - global_position).normalized()
 		global_position = global_position.move_toward(_walk_target, speed * delta)
-		_update_animation(direction)
+		_update_animation(walk_dir)
 		if global_position.distance_to(_walk_target) <= ARRIVAL_THRESHOLD:
 			queue_free()
 		return
 
 	if current_state != State.WALKING_TO_SEAT:
+		_update_emoji()
 		return
 
 	if _walking_to_slot:
@@ -164,6 +224,8 @@ func walk_out(door_pos: Vector2):
 	$ThinkingTimer.stop()
 	$ThinkingLabel.visible = false
 	_hide_order_indicator()
+	# Don't hide the emoji here — an angry face should persist while the customer
+	# walks out. queue_free() will clean it up when they leave the building.
 	current_state = State.WALKING_OUT
 	_walk_target = door_pos
 	_walking_to_slot = false
@@ -193,29 +255,34 @@ func _on_thinking_finished():
 	_show_order_indicator()
 	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.start()
+	_update_proximity_highlight()
 
 
-func interact(player_inventory: Array):
+func interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
 			if player_inventory.size() >= 2:
-				return
+				return false
 			modulate = Color(1, 1, 1)
 			emit_signal("order_placed", order_item)
 			current_state = State.ORDER_TAKEN
 			_show_food_indicator()
 			$PatienceTimer.wait_time = delivery_patience
 			$PatienceTimer.start()
+			_update_proximity_highlight()
+			return true
 		State.ORDER_TAKEN:
 			var food = find_food_in_inventory(player_inventory)
 			if food == null:
-				return
+				return false
 			player_inventory.erase(food)
 			receive_food()
+			return true
 		State.EATING:
-			pass
+			return false
 		State.DONE:
-			pass
+			return false
+	return false
 
 
 func receive_food():
@@ -224,6 +291,16 @@ func receive_food():
 	_hide_order_indicator()
 	$PatienceTimer.stop()
 	$EatingTimer.start()
+	_update_proximity_highlight()
+
+	# Brief reaction emoji based on how fast the customer was served.
+	if tip_delta <= fast_service_threshold:
+		_show_reaction_emoji(EMOJI_HEART)
+	elif tip_delta <= smile_service_threshold:
+		_show_reaction_emoji(EMOJI_SMILE)
+	else:
+		if _emoji_indicator:
+			_emoji_indicator.visible = false
 
 
 func find_food_in_inventory(player_inventory: Array):
@@ -234,6 +311,9 @@ func find_food_in_inventory(player_inventory: Array):
 
 
 func _on_patience_expired():
+	# Route through _show_reaction_emoji so _showing_heart blocks _update_emoji
+	# from immediately hiding it on the next frame (timer is stopped by now).
+	_show_reaction_emoji(EMOJI_ANGRY, true)
 	emit_signal("patience_expired")
 
 
@@ -274,3 +354,148 @@ func _on_input_event(_viewport, event, _shape_idx):
 
 func is_waiting_for_order() -> bool:
 	return current_state == State.WAITING_FOR_PLAYER
+
+
+func on_player_entered():
+	_player_in_range = true
+	_update_proximity_highlight()
+
+
+func on_player_exited():
+	_player_in_range = false
+	_update_proximity_highlight()
+
+
+func is_relevant() -> bool:
+	return current_state == State.WAITING_FOR_PLAYER or current_state == State.ORDER_TAKEN
+
+
+func can_interact(player_inventory: Array) -> bool:
+	match current_state:
+		State.WAITING_FOR_PLAYER:
+			return player_inventory.size() < 2
+		State.ORDER_TAKEN:
+			return find_food_in_inventory(player_inventory) != null
+	return false
+
+
+func _update_proximity_highlight():
+	if not _player_in_range:
+		modulate = Color(1, 1, 1)
+		return
+	var player = get_tree().get_first_node_in_group("player")
+	var inv = player.inventory if player else []
+	if can_interact(inv):
+		modulate = Color(1.4, 1.4, 1.4)
+	else:
+		modulate = Color(1, 1, 1)
+
+
+func highlight():
+	modulate = Color(1.4, 1.4, 1.4)
+
+
+func unhighlight():
+	modulate = Color(1, 1, 1)
+
+
+# ── Emoji helpers ──────────────────────────────────────────────────────────────
+
+func _create_emoji_indicator():
+	_emoji_indicator = Sprite2D.new()
+	_emoji_indicator.position = Vector2(0, -30)
+	_emoji_indicator.visible = false
+	add_child(_emoji_indicator)
+
+
+## Update the emoji based on how much patience the customer has left.
+## Only shown for seated customers (not in queue) with an active patience timer.
+func _update_emoji():
+	if _showing_heart:
+		return
+
+	if _emoji_indicator == null:
+		return
+
+	var in_patience_state = (current_state == State.WAITING_FOR_PLAYER or current_state == State.ORDER_TAKEN)
+	var is_seated = (group == null or group.is_seated)
+	var timer_active = not $PatienceTimer.is_stopped()
+
+	if not (in_patience_state and is_seated and timer_active):
+		_emoji_indicator.visible = false
+		return
+
+	var ratio = $PatienceTimer.time_left / $PatienceTimer.wait_time
+
+	if ratio > 0.5:
+		# Customer is still content — no emoji yet.
+		_emoji_indicator.visible = false
+	elif ratio > 0.25:
+		_emoji_indicator.texture = EMOJI_VEIN
+		_emoji_indicator.visible = true
+	else:
+		_emoji_indicator.texture = EMOJI_TORNADO
+		_emoji_indicator.visible = true
+
+
+## Shows a reaction emoji. Pass persistent=true to skip the auto-hide timer
+## (used for angry, which should stay on until the customer leaves the building).
+func _show_reaction_emoji(texture: Texture2D, persistent: bool = false):
+	_showing_heart = true
+	if _emoji_indicator:
+		_emoji_indicator.texture = texture
+		_emoji_indicator.visible = true
+	if not persistent:
+		get_tree().create_timer(2.0).timeout.connect(_on_reaction_finished)
+
+
+func _on_reaction_finished():
+	_showing_heart = false
+	if _emoji_indicator:
+		_emoji_indicator.visible = false
+
+
+# ── Character variant helpers ──────────────────────────────────────────────────
+
+## Assembles the variant lookup table from the flat const preloads above.
+## Called once per instance in _ready() — preloaded textures are cached by the
+## engine so there's no redundant I/O even though we do this per instance.
+func _build_character_variants():
+	_character_variants = [
+		{"idle": _ANGLER_IDLE,  "walk_right": _ANGLER_RIGHT,  "walk_left": _ANGLER_LEFT},
+		{"idle": _DOCTOR_IDLE,  "walk_right": _DOCTOR_RIGHT,  "walk_left": _DOCTOR_LEFT},
+		{"idle": _GIRL2_IDLE,   "walk_right": _GIRL2_RIGHT,   "walk_left": _GIRL2_LEFT},
+		{"idle": _OLD_MAN_IDLE, "walk_right": _OLD_MAN_RIGHT, "walk_left": _OLD_MAN_LEFT},
+		{"idle": _SMITH_IDLE,   "walk_right": _SMITH_RIGHT,   "walk_left": _SMITH_LEFT},
+		{"idle": _WITCH_IDLE,   "walk_right": _WITCH_RIGHT,   "walk_left": _WITCH_LEFT},
+	]
+
+
+## Picks a character appearance, using the pre-assigned index if GameManager set
+## one, otherwise falling back to a random pick.
+func _apply_random_variant():
+	var idx: int
+	if assigned_variant_index >= 0 and assigned_variant_index < _character_variants.size():
+		idx = assigned_variant_index
+	else:
+		idx = randi() % _character_variants.size()
+	var variant = _character_variants[idx]
+	$SpriteIdle.texture = variant.idle
+	_set_walk_frames($SpriteRight, variant.walk_right)
+	_set_walk_frames($SpriteLeft, variant.walk_left)
+
+
+## Builds a SpriteFrames resource from a horizontal 4-frame spritesheet
+## (32×32 px per frame) and assigns it to the given AnimatedSprite2D.
+func _set_walk_frames(sprite: AnimatedSprite2D, sheet: Texture2D):
+	var frames = SpriteFrames.new()
+	frames.add_animation("walk")
+	frames.set_animation_loop("walk", true)
+	frames.set_animation_speed("walk", 5.0)
+	for i in range(4):
+		var atlas = AtlasTexture.new()
+		atlas.atlas = sheet
+		atlas.region = Rect2(i * 32, 0, 32, 32)
+		frames.add_frame("walk", atlas)
+	sprite.sprite_frames = frames
+	sprite.animation = "walk"

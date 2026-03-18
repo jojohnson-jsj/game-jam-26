@@ -12,23 +12,20 @@ config_version=5
 
 config/name="game-jam-26"
 run/main_scene="uid://dwpv8d7qv2wgp"
-config/features=PackedStringArray("4.6", "C#", "Mobile")
+config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*uid://bo4006pl5j274"
-GlobalInventory="*uid://bnmer5ebt3im"
-Wallet="*uid://ddq5c2k8tdeug"
+DebugConfig="*res://scripts/DebugConfig.gd"
+GameManager="*res://scripts/GameManager.gd"
+GlobalInventory="*res://scripts/GlobalInventory.gd"
+Wallet="*res://scripts/Wallet.gd"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-
-[dotnet]
-
-project/assembly_name="game-jam-26"
 
 [input]
 

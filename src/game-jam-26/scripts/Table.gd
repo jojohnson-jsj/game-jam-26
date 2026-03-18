@@ -10,10 +10,11 @@ enum State { AVAILABLE, OCCUPIED, AWAITING_PAYMENT }
 var current_state = State.AVAILABLE
 var seated_customers: Array = []
 var done_customers: int = 0
-var has_money_cat: bool = true
+var has_money_cat: bool  # initialized in _ready() from DebugConfig
 
 
 func _ready():
+	has_money_cat = DebugConfig.money_cat_enabled
 	GameManager.register_table(self)
 
 

@@ -11,14 +11,16 @@ const FRICTION = 1400.0
 var speed = 150.0
 var inventory: Array = []
 var _nearby_groups: Array = []
+var _nearby_interactables: Array = []
 var pending_order_source = null
 var last_horizontal = 1
 var last_vertical = 0
 var was_moving = false
 
-# Cat ability flags
-var has_dash_cat: bool = true
-var has_qr_cat: bool = true
+# Cat ability flags — defaults come from DebugConfig so they can be toggled
+# centrally without touching this file.
+var has_dash_cat: bool
+var has_qr_cat: bool
 
 # Dash state
 var _is_dashing: bool = false
@@ -28,6 +30,8 @@ var _dash_direction: Vector2 = Vector2.ZERO
 
 
 func _ready():
+	has_dash_cat = DebugConfig.hermes_cat_enabled
+	has_qr_cat   = DebugConfig.qr_cat_enabled
 	speed *= (1.0 + GlobalInventory.get_speed_bonus())
 	
 	$OrderConnectionTimer.wait_time = 0.5
@@ -92,9 +96,14 @@ func _handle_interact():
 		if not body.has_method("interact"):
 			continue
 
+		# Queue groups are always clickable regardless of inventory.
 		if body.get("group") != null and not body.group.is_seated:
 			body.group.on_clicked()
 			return
+
+		# Skip anything that can't be acted on with the current inventory.
+		if body.has_method("can_interact") and not body.can_interact(inventory):
+			continue
 
 		if body.has_signal("order_placed") and body.is_waiting_for_order():
 			if not body.order_placed.is_connected(_on_order_received):
@@ -102,9 +111,24 @@ func _handle_interact():
 				body.order_placed.connect(_on_order_received)
 				$OrderConnectionTimer.start()
 
-		body.interact(inventory)
+		var success = body.interact(inventory)
 		_update_inventory_display()
+		if not success:
+			_flash_error()
 		return
+
+	# Nothing was actionable — flash if something nearby is actively waiting
+	# on the player but the current inventory is the bottleneck.
+	for body in bodies:
+		if body == $Area2D:
+			continue
+		if not body.has_method("interact"):
+			continue
+		if body.get("group") != null and not body.group.is_seated:
+			continue
+		if body.has_method("is_relevant") and body.is_relevant():
+			_flash_error()
+			return
 
 
 func receive_order_from_qr(customer) -> void:
@@ -140,6 +164,9 @@ func _update_inventory_display():
 	else:
 		$InventorySlot2.visible = false
 
+	# Re-evaluate highlights — interactability depends on what's in the inventory.
+	_refresh_all_interactable_highlights()
+
 
 func _get_item_texture(item: Dictionary) -> Texture2D:
 	if item["type"] == "order":
@@ -152,36 +179,72 @@ func _get_item_texture(item: Dictionary) -> Texture2D:
 # ── Proximity highlight ───────────────────────────────────────────────────────
 
 func _on_area_entered(area):
-	if not area.has_method("is_waiting_for_order"):
-		return
-	var customer = area
-	if customer.group == null or customer.group.is_seated:
-		return
-	if not _nearby_groups.has(customer.group):
-		_nearby_groups.append(customer.group)
-		customer.group.highlight()
+	if area.has_method("is_waiting_for_order"):
+		var customer = area
+		if customer.group != null and not customer.group.is_seated:
+			# Queue group — always highlightable, not inventory-dependent.
+			if not _nearby_groups.has(customer.group):
+				_nearby_groups.append(customer.group)
+				customer.group.highlight()
+		else:
+			# Seated customer — track and let can_interact decide the highlight.
+			customer.on_player_entered()
+			if not _nearby_interactables.has(customer):
+				_nearby_interactables.append(customer)
+			_refresh_interactable_highlight(customer)
+	elif area.has_method("interact"):
+		# Equipment / trash — track and let can_interact decide the highlight.
+		if not _nearby_interactables.has(area):
+			_nearby_interactables.append(area)
+		_refresh_interactable_highlight(area)
 
 
 func _on_area_exited(area):
-	if not area.has_method("is_waiting_for_order"):
+	if area.has_method("is_waiting_for_order"):
+		var customer = area
+		if customer.group != null and not customer.group.is_seated:
+			# Only unhighlight the group once every member has left range.
+			var all_exited = true
+			for c in customer.group.customers:
+				if $Area2D.overlaps_area(c):
+					all_exited = false
+					break
+			if all_exited and _nearby_groups.has(customer.group):
+				_nearby_groups.erase(customer.group)
+				customer.group.unhighlight()
+		else:
+			customer.on_player_exited()
+			_nearby_interactables.erase(customer)
+	elif area.has_method("interact"):
+		_nearby_interactables.erase(area)
+		area.unhighlight()
+
+
+func _refresh_interactable_highlight(area):
+	if not is_instance_valid(area):
 		return
-	var customer = area
-	if customer.group == null:
-		return
-	var all_exited = true
-	for c in customer.group.customers:
-		if $Area2D.overlaps_area(c):
-			all_exited = false
-			break
-	if all_exited and _nearby_groups.has(customer.group):
-		_nearby_groups.erase(customer.group)
-		customer.group.unhighlight()
+	if area.has_method("can_interact") and area.can_interact(inventory):
+		area.highlight()
+	else:
+		area.unhighlight()
+
+
+func _refresh_all_interactable_highlights():
+	for area in _nearby_interactables:
+		_refresh_interactable_highlight(area)
 
 
 # ── Dash ──────────────────────────────────────────────────────────────────────
 
+func _flash_error():
+	var tween = create_tween()
+	tween.tween_property(self, "modulate", Color(1.6, 0.3, 0.3, 1), 0.04)
+	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.18)
+
+
 func _try_dash():
 	if _is_dashing or _dash_cooldown_timer > 0.0:
+		_flash_error()
 		return
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if input_dir != Vector2.ZERO:
@@ -216,15 +279,15 @@ func _on_dash_started():
 
 func _on_dash_ended():
 	var tween = create_tween()
-	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.08)
-	tween.tween_property(self, "modulate", Color(1, 0.4, 0.4, 1), 0.05)
-	tween.tween_property(self, "modulate", Color(1, 0.6, 0.6, 1), 0.3)
+	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.1)
 
 
 func _on_dash_ready():
-	var tween = create_tween()
-	tween.tween_property(self, "modulate", Color(1.3, 1.3, 1.3, 1), 0.05)
-	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.1)
+	# Scale pop on all sprites so it fires regardless of which is currently visible.
+	for sprite in [$SpriteIdle, $SpriteLeft, $SpriteRight]:
+		var t = create_tween()
+		t.tween_property(sprite, "scale", Vector2(1.5, 1.5), 0.07).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		t.tween_property(sprite, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
 
 
 # ── Order handling ────────────────────────────────────────────────────────────
@@ -235,7 +298,7 @@ func _on_order_received(item_type: String):
 		pending_order_source = null
 	$OrderConnectionTimer.stop()
 	inventory.append({"type": "order", "item": item_type})
-	_update_inventory_display()
+	_update_inventory_display()  # also calls _refresh_all_interactable_highlights
 	print("Inventory: ", inventory)
 
 
