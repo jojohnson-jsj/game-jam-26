@@ -2,10 +2,14 @@
 
 [ext_resource type="Script" uid="uid://lcj4oqd00g8" path="res://scripts/Trash.gd" id="1_21d64"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21d64"]
+size = Vector2(20, 30)
+
 [node name="Trash" type="Area2D" unique_id=253568466]
 script = ExtResource("1_21d64")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=659195291]
+shape = SubResource("RectangleShape2D_21d64")
 
 [node name="Sprite2D - for actual art replacement later" type="Sprite2D" parent="CollisionShape2D" unique_id=106191669]
 visible = false

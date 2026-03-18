@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-const SPEED = 150.0
 const INVENTORY_MAX = 2
 const ACCELERATION = 1800.0
 const FRICTION = 1400.0
@@ -9,6 +8,7 @@ const FRICTION = 1400.0
 @export var DASH_DURATION = 0.12
 @export var DASH_COOLDOWN = 5.0
 
+var speed = 150.0
 var inventory: Array = []
 var _nearby_groups: Array = []
 var pending_order_source = null
@@ -28,11 +28,15 @@ var _dash_direction: Vector2 = Vector2.ZERO
 
 
 func _ready():
+	speed *= (1.0 + GlobalInventory.get_speed_bonus())
+	
 	$OrderConnectionTimer.wait_time = 0.5
 	$OrderConnectionTimer.one_shot = true
 	$OrderConnectionTimer.timeout.connect(_on_order_connection_timeout)
 	$Area2D.area_entered.connect(_on_area_entered)
 	$Area2D.area_exited.connect(_on_area_exited)
+	$InventorySlot1.visible = false
+	$InventorySlot2.visible = false
 
 
 func _physics_process(delta):
@@ -58,7 +62,7 @@ func _physics_process(delta):
 		$SpriteRight.visible = last_horizontal == 1
 		$SpriteLeft.play()
 		$SpriteRight.play()
-		velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
+		velocity = velocity.move_toward(direction * speed, ACCELERATION * delta)
 	else:
 		if was_moving:
 			$SpriteLeft.visible = false
@@ -88,12 +92,10 @@ func _handle_interact():
 		if not body.has_method("interact"):
 			continue
 
-		# Queued customer — seat via E (only if not already seated)
 		if body.get("group") != null and not body.group.is_seated:
 			body.group.on_clicked()
 			return
 
-		# All other interactables (seated customers, equipment, money, trash)
 		if body.has_signal("order_placed") and body.is_waiting_for_order():
 			if not body.order_placed.is_connected(_on_order_received):
 				pending_order_source = body
@@ -101,10 +103,10 @@ func _handle_interact():
 				$OrderConnectionTimer.start()
 
 		body.interact(inventory)
+		_update_inventory_display()
 		return
 
 
-# Called by QR Cat click flow directly on the customer
 func receive_order_from_qr(customer) -> void:
 	if inventory.size() >= INVENTORY_MAX:
 		return
@@ -114,6 +116,37 @@ func receive_order_from_qr(customer) -> void:
 		pending_order_source = customer
 		customer.order_placed.connect(_on_order_received)
 	customer.interact(inventory)
+	_update_inventory_display()
+
+
+# ── Inventory display ─────────────────────────────────────────────────────────
+
+func _update_inventory_display():
+	# Slot 1 — left of player
+	if inventory.size() >= 1:
+		var item = inventory[0]
+		var tex = _get_item_texture(item)
+		$InventorySlot1.texture = tex
+		$InventorySlot1.visible = tex != null
+	else:
+		$InventorySlot1.visible = false
+
+	# Slot 2 — right of player
+	if inventory.size() >= 2:
+		var item = inventory[1]
+		var tex = _get_item_texture(item)
+		$InventorySlot2.texture = tex
+		$InventorySlot2.visible = tex != null
+	else:
+		$InventorySlot2.visible = false
+
+
+func _get_item_texture(item: Dictionary) -> Texture2D:
+	if item["type"] == "order":
+		return GameManager.get_order_sprite(item["item"])
+	elif item["type"] == "food":
+		return GameManager.get_food_sprite(item["item"])
+	return null
 
 
 # ── Proximity highlight ───────────────────────────────────────────────────────
@@ -135,7 +168,6 @@ func _on_area_exited(area):
 	var customer = area
 	if customer.group == null:
 		return
-	# Only remove this specific group if ALL its customers have left the area
 	var all_exited = true
 	for c in customer.group.customers:
 		if $Area2D.overlaps_area(c):
@@ -203,6 +235,7 @@ func _on_order_received(item_type: String):
 		pending_order_source = null
 	$OrderConnectionTimer.stop()
 	inventory.append({"type": "order", "item": item_type})
+	_update_inventory_display()
 	print("Inventory: ", inventory)
 
 

@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*uid://bo4006pl5j274"
+GlobalInventory="*uid://bnmer5ebt3im"
+Wallet="*uid://ddq5c2k8tdeug"
 
 [display]
 
