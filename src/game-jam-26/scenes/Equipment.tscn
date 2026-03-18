@@ -22,3 +22,11 @@ position = Vector2(0, -16)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=885983733]
 texture = ExtResource("2_vv10o")
+
+[node name="CookingLabel" type="Label" parent="." unique_id=512837461]
+visible = false
+offset_left = -6.0
+offset_top = -29.0
+offset_right = 34.0
+offset_bottom = -6.0
+text = "..."

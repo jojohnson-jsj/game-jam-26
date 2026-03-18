@@ -23,7 +23,7 @@ var day_timer: Timer
 var queue_origin: Vector2 = Vector2.ZERO
 var door_point: Vector2 = Vector2.ZERO
 
-var has_queue_cat: bool = true
+var has_queue_cat: bool  # initialized in _ready() from DebugConfig
 
 const ITEM_PRICES = {
 	"latte": 3.0,
@@ -49,6 +49,7 @@ func get_food_sprite(item_type: String) -> Texture2D:
 
 
 func _ready():
+	has_queue_cat = DebugConfig.queue_cat_enabled
 	spawn_timer = Timer.new()
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.one_shot = false
@@ -107,14 +108,20 @@ func _on_spawn_timer_timeout():
 
 
 func spawn_group(size: int):
-	
-	#reroll groups of 1 for valentines cat 
+
+	#reroll groups of 1 for valentines cat
 	if size == 1 and randf() < GlobalInventory.get_valentines_reduction():
 		size = randi_range(2, max_group_size)
-	
+
+	# Shuffle the 7 available variant indices so no two customers in the same
+	# group share a sprite. For groups larger than 7 the list wraps around.
+	var variant_indices = range(6)
+	variant_indices.shuffle()
+
 	var customer_list = []
 	for i in range(size):
 		var customer = preload("res://scenes/Customer.tscn").instantiate()
+		customer.assigned_variant_index = variant_indices[i % variant_indices.size()]
 		get_tree().current_scene.add_child(customer)
 		customer.global_position = door_point
 		customer_list.append(customer)
