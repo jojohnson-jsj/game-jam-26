@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuup4fvf13m8g"
-path="res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"
+uid="uid://b8es3d5xw2gn"
+path="res://.godot/imported/cat_sprite_ankle.png-7b1cf7a4e7bec3790d0f6d23b5cebf7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cats/ingame/cat_sprite_hermes.png"
-dest_files=["res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"]
+source_file="res://assets/cats/ingame/cat_sprite_ankle.png"
+dest_files=["res://.godot/imported/cat_sprite_ankle.png-7b1cf7a4e7bec3790d0f6d23b5cebf7b.ctex"]
 
 [params]
 

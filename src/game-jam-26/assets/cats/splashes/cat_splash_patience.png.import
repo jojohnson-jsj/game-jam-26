@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuup4fvf13m8g"
-path="res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"
+uid="uid://h6p7yknlgq16"
+path="res://.godot/imported/cat_splash_patience.png-548f83f12caa43d827392af388ec7da9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cats/ingame/cat_sprite_hermes.png"
-dest_files=["res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"]
+source_file="res://assets/cats/splashes/cat_splash_patience.png"
+dest_files=["res://.godot/imported/cat_splash_patience.png-548f83f12caa43d827392af388ec7da9.ctex"]
 
 [params]
 

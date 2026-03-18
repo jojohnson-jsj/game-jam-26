@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuup4fvf13m8g"
-path="res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"
+uid="uid://ghtgxln6pot8"
+path="res://.godot/imported/emoji_heart.png-e214324df02ff0e0c3c1b8619c835f3a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cats/ingame/cat_sprite_hermes.png"
-dest_files=["res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"]
+source_file="res://assets/characters/emojis/emoji_heart.png"
+dest_files=["res://.godot/imported/emoji_heart.png-e214324df02ff0e0c3c1b8619c835f3a.ctex"]
 
 [params]
 

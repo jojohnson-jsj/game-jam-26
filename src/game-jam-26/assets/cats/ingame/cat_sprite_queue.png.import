@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuup4fvf13m8g"
-path="res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"
+uid="uid://b301aftgslq2w"
+path="res://.godot/imported/cat_sprite_queue.png-b1ef8aa2abb1102e97bdb3b506b4c9e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cats/ingame/cat_sprite_hermes.png"
-dest_files=["res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"]
+source_file="res://assets/cats/ingame/cat_sprite_queue.png"
+dest_files=["res://.godot/imported/cat_sprite_queue.png-b1ef8aa2abb1102e97bdb3b506b4c9e7.ctex"]
 
 [params]
 

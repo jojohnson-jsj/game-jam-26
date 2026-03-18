@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuup4fvf13m8g"
-path="res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"
+uid="uid://gjhg4u1sjfnv"
+path="res://.godot/imported/cat_sprite_zoomies.png-30ee70c7b547e7f533cba454e333930b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cats/ingame/cat_sprite_hermes.png"
-dest_files=["res://.godot/imported/cat_sprite_hermes.png-a025e3fe21c0db56e2fe4a977b4e7f7a.ctex"]
+source_file="res://assets/cats/ingame/cat_sprite_zoomies.png"
+dest_files=["res://.godot/imported/cat_sprite_zoomies.png-30ee70c7b547e7f533cba454e333930b.ctex"]
 
 [params]
 
