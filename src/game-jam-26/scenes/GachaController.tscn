@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://cym8hk2flmw61"]
+
+[ext_resource type="Script" uid="uid://drwbn4id7s41j" path="res://scripts/gacha_controller.gd" id="1_fjbti"]
+[ext_resource type="Texture2D" uid="uid://e32qmdfuefhy" path="res://assets/cats/splashes/cat_splash_background.png" id="1_rskey"]
+[ext_resource type="Texture2D" uid="uid://d1005pgut3y8b" path="res://assets/cats/splashes/cat_splash_zoomies.png" id="2_mo3ce"]
+[ext_resource type="Texture2D" uid="uid://ljyvfs7w8dbk" path="res://assets/cats/splashes/cat_splash_background_stars.png" id="3_veajq"]
+[ext_resource type="Texture2D" uid="uid://dyhu1yvwxk01p" path="res://assets/cats/splashes/cat_splash_background_star_distant.png" id="4_fjbti"]
+[ext_resource type="Texture2D" uid="uid://cosqmtg8rgffe" path="res://assets/cats/splashes/cat_splash_background_star_close.png" id="5_3olcx"]
+[ext_resource type="Texture2D" uid="uid://dx10yh8s6elgy" path="res://assets/cats/splashes/cat_splash_background_grass.png" id="6_qs5rk"]
+[ext_resource type="Texture2D" uid="uid://cubl473nvtgdb" path="res://assets/cats/splashes/cat_splash_background_grass_lit.png" id="7_j6sa8"]
+[ext_resource type="Texture2D" uid="uid://pnl48nvflp6h" path="res://assets/cats/splashes/cat_splash_box.png" id="8_vibdx"]
+
+[node name="GachaController" type="Node2D" unique_id=403888145]
+script = ExtResource("1_fjbti")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2097624183]
+zoom = Vector2(0.24, 0.24)
+
+[node name="Background" type="TextureRect" parent="." unique_id=45586385]
+offset_left = -2400.0
+offset_top = -1350.0
+offset_right = 2400.0
+offset_bottom = 1350.0
+texture = ExtResource("1_rskey")
+
+[node name="GigiTestSprite" type="Sprite2D" parent="." unique_id=1783565924]
+visible = false
+texture = ExtResource("2_mo3ce")
+
+[node name="GachaBox" type="Sprite2D" parent="." unique_id=1663137755]
+visible = false
+texture = ExtResource("8_vibdx")
+
+[node name="PreWish" type="Node2D" parent="." unique_id=584886478]
+
+[node name="Stars" type="Sprite2D" parent="PreWish" unique_id=241836574]
+visible = false
+texture = ExtResource("3_veajq")
+
+[node name="StarDistant" type="Sprite2D" parent="PreWish" unique_id=229285544]
+visible = false
+texture = ExtResource("4_fjbti")
+
+[node name="StarClose" type="Sprite2D" parent="PreWish" unique_id=1601106664]
+visible = false
+texture = ExtResource("5_3olcx")
+
+[node name="Grass" type="Sprite2D" parent="PreWish" unique_id=524506142]
+visible = false
+texture = ExtResource("6_qs5rk")
+
+[node name="GrassLit" type="Sprite2D" parent="PreWish" unique_id=954526722]
+visible = false
+texture = ExtResource("7_j6sa8")
