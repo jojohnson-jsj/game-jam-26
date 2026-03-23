@@ -119,7 +119,7 @@ stretch_mode = 0
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="catButton" unique_id=258851386]
 stream = ExtResource("12_a3nwe")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=822307243]
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=822307243]
 stream = ExtResource("14_tbwny")
 volume_db = 10.0
 autoplay = true

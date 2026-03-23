@@ -23995,8 +23995,5 @@ tile_set = SubResource("TileSet_eu7l1")
 
 [node name="Objects" type="Node2D" parent="." unique_id=905508105]
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=35336604]
-zoom = Vector2(2, 2)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1886837511]
 navigation_polygon = SubResource("NavigationPolygon_7g83o")

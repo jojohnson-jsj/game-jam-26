@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4ogu2pxxedqh" path="res://scripts/Main.gd" id="1_fos0i"]
 [ext_resource type="PackedScene" uid="uid://biqa8lcvxhxap" path="res://scenes/Player.tscn" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://dn07iwndbtiwk" path="res://scenes/game_world.gd" id="2_ft6cd"]
 [ext_resource type="PackedScene" uid="uid://b3mv5w3hdv300" path="res://scenes/Equipment.tscn" id="3_r0du0"]
 [ext_resource type="PackedScene" uid="uid://bbpdwsl6nejuo" path="res://scenes/World.tscn" id="4_rarhs"]
 [ext_resource type="PackedScene" uid="uid://djnjd1irws0x6" path="res://scenes/Table2.tscn" id="6_jlsqs"]
@@ -14,79 +15,101 @@
 [ext_resource type="Script" uid="uid://ddq5c2k8tdeug" path="res://scripts/Wallet.gd" id="12_bjd11"]
 [ext_resource type="Script" uid="uid://bj31bsclidjx6" path="res://scripts/gacha_logic.gd" id="13_qmy6f"]
 [ext_resource type="AudioStream" uid="uid://dc1egsct2jcj" path="res://assets/sound assests/Bkg-Music/tunetank-gentle-cafe-background-348053.mp3" id="14_mwfav"]
+[ext_resource type="PackedScene" uid="uid://dwpv8d7qv2wgp" path="res://scenes/Menus/start_screen.tscn" id="15_3p2gp"]
+[ext_resource type="PackedScene" uid="uid://bt2034l3gwkvw" path="res://scenes/Menus/Puase menu.tscn" id="16_cvmbd"]
 
-[node name="Node2D" type="Node2D" unique_id=1255642466]
+[node name="Main" type="Node2D" unique_id=1255642466]
 script = ExtResource("1_fos0i")
 
-[node name="Player" parent="." unique_id=727168745 groups=["player"] instance=ExtResource("1_glv2v")]
+[node name="GameWorld" type="Node2D" parent="." unique_id=1870196207]
+visible = false
+script = ExtResource("2_ft6cd")
 
-[node name="Equipment" parent="." unique_id=1707120334 instance=ExtResource("3_r0du0")]
+[node name="Player" parent="GameWorld" unique_id=727168745 groups=["player"] instance=ExtResource("1_glv2v")]
+
+[node name="Equipment" parent="GameWorld" unique_id=1707120334 instance=ExtResource("3_r0du0")]
 z_index = 4
 position = Vector2(-50, -49)
 
-[node name="Equipment2" parent="." unique_id=534699615 instance=ExtResource("3_r0du0")]
+[node name="Equipment2" parent="GameWorld" unique_id=534699615 instance=ExtResource("3_r0du0")]
 z_index = 4
 position = Vector2(-70, -49)
 
-[node name="World" parent="." unique_id=1775352503 instance=ExtResource("4_rarhs")]
+[node name="World" parent="GameWorld" unique_id=1775352503 instance=ExtResource("4_rarhs")]
 z_as_relative = false
 
-[node name="Table" parent="." unique_id=1317159549 instance=ExtResource("6_jlsqs")]
+[node name="Table" parent="GameWorld" unique_id=1317159549 instance=ExtResource("6_jlsqs")]
 position = Vector2(-104, 23)
 
-[node name="Table2" parent="." unique_id=1418531551 instance=ExtResource("6_jlsqs")]
+[node name="Table2" parent="GameWorld" unique_id=1418531551 instance=ExtResource("6_jlsqs")]
 position = Vector2(-88, 87)
 
-[node name="Table3" parent="." unique_id=232326530 instance=ExtResource("6_jlsqs")]
+[node name="Table3" parent="GameWorld" unique_id=232326530 instance=ExtResource("6_jlsqs")]
 position = Vector2(88, 87)
 
-[node name="Table4" parent="." unique_id=1267098041 instance=ExtResource("6_jlsqs")]
+[node name="Table4" parent="GameWorld" unique_id=1267098041 instance=ExtResource("6_jlsqs")]
 position = Vector2(104, 23)
 
-[node name="Table5" parent="." unique_id=1017731698 instance=ExtResource("7_q8u5g")]
+[node name="Table5" parent="GameWorld" unique_id=1017731698 instance=ExtResource("7_q8u5g")]
 position = Vector2(216, 23)
 
-[node name="Table6" parent="." unique_id=69470295 instance=ExtResource("7_q8u5g")]
+[node name="Table6" parent="GameWorld" unique_id=69470295 instance=ExtResource("7_q8u5g")]
 position = Vector2(-216, 23)
 
-[node name="Table7" parent="." unique_id=565459842 instance=ExtResource("8_lhr70")]
+[node name="Table7" parent="GameWorld" unique_id=565459842 instance=ExtResource("8_lhr70")]
 position = Vector2(-200, -57)
 
-[node name="Table8" parent="." unique_id=10337044 instance=ExtResource("8_lhr70")]
+[node name="Table8" parent="GameWorld" unique_id=10337044 instance=ExtResource("8_lhr70")]
 position = Vector2(-200, 103)
 
-[node name="Table9" parent="." unique_id=1830917577 instance=ExtResource("8_lhr70")]
+[node name="Table9" parent="GameWorld" unique_id=1830917577 instance=ExtResource("8_lhr70")]
 position = Vector2(200, 104)
 
-[node name="Table10" parent="." unique_id=1399961121 instance=ExtResource("8_lhr70")]
+[node name="Table10" parent="GameWorld" unique_id=1399961121 instance=ExtResource("8_lhr70")]
 position = Vector2(200, -57)
 
-[node name="QueueOrigin" type="Node2D" parent="." unique_id=772506101]
+[node name="QueueOrigin" type="Node2D" parent="GameWorld" unique_id=772506101]
 position = Vector2(-16, 125)
-scale = Vector2(-20.721113, 10.18)
+rotation = 3.1415927
+scale = Vector2(20.721113, -10.18)
 
-[node name="DoorPoint" type="Node2D" parent="." unique_id=1178043524]
+[node name="DoorPoint" type="Node2D" parent="GameWorld" unique_id=1178043524]
 position = Vector2(0, 140)
 
-[node name="Trash" parent="." unique_id=253568466 instance=ExtResource("8_jlsqs")]
+[node name="Trash" parent="GameWorld" unique_id=253568466 instance=ExtResource("8_jlsqs")]
 position = Vector2(99, -69)
 
-[node name="NonTableCatBed" parent="." unique_id=1468040532 instance=ExtResource("9_lhr70")]
+[node name="NonTableCatBed" parent="GameWorld" unique_id=1468040532 instance=ExtResource("9_lhr70")]
 position = Vector2(-134, -82)
 
-[node name="TableCatBed" parent="." unique_id=901635110 instance=ExtResource("10_wp0k4")]
+[node name="TableCatBed" parent="GameWorld" unique_id=901635110 instance=ExtResource("10_wp0k4")]
 position = Vector2(-105, 50)
 assigned_table = NodePath("../Table")
 
-[node name="GlobalInventory" type="Node2D" parent="." unique_id=1462444103]
+[node name="GlobalInventory" type="Node2D" parent="GameWorld" unique_id=1462444103]
 script = ExtResource("11_wp0k4")
 
-[node name="Wallet" type="Node2D" parent="." unique_id=397497023]
+[node name="Wallet" type="Node2D" parent="GameWorld" unique_id=397497023]
 script = ExtResource("12_bjd11")
 
-[node name="Gacha" type="Node2D" parent="." unique_id=192580581]
+[node name="Gacha" type="Node2D" parent="GameWorld" unique_id=192580581]
 script = ExtResource("13_qmy6f")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1307656184]
+[node name="Music" type="AudioStreamPlayer2D" parent="GameWorld" unique_id=1307656184]
 stream = ExtResource("14_mwfav")
 autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="GameWorld" unique_id=346177374]
+z_index = 100
+zoom = Vector2(2, 2)
+
+[node name="StartMenu" type="CanvasLayer" parent="." unique_id=895278171]
+
+[node name="Start Screen" parent="StartMenu" unique_id=450327167 instance=ExtResource("15_3p2gp")]
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=883316050]
+
+[node name="Puase menu" parent="PauseMenu" unique_id=331887434 instance=ExtResource("16_cvmbd")]
+
+[node name="NightScreen" type="CanvasLayer" parent="." unique_id=879398082]
+visible = false

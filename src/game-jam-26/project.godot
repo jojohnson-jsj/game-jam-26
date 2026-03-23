@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="game-jam-26"
-run/main_scene="uid://dwpv8d7qv2wgp"
+run/main_scene="uid://bcurcavulpakc"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 

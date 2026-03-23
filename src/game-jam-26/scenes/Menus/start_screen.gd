@@ -11,7 +11,12 @@ func _process(delta: float) -> void:
 
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	#get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	$"../../GameWorld".visible = true
+	$"../../GameWorld".process_mode = Node.PROCESS_MODE_ALWAYS
+	$"../../GameWorld".startDay()
+	visible = false
+	process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _on_pull_button_pressed() -> void:
