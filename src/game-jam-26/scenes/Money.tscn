@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://rr18t82q2qlk"]
 
 [ext_resource type="Script" uid="uid://dvfymfb0h6n5g" path="res://scripts/Money.gd" id="1_arnqv"]
+[ext_resource type="Texture2D" uid="uid://prxnqxsdlv6n" path="res://assets/Misc/coin.png" id="2_coin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j5t3b"]
 size = Vector2(64, 64)
@@ -13,9 +14,5 @@ script = ExtResource("1_arnqv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=521109356]
 shape = SubResource("RectangleShape2D_j5t3b")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1462330604]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-color = Color(0.5205999, 1, 0.28129128, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1462330604]
+texture = ExtResource("2_coin")

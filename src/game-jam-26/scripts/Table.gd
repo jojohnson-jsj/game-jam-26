@@ -14,7 +14,10 @@ var has_money_cat: bool  # initialized in _ready() from DebugConfig
 
 
 func _ready():
-	has_money_cat = DebugConfig.money_cat_enabled
+	# has_money_cat is set per-table by CatBed when a money_cat is assigned.
+	# Defaulting to false here ensures only the table with the assigned bed
+	# auto-collects; all other tables still require player interaction.
+	has_money_cat = false
 	GameManager.register_table(self)
 
 
@@ -70,7 +73,7 @@ func spawn_money(payout: float):
 	var money = preload("res://scenes/Money.tscn").instantiate()
 	money.setup(payout, self)
 	get_parent().add_child(money)
-	money.global_position = global_position
+	money.global_position = global_position + Vector2(0, -7)
 
 	# Money Cat — collect automatically instead of waiting for player
 	if has_money_cat:
@@ -87,3 +90,15 @@ func _auto_collect(money_node):
 func payment_collected():
 	current_state = State.AVAILABLE
 	GameManager.on_payment_collected()
+
+
+# Called by GameManager at the start of each new day to guarantee a clean slate.
+func force_reset() -> void:
+	for customer in seated_customers:
+		if customer.patience_expired.is_connected(_on_patience_expired):
+			customer.patience_expired.disconnect(_on_patience_expired)
+		if customer.customer_done.is_connected(_on_customer_done):
+			customer.customer_done.disconnect(_on_customer_done)
+	seated_customers = []
+	done_customers = 0
+	current_state = State.AVAILABLE
