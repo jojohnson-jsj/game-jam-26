@@ -21,6 +21,7 @@ DebugConfig="*res://scripts/DebugConfig.gd"
 GameManager="*res://scripts/GameManager.gd"
 GlobalInventory="*res://scripts/GlobalInventory.gd"
 Wallet="*res://scripts/Wallet.gd"
+SaveManager="*res://scripts/SaveManager.gd"
 
 [display]
 

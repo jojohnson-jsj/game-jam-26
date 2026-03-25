@@ -1,9 +1,12 @@
 extends Node
 
+signal day_started(day_number)
 signal day_ended(final_money)
+signal night_started
 
 var tables: Array = []
 var waiting_queue: Array = []
+var active_customers: Array = []   # every customer node spawned this day
 var day_active: bool = false
 
 @export var spawn_interval: float = 15.0
@@ -89,15 +92,48 @@ func set_door_point(pos: Vector2):
 	door_point = pos
 
 
+func _reset_for_new_day() -> void:
+	# Free any customer nodes still alive from the previous day
+	for customer in active_customers:
+		if is_instance_valid(customer):
+			customer.queue_free()
+	active_customers.clear()
+
+	# Reset all table states so they're available from the first moment
+	for table in tables:
+		table.force_reset()
+
+	# Waiting queue should already be empty, but guard anyway
+	waiting_queue.clear()
+
+	# Reset all equipment back to idle
+	for equip in get_tree().get_nodes_in_group("equipment"):
+		equip.force_reset()
+
+	# Remove any uncollected money nodes
+	for money in get_tree().get_nodes_in_group("money"):
+		if is_instance_valid(money):
+			money.queue_free()
+
+	# Clear the player's inventory and refresh their display
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		player.inventory.clear()
+		player._update_inventory_display()
+
+
 func start_day():
+	_reset_for_new_day()
+
 	spawn_timer.wait_time = max(5.0, spawn_interval - GlobalInventory.get_spawn_interval_reduction())
 	queue_patience = 30.0 + GlobalInventory.get_patience_bonus()
 	tip_floor_time = 40.0 + GlobalInventory.get_tip_floor_bonus()
-	
+
 	day_active = true
 	spawn_timer.start()
 	day_timer.start()
 	call_deferred("spawn_group", randi_range(min_group_size, max_group_size))
+	emit_signal("day_started", GlobalInventory.day)
 	print("Day started")
 
 
@@ -125,6 +161,7 @@ func spawn_group(size: int):
 		get_tree().current_scene.add_child(customer)
 		customer.global_position = door_point
 		customer_list.append(customer)
+		active_customers.append(customer)
 
 	var group = CustomerGroup.new()
 	group.group_patience_expired.connect(_on_group_patience_expired)
@@ -226,10 +263,10 @@ func _on_table_cleared(_table):
 
 func _on_day_ended():
 	day_active = false
-	GlobalInventory.day += 1
 	spawn_timer.stop()
 	for group in waiting_queue:
 		group.cleanup()
 	waiting_queue.clear()
 	print("Day ended. Final money: $", Wallet.money_owned)
 	emit_signal("day_ended", Wallet.money_owned)
+	emit_signal("night_started")
