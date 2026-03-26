@@ -27,6 +27,17 @@ func pull_cat() -> String:
 	GlobalInventory.add_cat(cat_id)
 	return cat_id
 	
+func show_gacha_ui(cat_id : String):
+	get_tree().paused = true
+
+	var ui = load("res://scenes/GachaController.tscn").instantiate()
+	ui.cat_id = cat_id
+	$CanvasLayer.add_child(ui)
+
+	await ui.finished  # wait until user is done
+
+	get_tree().paused = false
+	
 func multi_pull(number:int) -> Array:
 	var results = []
 	for i in range(number):

@@ -79,6 +79,26 @@ const _WITCH_IDLE     = preload("res://assets/characters/idle/witch_idle.png")
 const _WITCH_RIGHT    = preload("res://assets/characters/walk/spritesheet format/witch_walk_right-Sheet.png")
 const _WITCH_LEFT     = preload("res://assets/characters/walk/spritesheet format/witch_walk_left-Sheet.png")
 
+const _AMELIA_IDLE     = preload("res://assets/characters/idle/amelia_idle.png")
+const _AMELIA_RIGHT    = preload("res://assets/characters/walk/spritesheet format/amelia_walk_right-Sheet.png")
+const _AMELIA_LEFT     = preload("res://assets/characters/walk/spritesheet format/amelia_walk_left-Sheet.png")
+
+const _STEVEN_IDLE     = preload("res://assets/characters/idle/steven_idle.png")
+const _STEVEN_RIGHT    = preload("res://assets/characters/walk/spritesheet format/steven_walk_right-Sheet.png")
+const _STEVEN_LEFT     = preload("res://assets/characters/walk/spritesheet format/steven_walk_left-Sheet.png")
+
+const _SARAH_IDLE      = preload("res://assets/characters/idle/sarah_idle.png")
+const _SARAH_RIGHT     = preload("res://assets/characters/walk/spritesheet format/sarah_walk_right-Sheet.png")
+const _SARAH_LEFT      = preload("res://assets/characters/walk/spritesheet format/sarah_walk_left-Sheet.png")
+
+const _MEGHANA_IDLE    = preload("res://assets/characters/idle/meghana_idle.png")
+const _MEGHANA_RIGHT   = preload("res://assets/characters/walk/spritesheet format/meghana_walk_right-Sheet.png")
+const _MEGHANA_LEFT    = preload("res://assets/characters/walk/spritesheet format/meghana_walk_left-Sheet.png")
+
+const _JO_IDLE         = preload("res://assets/characters/idle/jo_idle.png")
+const _JO_RIGHT        = preload("res://assets/characters/walk/spritesheet format/jo_walk_right-Sheet.png")
+const _JO_LEFT         = preload("res://assets/characters/walk/spritesheet format/jo_walk_left-Sheet.png")
+
 # Assembled in _ready() from the consts above. Each entry has idle, walk_right,
 # and walk_left keys. The walk sheets are 4 frames of 32×32 laid out horizontally.
 var _character_variants: Array
@@ -462,6 +482,11 @@ func _on_reaction_finished():
 ## engine so there's no redundant I/O even though we do this per instance.
 func _build_character_variants():
 	_character_variants = [
+		{"idle": _AMELIA_IDLE,   "walk_right": _AMELIA_RIGHT,   "walk_left": _AMELIA_LEFT},
+		{"idle": _STEVEN_IDLE,   "walk_right": _STEVEN_RIGHT,   "walk_left": _STEVEN_LEFT},
+		{"idle": _SARAH_IDLE,    "walk_right": _SARAH_RIGHT,    "walk_left": _SARAH_LEFT},
+		{"idle": _MEGHANA_IDLE,  "walk_right": _MEGHANA_RIGHT,  "walk_left": _MEGHANA_LEFT},
+		{"idle": _JO_IDLE,       "walk_right": _JO_RIGHT,       "walk_left": _JO_LEFT},
 		{"idle": _ANGLER_IDLE,  "walk_right": _ANGLER_RIGHT,  "walk_left": _ANGLER_LEFT},
 		{"idle": _DOCTOR_IDLE,  "walk_right": _DOCTOR_RIGHT,  "walk_left": _DOCTOR_LEFT},
 		{"idle": _GIRL2_IDLE,   "walk_right": _GIRL2_RIGHT,   "walk_left": _GIRL2_LEFT},
