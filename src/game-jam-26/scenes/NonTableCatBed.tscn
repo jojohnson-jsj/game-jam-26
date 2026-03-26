@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cvl7vyogrjn00"]
 
 [ext_resource type="Script" uid="uid://dbfyhojndvdgf" path="res://scripts/CatBed.gd" id="1_sg57d"]
+[ext_resource type="Texture2D" uid="uid://ddpmullbs2afd" path="res://assets/Misc/cat_bed_green.png" id="2_brku8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_df32p"]
 
@@ -9,12 +10,14 @@ script = ExtResource("1_sg57d")
 unlocked = true
 
 [node name="Sprite2D - for art replacement later" type="Sprite2D" parent="." unique_id=1582445583]
-visible = false
+position = Vector2(0, -7)
+texture = ExtResource("2_brku8")
 
 [node name="CollisionShape2D - for click to place later" type="CollisionShape2D" parent="." unique_id=179880126]
 shape = SubResource("RectangleShape2D_df32p")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1049302189]
+visible = false
 offset_left = -10.0
 offset_top = -5.0
 offset_right = 10.0

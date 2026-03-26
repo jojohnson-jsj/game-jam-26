@@ -105,10 +105,12 @@ z_index = 100
 zoom = Vector2(2, 2)
 
 [node name="StartMenu" type="CanvasLayer" parent="." unique_id=895278171]
+visible = false
 
 [node name="Start Screen" parent="StartMenu" unique_id=450327167 instance=ExtResource("15_3p2gp")]
 
 [node name="PauseMenu" type="CanvasLayer" parent="." unique_id=883316050]
+visible = false
 
 [node name="Puase menu" parent="PauseMenu" unique_id=331887434 instance=ExtResource("16_cvmbd")]
 
