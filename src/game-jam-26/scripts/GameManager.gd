@@ -36,10 +36,17 @@ const ITEM_PRICES = {
 # Texture registries — add new item types here as art becomes available
 const ORDER_SPRITES = {
 	"latte": preload("res://assets/food/orders/order_sprite_latte.png"),
+	"pie": preload("res://assets/food/orders/order_sprite_pie.png"),
 }
 
 const FOOD_SPRITES = {
 	"latte": preload("res://assets/food/food/food_sprite_latte.png"),
+	"pie": preload("res://assets/food/food/food_sprite_pie.png"),
+}
+
+const MACHINE_SPRITES = {
+	"latte": preload("res://assets/food/machines/latte_machine.png"),
+	"pie": preload("res://assets/food/machines/oven.png"),
 }
 
 
@@ -49,6 +56,10 @@ func get_order_sprite(item_type: String) -> Texture2D:
 
 func get_food_sprite(item_type: String) -> Texture2D:
 	return FOOD_SPRITES.get(item_type, null)
+
+
+func get_machine_sprite(item_type: String) -> Texture2D:
+	return MACHINE_SPRITES.get(item_type, null)
 
 
 func _ready():
@@ -154,10 +165,14 @@ func spawn_group(size: int):
 	var variant_indices = range(6)
 	variant_indices.shuffle()
 
+	var oven_unlocked = GlobalInventory.is_equipment_unlocked("oven")
+
 	var customer_list = []
 	for i in range(size):
 		var customer = preload("res://scenes/Customer.tscn").instantiate()
 		customer.assigned_variant_index = variant_indices[i % variant_indices.size()]
+		if oven_unlocked and randf() < 0.3:
+			customer.order_item = "pie"
 		get_tree().current_scene.add_child(customer)
 		customer.global_position = door_point
 		customer_list.append(customer)

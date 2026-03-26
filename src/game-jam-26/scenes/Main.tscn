@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cvl7vyogrjn00" path="res://scenes/NonTableCatBed.tscn" id="9_lhr70"]
 [ext_resource type="PackedScene" uid="uid://coqdvv1kdb4wu" path="res://scenes/TableCatBed.tscn" id="10_wp0k4"]
 [ext_resource type="Script" uid="uid://bnmer5ebt3im" path="res://scripts/GlobalInventory.gd" id="11_wp0k4"]
-[ext_resource type="Script" uid="uid://ddq5c2k8tdeug" path="res://scripts/Wallet.gd" id="12_bjd11"]
+[ext_resource type="Script" path="res://scripts/Wallet.gd" id="12_bjd11"]
 [ext_resource type="Script" uid="uid://bj31bsclidjx6" path="res://scripts/gacha_logic.gd" id="13_qmy6f"]
 [ext_resource type="AudioStream" uid="uid://dc1egsct2jcj" path="res://assets/sound assests/Bkg-Music/tunetank-gentle-cafe-background-348053.mp3" id="14_mwfav"]
 [ext_resource type="PackedScene" uid="uid://dwpv8d7qv2wgp" path="res://scenes/Menus/start_screen.tscn" id="15_3p2gp"]
@@ -49,6 +49,20 @@ position = Vector2(-50, -49)
 [node name="LatteMachine2" parent="GameWorld" unique_id=534699615 instance=ExtResource("3_r0du0")]
 z_index = 4
 position = Vector2(-70, -49)
+
+[node name="Oven1" parent="GameWorld" unique_id=2001000001 instance=ExtResource("3_r0du0")]
+z_index = 4
+position = Vector2(40, -101)
+item_type = "pie"
+cook_time = 20.0
+indicator_y_offset = -8.0
+
+[node name="Oven2" parent="GameWorld" unique_id=2001000002 instance=ExtResource("3_r0du0")]
+z_index = 4
+position = Vector2(56, -101)
+item_type = "pie"
+cook_time = 20.0
+indicator_y_offset = -8.0
 
 [node name="World" parent="GameWorld" unique_id=1775352503 instance=ExtResource("4_rarhs")]
 z_as_relative = false
@@ -94,9 +108,20 @@ position = Vector2(0, 140)
 [node name="Trash" parent="GameWorld" unique_id=253568466 instance=ExtResource("8_jlsqs")]
 position = Vector2(21, -35)
 
-[node name="NonTableCatBed" parent="GameWorld" unique_id=1468040532 instance=ExtResource("9_lhr70")]
-position = Vector2(-134, -82)
-bed_id = "non_table_bed"
+[node name="NonTableCatBed1" parent="GameWorld" unique_id=1468040532 instance=ExtResource("9_lhr70")]
+position = Vector2(-136, -82)
+bed_id = "non_table_bed_1"
+debug_cat_name = "hermes_cat"
+
+[node name="NonTableCatBed2" parent="GameWorld" unique_id=2001000003 instance=ExtResource("9_lhr70")]
+position = Vector2(45, 130)
+bed_id = "non_table_bed_2"
+debug_cat_name = "host_cat"
+
+[node name="NonTableCatBed3" parent="GameWorld" unique_id=2001000004 instance=ExtResource("9_lhr70")]
+position = Vector2(136, -82)
+bed_id = "non_table_bed_3"
+debug_cat_name = "qr_cat"
 
 [node name="TableCatBed" parent="GameWorld" unique_id=901635110 instance=ExtResource("10_wp0k4")]
 position = Vector2(-105, 50)

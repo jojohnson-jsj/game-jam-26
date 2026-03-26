@@ -28,10 +28,10 @@ var cats: Dictionary = {
 func debug_cats() -> void: 
 	print(JSON.stringify(cats, "\t"))
 
-#Equipment unlocks 
+#Equipment unlocks
 var equipment_unlocked: Dictionary = {
 	'latte_machine': true,
-	'oven': false
+	'oven': true
 }
 
 #gacha pity 
