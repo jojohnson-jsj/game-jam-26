@@ -28,6 +28,10 @@ SaveManager="*res://scripts/SaveManager.gd"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[dotnet]
+
+project/assembly_name="game-jam-26"
+
 [input]
 
 interact={

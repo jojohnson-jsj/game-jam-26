@@ -42,7 +42,6 @@ func _ready():
 	$InventorySlot1.visible = false
 	$InventorySlot2.visible = false
 
-
 func _physics_process(delta):
 	_tick_dash(delta)
 

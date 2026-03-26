@@ -19,9 +19,24 @@
 [ext_resource type="PackedScene" uid="uid://bt2034l3gwkvw" path="res://scenes/Menus/Puase menu.tscn" id="16_cvmbd"]
 
 [node name="Main" type="Node2D" unique_id=1255642466]
+process_mode = 1
 script = ExtResource("1_fos0i")
 
+[node name="StartMenu" type="CanvasLayer" parent="." unique_id=895278171]
+visible = false
+
+[node name="Start Screen" parent="StartMenu" unique_id=450327167 instance=ExtResource("15_3p2gp")]
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=883316050]
+visible = false
+
+[node name="Puase menu" parent="PauseMenu" unique_id=331887434 instance=ExtResource("16_cvmbd")]
+
+[node name="NightScreen" type="CanvasLayer" parent="." unique_id=879398082]
+visible = false
+
 [node name="GameWorld" type="Node2D" parent="." unique_id=1870196207]
+process_mode = 1
 script = ExtResource("2_ft6cd")
 
 [node name="Player" parent="GameWorld" unique_id=727168745 groups=["player"] instance=ExtResource("1_glv2v")]
@@ -103,16 +118,3 @@ autoplay = true
 [node name="Camera2D" type="Camera2D" parent="GameWorld" unique_id=346177374]
 z_index = 100
 zoom = Vector2(2, 2)
-
-[node name="StartMenu" type="CanvasLayer" parent="." unique_id=895278171]
-visible = false
-
-[node name="Start Screen" parent="StartMenu" unique_id=450327167 instance=ExtResource("15_3p2gp")]
-
-[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=883316050]
-visible = false
-
-[node name="Puase menu" parent="PauseMenu" unique_id=331887434 instance=ExtResource("16_cvmbd")]
-
-[node name="NightScreen" type="CanvasLayer" parent="." unique_id=879398082]
-visible = false
