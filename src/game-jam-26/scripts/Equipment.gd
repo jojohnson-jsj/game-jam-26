@@ -11,10 +11,12 @@ var order_queue: Array = []
 var max_queue_size = 1 # affected by hopper cat 
 
 func _ready():
+	add_to_group("equipment")
+
 	max_queue_size = 1 + (1 if GlobalInventory.owns_cat('hopper_cat') else 0)
-	
+
 	cook_time = max(1.0, cook_time - GlobalInventory.get_cooking_bonus())
-	
+
 	$CookTimer.wait_time = cook_time
 	$CookTimer.one_shot = true
 	$CookTimer.timeout.connect(_on_cooking_finished)
@@ -112,6 +114,15 @@ func highlight():
 
 func unhighlight():
 	modulate = Color(1, 1, 1)
+
+
+func force_reset() -> void:
+	current_state = State.IDLE
+	order_queue.clear()
+	$CookTimer.stop()
+	$SpriteReady.visible = false
+	$CookingLabel.visible = false
+	unhighlight()
 
 
 func _on_cooking_finished():
