@@ -32,15 +32,18 @@ var gachaSplash
 @onready var prewish_grass = $Control/Grass
 @onready var prewish_grass_lit = $Control/GrassLit
 @onready var gacha_box = $Control/GachaBox
+signal donePull
 
 func _input(event):
 	if event.is_action_pressed("click"):
+		print("hello")
 		if not finished:
 			pass
 			#skip_animation()
 		else:
-			pass
-			#go_back()
+			visible = false
+			$"../".visible = true
+			queue_free()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -66,11 +69,13 @@ func wait(time: float) -> void:
 	await get_tree().create_timer(time).timeout
 
 func play_gacha_pull() -> void:
+	print(process_mode)
 	await play_pre_wish()
 	await reveal_result()
 	#multipull only
 	#await show_result_screen()
 	finished = true
+	
 	
 func play_pre_wish() -> void:
 	prewish_stars.visible = true

@@ -17,9 +17,10 @@
 [ext_resource type="AudioStream" uid="uid://dc1egsct2jcj" path="res://assets/sound assests/Bkg-Music/tunetank-gentle-cafe-background-348053.mp3" id="14_mwfav"]
 [ext_resource type="PackedScene" uid="uid://dwpv8d7qv2wgp" path="res://scenes/Menus/start_screen.tscn" id="15_3p2gp"]
 [ext_resource type="PackedScene" uid="uid://bt2034l3gwkvw" path="res://scenes/Menus/Puase menu.tscn" id="16_cvmbd"]
+[ext_resource type="PackedScene" uid="uid://cyaxv3swo47ee" path="res://scenes/Menus/store.tscn" id="18_nfivy"]
 
 [node name="Main" type="Node2D" unique_id=1255642466]
-process_mode = 1
+process_mode = 3
 script = ExtResource("1_fos0i")
 
 [node name="StartMenu" type="CanvasLayer" parent="." unique_id=895278171]
@@ -118,3 +119,8 @@ autoplay = true
 [node name="Camera2D" type="Camera2D" parent="GameWorld" unique_id=346177374]
 z_index = 100
 zoom = Vector2(2, 2)
+
+[node name="StoreMenu" type="CanvasLayer" parent="." unique_id=737587692]
+visible = false
+
+[node name="Store" parent="StoreMenu" unique_id=1564420384 instance=ExtResource("18_nfivy")]

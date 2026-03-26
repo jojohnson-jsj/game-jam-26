@@ -18,9 +18,11 @@ func _on_play_button_pressed() -> void:
 	visible = false
 	process_mode = Node.PROCESS_MODE_DISABLED
 
-
 func _on_pull_button_pressed() -> void:
-	pass # Replace with function body.
+	$"../../StoreMenu".visible = true
+	$"../../StoreMenu".process_mode = Node.PROCESS_MODE_ALWAYS
+	$"../".visible = false
+	$"../".process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _on_quit_button_pressed() -> void:

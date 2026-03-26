@@ -15,6 +15,8 @@ func _ready() -> void:
 	$StartMenu.process_mode = Node.PROCESS_MODE_ALWAYS
 	$NightScreen.visible = false
 	$NightScreen.process_mode = Node.PROCESS_MODE_DISABLED
+	$StoreMenu.visible = false
+	$StoreMenu.process_mode = Node.PROCESS_MODE_DISABLED
 
 	# Build the night screen UI and wire its button back here
 	_night_screen_ctrl = load("res://scripts/night_screen.gd").new()
@@ -64,7 +66,7 @@ func _on_start_day_pressed() -> void:
 		$NightScreen.visible = false
 		$NightScreen.process_mode = Node.PROCESS_MODE_DISABLED
 		$GameWorld.visible = true
-		$GameWorld.process_mode = Node.PROCESS_MODE_ALWAYS
+		$GameWorld.process_mode = Node.PROCESS_MODE_PAUSABLE
 		$GameWorld.startDay()
 		_fade_to(0.0, FADE_DURATION)
 	)

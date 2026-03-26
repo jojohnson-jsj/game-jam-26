@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://cyaxv3swo47ee"]
+
+[ext_resource type="Script" uid="uid://7skw74y3iydo" path="res://scenes/Menus/store.gd" id="1_h83mj"]
+
+[node name="Store" type="Control" unique_id=1564420384]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h83mj")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=801832535]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0070001
+anchor_bottom = 0.98800004
+offset_right = -8.064087
+offset_bottom = -0.22399902
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=1452188463]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.201
+anchor_top = 0.17500001
+anchor_right = 0.799
+anchor_bottom = 0.81200004
+offset_left = 0.44799805
+offset_top = -9.400009
+offset_right = -0.44799805
+offset_bottom = -1.0800781
+current_tab = 1
+tab_0/title = "Hardware.com"
+tab_1/title = "AdoptCat.com"
+
+[node name="Hardware,com" type="ColorRect" parent="TabContainer" unique_id=834827206]
+visible = false
+layout_mode = 2
+color = Color(0.40392157, 1, 1, 1)
+metadata/_tab_index = 0
+metadata/_tab_name = "Hardware.com"
+
+[node name="AdoptCat,com" type="ColorRect" parent="TabContainer" unique_id=757846545]
+layout_mode = 2
+color = Color(1, 0.39215687, 1, 1)
+metadata/_tab_index = 1
+metadata/_tab_name = "AdoptCat.com"
+
+[node name="AdpotOne" type="Button" parent="TabContainer/AdoptCat,com" unique_id=1537507503]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.23300001
+anchor_top = 0.372
+anchor_right = 0.64000005
+anchor_bottom = 0.577
+offset_left = -0.30400085
+offset_top = -8.115692
+offset_right = -0.32003784
+offset_bottom = -0.085372925
+text = "ADOPT 1"
+
+[node name="Exit" type="Button" parent="." unique_id=467340867]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.82600003
+anchor_top = 0.864
+anchor_right = 0.97900003
+anchor_bottom = 0.95100003
+offset_left = 0.447937
+offset_top = 0.12799072
+offset_right = 0.1920166
+offset_bottom = -0.24804688
+text = "LEAVE"
+
+[connection signal="pressed" from="TabContainer/AdoptCat,com/AdpotOne" to="." method="_on_adpot_one_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
