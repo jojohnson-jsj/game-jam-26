@@ -6,9 +6,15 @@ var current_state = State.IDLE
 
 @export var item_type: String = "latte"
 @export var cook_time: float = 10.0
+@export var indicator_y_offset: float = 0.0
 
 var order_queue: Array = []
-var max_queue_size = 1 # affected by hopper cat 
+var max_queue_size = 1 # affected by hopper cat
+
+const BAR_WIDTH  = 40  # slightly narrower than the 48px sprite
+const BAR_HEIGHT = 4
+var _bar_bg:   ColorRect = null
+var _bar_fill: ColorRect = null
 
 func _ready():
 	add_to_group("equipment")
@@ -21,13 +27,48 @@ func _ready():
 	$CookTimer.one_shot = true
 	$CookTimer.timeout.connect(_on_cooking_finished)
 
-	# Set machine sprite from GameManager registry if not already set in scene
+	# Set machine and food sprites from GameManager registry
 	# SpriteReady shows the food art when the item is ready for pickup
 	$SpriteReady.visible = false
 	$CookingLabel.visible = false
+	var machine_tex = GameManager.get_machine_sprite(item_type)
+	if machine_tex:
+		$Sprite2D.texture = machine_tex
 	var food_tex = GameManager.get_food_sprite(item_type)
 	if food_tex:
 		$SpriteReady.texture = food_tex
+
+	if indicator_y_offset != 0.0:
+		$SpriteReady.position.y += indicator_y_offset
+		$CookingLabel.offset_top += indicator_y_offset
+		$CookingLabel.offset_bottom += indicator_y_offset
+
+	# Build progress bar (replaces the "..." CookingLabel visually)
+	var bar_y = -29.0 + indicator_y_offset  # matches CookingLabel offset_top
+	_bar_bg = ColorRect.new()
+	_bar_bg.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
+	_bar_bg.position = Vector2(-BAR_WIDTH / 2.0, bar_y)
+	_bar_bg.color = Color(0.15, 0.15, 0.15)
+	_bar_bg.visible = false
+	add_child(_bar_bg)
+
+	_bar_fill = ColorRect.new()
+	_bar_fill.size = Vector2(0, BAR_HEIGHT)
+	_bar_fill.position = Vector2(-BAR_WIDTH / 2.0, bar_y)
+	_bar_fill.color = Color(0.9, 0.6, 0.1)
+	_bar_fill.visible = false
+	add_child(_bar_fill)
+
+
+func _process(_delta):
+	if _bar_bg == null:
+		return
+	var cooking = (current_state == State.COOKING)
+	_bar_bg.visible = cooking
+	_bar_fill.visible = cooking
+	if cooking and not $CookTimer.is_stopped():
+		var ratio = 1.0 - ($CookTimer.time_left / $CookTimer.wait_time)
+		_bar_fill.size.x = BAR_WIDTH * ratio
 
 
 func interact(player_inventory: Array) -> bool:
