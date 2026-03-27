@@ -56,10 +56,21 @@ func _ready() -> void:
 	sep1.add_theme_color_override("font_color", Color(0.60, 0.42, 0.22, 0.7))
 	vbox.add_child(sep1)
 
+	var money_row := HBoxContainer.new()
+	money_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	money_row.add_theme_constant_override("separation", 5)
+	vbox.add_child(money_row)
+
+	var coin_icon := TextureRect.new()
+	coin_icon.texture = load("res://assets/Misc/coin.png")
+	coin_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	coin_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	coin_icon.custom_minimum_size = Vector2(24, 24)
+	money_row.add_child(coin_icon)
+
 	_money_label = Label.new()
-	_money_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_money_label.add_theme_color_override("font_color", Color(0.20, 0.10, 0.02, 1.0))
-	vbox.add_child(_money_label)
+	money_row.add_child(_money_label)
 
 	# Dashed separator
 	var sep2 := Label.new()
@@ -99,7 +110,7 @@ func refresh(completed_day: int, current_money: float) -> void:
 	if _header_label:
 		_header_label.text = "— DAY %d SUMMARY —" % completed_day
 	if _money_label:
-		_money_label.text = "Balance:  $%.0f" % current_money
+		_money_label.text = "$%.0f" % current_money
 
 
 func _on_start_day_pressed() -> void:
