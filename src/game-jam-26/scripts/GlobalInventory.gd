@@ -39,6 +39,10 @@ var gacha_pity:int = 1 #pity currently: 10 -- reset on 5-star
 const PITY_THRESHOLD:int = 10
 const PULL_COST:int = 160 
 
+func _ready():
+	cats['hermes_cat']['owned'] = true
+	cats['qr_cat']['owned'] = true
+
 #queries
 func owns_cat(catId: String) -> bool: 
 	return cats.get(catId).get("owned", false)
