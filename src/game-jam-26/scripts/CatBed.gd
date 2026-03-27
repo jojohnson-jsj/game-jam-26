@@ -20,6 +20,31 @@ var assigned_cat: Cat = null
 var _cat_sprite: Sprite2D = null
 var _interaction_area: Area2D = null
 
+var _placement_callback: Callable = Callable()
+
+func enter_placement_mode(callback: Callable) -> void:
+	_placement_callback = callback
+	print("enter_placement_mode called, callback valid: ", _placement_callback.is_valid())
+	var cr = get_node_or_null("ColorRect")
+	if cr:
+		cr.visible = true
+	set_process_input(true)
+
+func exit_placement_mode() -> void:
+	_placement_callback = Callable()
+	var cr = get_node_or_null("ColorRect")
+	if cr:
+		cr.visible = false
+	set_process_input(false)
+
+func _input(event: InputEvent) -> void:
+	if not _placement_callback.is_valid():
+		return
+	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+		return
+	if global_position.distance_to(get_global_mouse_position()) < 16.0:
+		_placement_callback.call(self)
+
 # ── Animation ─────────────────────────────────────────────────────────────────
 var _is_yawning:     bool = false
 var _is_being_petted: bool = false
@@ -67,6 +92,7 @@ const CAT_DEFINITIONS: Dictionary = {
 
 
 func _ready() -> void:
+	add_to_group("cat_beds")
 	_cat_sprite = Sprite2D.new()
 	_cat_sprite.position = Vector2(0, -7)
 	_cat_sprite.z_index = 3
@@ -238,7 +264,10 @@ func _on_bed_mouse_exited() -> void:
 
 func _on_bed_input_event(_viewport, event, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if _cat_sprite and _cat_sprite.visible and not _is_being_petted:
+		print("bed input, callback valid: ", _placement_callback.is_valid())
+		if _placement_callback.is_valid():
+			_placement_callback.call(self)
+		elif _cat_sprite and _cat_sprite.visible and not _is_being_petted:
 			_do_pet()
 
 
