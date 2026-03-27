@@ -281,6 +281,15 @@ func _on_thinking_finished():
 func interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
+			# Hotswap: player already has matching food → deliver immediately,
+			# hand back the order slip (mirrors equipment hotswap behaviour).
+			var food = find_food_in_inventory(player_inventory)
+			if food != null:
+				player_inventory.erase(food)
+				emit_signal("order_placed", order_item)
+				receive_food()
+				return true
+			# Normal path: take the order if there's inventory room.
 			if player_inventory.size() >= 2:
 				return false
 			modulate = Color(1, 1, 1)
@@ -393,7 +402,8 @@ func is_relevant() -> bool:
 func can_interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
-			return player_inventory.size() < 2
+			# Hotswap path (food in hand) works even on a full inventory
+			return find_food_in_inventory(player_inventory) != null or player_inventory.size() < 2
 		State.ORDER_TAKEN:
 			return find_food_in_inventory(player_inventory) != null
 	return false
