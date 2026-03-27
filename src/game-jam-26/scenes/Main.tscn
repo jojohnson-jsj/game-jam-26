@@ -50,11 +50,11 @@ script = ExtResource("2_ft6cd")
 
 [node name="LatteMachine1" parent="GameWorld" unique_id=1707120334 instance=ExtResource("3_r0du0")]
 z_index = 4
-position = Vector2(-50, -49)
+position = Vector2(-57, -49)
 
 [node name="LatteMachine2" parent="GameWorld" unique_id=534699615 instance=ExtResource("3_r0du0")]
 z_index = 4
-position = Vector2(-70, -49)
+position = Vector2(-71, -49)
 
 [node name="Oven1" parent="GameWorld" unique_id=2001000001 instance=ExtResource("3_r0du0")]
 z_index = 4
