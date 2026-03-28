@@ -443,7 +443,7 @@ func unhighlight():
 func _create_emoji_indicator():
 	_emoji_indicator = Sprite2D.new()
 	_emoji_indicator.position = Vector2(0, -30)
-	_emoji_indicator.z_index = 7
+	_emoji_indicator.z_index = 8
 	_emoji_indicator.z_as_relative = false
 	_emoji_indicator.visible = false
 	add_child(_emoji_indicator)

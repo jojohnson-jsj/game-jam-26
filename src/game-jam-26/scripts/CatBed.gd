@@ -58,6 +58,7 @@ const CAT_SPRITES: Dictionary = {
 	"money_cat":           preload("res://assets/cats/ingame/cat_sprite_money.png"),
 	"host_cat":            preload("res://assets/cats/ingame/cat_sprite_host.png"),
 	"counter_cat":         preload("res://assets/cats/ingame/cat_sprite_countertop.png"),
+	"trash_cat":           preload("res://assets/cats/ingame/cat_sprite_cute.png"),
 	"patience_cat":        preload("res://assets/cats/ingame/cat_sprite_patience.png"),
 	"quality_control_cat": preload("res://assets/cats/ingame/cat_sprite_inspector.png"),
 	"cheetah_cat":         preload("res://assets/cats/ingame/cat_sprite_zoomies.png"),
@@ -78,6 +79,7 @@ const CAT_DEFINITIONS: Dictionary = {
 	"hopper_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"nihao_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"counter_cat":         {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.COUNTER},
+	"trash_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.TRASH},
 	"patience_cat":        {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"cooking_cat":         {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"quality_control_cat": {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
@@ -95,7 +97,7 @@ func _ready() -> void:
 	add_to_group("cat_beds")
 	_cat_sprite = Sprite2D.new()
 	_cat_sprite.position = Vector2(0, -7)
-	_cat_sprite.z_index = 3
+	_cat_sprite.z_index = 6
 	_cat_sprite.z_as_relative = false
 	_cat_sprite.visible = false
 	add_child(_cat_sprite)
@@ -127,6 +129,7 @@ func _ready() -> void:
 			"qr_cat":       should_assign = DebugConfig.qr_cat_enabled
 			"host_cat":     should_assign = DebugConfig.queue_cat_enabled
 			"counter_cat":  should_assign = DebugConfig.counter_cat_enabled
+			"trash_cat":    should_assign = DebugConfig.trash_cat_enabled
 		if should_assign:
 			load_cat_by_name(debug_cat_name)
 
@@ -323,6 +326,9 @@ func _activate_cat(cat: Cat):
 			GameManager.has_counter_cat = true
 			call_deferred("_set_counter_plates_visible", true)
 
+		Cat.AbilityType.TRASH:
+			GameManager.has_trash_cat = true
+
 
 func _deactivate_cat(cat: Cat):
 	match cat.ability_type:
@@ -347,6 +353,9 @@ func _deactivate_cat(cat: Cat):
 		Cat.AbilityType.COUNTER:
 			GameManager.has_counter_cat = false
 			_set_counter_plates_visible(false)
+
+		Cat.AbilityType.TRASH:
+			GameManager.has_trash_cat = false
 
 func _set_counter_plates_visible(visible: bool) -> void:
 	for plate in get_tree().get_nodes_in_group("countertop_plates"):
