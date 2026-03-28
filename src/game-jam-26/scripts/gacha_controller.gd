@@ -32,11 +32,11 @@ var gachaSplash
 @onready var prewish_grass = $Control/Grass
 @onready var prewish_grass_lit = $Control/GrassLit
 @onready var gacha_box = $Control/GachaBox
-signal donePull
+
+const Gacha = preload("res://scripts/gacha_logic.gd")
 
 func _input(event):
 	if event.is_action_pressed("click"):
-		print("hello")
 		if not finished:
 			pass
 			#skip_animation()
@@ -48,18 +48,27 @@ func _input(event):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not started:
-		spawn_sprite()
-		play_gacha_pull()
+		if spawn_sprite():
+			play_gacha_pull()
+		else:
+			finished = true
 		started = true
 
-func spawn_sprite():
+func spawn_sprite() -> bool:
 	gachaSplash = TextureRect.new()
+	var target_instance = Gacha.new()
+	var result = target_instance.pull_cat()
+	if result == "":
+		$Control/Broke.visible = true
+		return false
+	cat_id = result
 	gachaSplash.texture = load(catsArt[cat_id].splash)
 	#gachaSplash.stretch_mode = TextureRect.STRETCH_SCALE
 	gachaSplash.expand_mode = TextureRect.EXPAND_FIT_WIDTH  # fits width, adjusts height to maintain aspect
 	gachaSplash.set_anchors_preset(Control.PRESET_FULL_RECT)
 	gachaSplash.visible = false
 	$Control.add_child(gachaSplash)
+	return true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -69,7 +78,6 @@ func wait(time: float) -> void:
 	await get_tree().create_timer(time).timeout
 
 func play_gacha_pull() -> void:
-	print(process_mode)
 	await play_pre_wish()
 	await reveal_result()
 	#multipull only
