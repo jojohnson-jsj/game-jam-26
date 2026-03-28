@@ -17,20 +17,25 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DebugConfig="*res://scripts/DebugConfig.gd"
 GameManager="*res://scripts/GameManager.gd"
 GlobalInventory="*res://scripts/GlobalInventory.gd"
 Wallet="*res://scripts/Wallet.gd"
+DebugConfig="*res://scripts/DebugConfig.gd"
 SaveManager="*res://scripts/SaveManager.gd"
 
 [display]
 
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [dotnet]
 
 project/assembly_name="game-jam-26"
+
+[gui]
+
+timers/tooltip_delay_sec=0.0
 
 [input]
 
