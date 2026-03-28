@@ -98,7 +98,7 @@ func _ready() -> void:
 
 	# ── Time bar: centered top, sun → bar → moon ─────────────────────────────
 	var time_margin := MarginContainer.new()
-	time_margin.add_theme_constant_override("margin_top", 26)
+	time_margin.add_theme_constant_override("margin_top", 12)
 	time_margin.anchor_left = 0.5
 	time_margin.anchor_right = 0.5
 	time_margin.anchor_top = 0.0
@@ -116,29 +116,35 @@ func _ready() -> void:
 	time_hbox.add_theme_constant_override("separation", 6)
 	time_inner.add_child(time_hbox)
 
-	# Sun placeholder
-	var sun := ColorRect.new()
-	sun.color = Color(1.0, 0.85, 0.1)
-	sun.custom_minimum_size = Vector2(12, 12)
+	# Sun
+	var sun := TextureRect.new()
+	sun.texture = load("res://assets/Misc/sun.png")
+	sun.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	sun.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sun.custom_minimum_size = Vector2(32, 32)
 	time_hbox.add_child(sun)
 
 	# Bar background
 	var bar_bg := ColorRect.new()
 	bar_bg.color = Color(0.45, 0.28, 0.12, 0.3)
-	bar_bg.custom_minimum_size = Vector2(400, 12)
+	bar_bg.custom_minimum_size = Vector2(400, 32)
 	time_hbox.add_child(bar_bg)
 
 	# Bar fill (child of bar_bg so it's clipped naturally)
 	_time_bar_fill = ColorRect.new()
 	_time_bar_fill.color = Color(0.95, 0.75, 0.2)
-	_time_bar_fill.size = Vector2(0, 12)
+	_time_bar_fill.anchor_top = 0.0
+	_time_bar_fill.anchor_bottom = 1.0
+	_time_bar_fill.size = Vector2(0, 0)
 	bar_bg.add_child(_time_bar_fill)
 	_time_bar_width = 400.0
 
-	# Moon placeholder
-	var moon := ColorRect.new()
-	moon.color = Color(0.95, 0.95, 1.0)
-	moon.custom_minimum_size = Vector2(12, 12)
+	# Moon
+	var moon := TextureRect.new()
+	moon.texture = load("res://assets/Misc/moon.png")
+	moon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	moon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	moon.custom_minimum_size = Vector2(32, 32)
 	time_hbox.add_child(moon)
 
 
