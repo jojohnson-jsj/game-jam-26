@@ -140,7 +140,8 @@ func _ready():
 	_apply_random_variant()
 	_create_emoji_indicator()
 	_create_eating_sprite()
-	_create_patience_bar()
+	if DebugConfig.patience_bar_enabled:
+		_create_patience_bar()
 
 
 func _process(delta):
@@ -157,7 +158,8 @@ func _process(delta):
 
 	if current_state != State.WALKING_TO_SEAT:
 		_update_emoji()
-		_update_patience_bar()
+		if DebugConfig.patience_bar_enabled:
+			_update_patience_bar()
 		return
 
 	if _walking_to_slot:
@@ -221,6 +223,7 @@ func _show_order_indicator():
 	var tex = GameManager.get_order_sprite(order_item)
 	if tex:
 		$OrderIndicator.texture = tex
+	$OrderIndicator.position.y = -28 if DebugConfig.patience_bar_enabled else -23
 	$OrderIndicator.visible = true
 
 
@@ -228,7 +231,7 @@ func _show_food_indicator():
 	var tex = GameManager.get_food_sprite(order_item)
 	if tex:
 		$OrderIndicator.texture = tex
-	$OrderIndicator.position = Vector2(0, -23)
+	$OrderIndicator.position = Vector2(0, -23 if DebugConfig.patience_bar_enabled else -18)
 	$OrderIndicator.visible = true
 
 
