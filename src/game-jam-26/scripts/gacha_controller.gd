@@ -10,7 +10,7 @@ var catsArt: Dictionary = {
 	'nihao_cat': {'splash': 'res://assets/cats/splashes/cat_splash_celebrity.png', 'stars': 5},
 	'counter_cat': {'splash': 'res://assets/cats/splashes/cat_splash_countertop.png', 'stars': 5},
 	'patience_cat': {'splash': 'res://assets/cats/splashes/cat_splash_patience.png', 'stars': 4},
-	'cooking_cat': {'splash': 'res://assets/cats/splashes/cat_splash_qr.png', 'stars': 4},
+	'cooking_cat': {'splash': 'res://assets/cats/splashes/cat_splash_chef.png', 'stars': 4},
 	'quality_control_cat': {'splash': 'res://assets/cats/splashes/cat_splash_inspector.png', 'stars': 4},
 	'cheetah_cat': {'splash': 'res://assets/cats/splashes/cat_splash_zoomies.png', 'stars': 4},
 	'pretty_cat': {'splash': 'res://assets/cats/splashes/cat_splash_pretty.png', 'stars': 4},
