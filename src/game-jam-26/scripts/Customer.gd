@@ -261,7 +261,8 @@ func _set_nav_target(pos: Vector2):
 func _on_arrived_at_seat():
 	_show_idle()
 	$SpriteIdle.flip_h = global_position.x < table_center.x
-	# Raise above the tabletop tilemap so seated customers render on top
+	# z=3: always above TileMap_PlantChairDecor (chairs, z=2),
+	# always below TileMap_Furniture (table tops, z=4) — no y_sort dependency.
 	z_index = 3
 	current_state = State.THINKING
 	$ThinkingLabel.visible = true

@@ -49,22 +49,22 @@ script = ExtResource("2_ft6cd")
 [node name="Player" parent="GameWorld" unique_id=727168745 groups=["player"] instance=ExtResource("1_glv2v")]
 
 [node name="LatteMachine1" parent="GameWorld" unique_id=1707120334 instance=ExtResource("3_r0du0")]
-z_index = 4
+z_index = 5
 position = Vector2(-56, -49)
 
 [node name="LatteMachine2" parent="GameWorld" unique_id=534699615 instance=ExtResource("3_r0du0")]
-z_index = 4
+z_index = 5
 position = Vector2(-72, -49)
 
 [node name="Oven1" parent="GameWorld" unique_id=2001000001 instance=ExtResource("3_r0du0")]
-z_index = 4
+z_index = 5
 position = Vector2(57, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
 
 [node name="Oven2" parent="GameWorld" unique_id=2001000002 instance=ExtResource("3_r0du0")]
-z_index = 4
+z_index = 5
 position = Vector2(72, -37)
 item_type = "pie"
 cook_time = 20.0

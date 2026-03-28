@@ -48,17 +48,22 @@ func _ready() -> void:
 	sep.add_theme_color_override("font_color", Color(0.45, 0.28, 0.12, 0.5))
 	hbox.add_child(sep)
 
+	var coin_hbox := HBoxContainer.new()
+	coin_hbox.add_theme_constant_override("separation", 1)
+	hbox.add_child(coin_hbox)
+
 	var coin_icon := TextureRect.new()
 	coin_icon.texture = load("res://assets/Misc/coin.png")
 	coin_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	coin_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	coin_icon.custom_minimum_size = Vector2(24, 24)
-	hbox.add_child(coin_icon)
+	coin_icon.custom_minimum_size = Vector2(26, 32)
+	coin_hbox.add_child(coin_icon)
 
 	_money_label = Label.new()
 	_money_label.text = "$%.0f" % Wallet.money_owned
 	_money_label.add_theme_color_override("font_color", Color(0.28, 0.15, 0.05, 1.0))
-	hbox.add_child(_money_label)
+	_money_label.custom_minimum_size = Vector2(40, 0)  # room for "$9999"
+	coin_hbox.add_child(_money_label)
 
 	# ── Dash indicator panel ─────────────────────────────────────────────────
 	_dash_panel_container = _make_panel()
