@@ -32,6 +32,7 @@ var queue_origin: Vector2 = Vector2.ZERO
 var door_point: Vector2 = Vector2.ZERO
 
 var has_queue_cat: bool  # initialized in _ready() from DebugConfig
+var has_counter_cat: bool = false
 
 const ITEM_PRICES = {
 	"latte": 3.0,

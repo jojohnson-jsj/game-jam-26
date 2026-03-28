@@ -77,7 +77,7 @@ const CAT_DEFINITIONS: Dictionary = {
 	"host_cat":            {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.QUEUE},
 	"hopper_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"nihao_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
-	"counter_cat":         {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
+	"counter_cat":         {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.COUNTER},
 	"patience_cat":        {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"cooking_cat":         {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"quality_control_cat": {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
@@ -123,9 +123,10 @@ func _ready() -> void:
 	if debug_cat_name != "" and assigned_cat == null:
 		var should_assign = false
 		match debug_cat_name:
-			"hermes_cat": should_assign = DebugConfig.hermes_cat_enabled
-			"qr_cat":     should_assign = DebugConfig.qr_cat_enabled
-			"host_cat":   should_assign = DebugConfig.queue_cat_enabled
+			"hermes_cat":   should_assign = DebugConfig.hermes_cat_enabled
+			"qr_cat":       should_assign = DebugConfig.qr_cat_enabled
+			"host_cat":     should_assign = DebugConfig.queue_cat_enabled
+			"counter_cat":  should_assign = DebugConfig.counter_cat_enabled
 		if should_assign:
 			load_cat_by_name(debug_cat_name)
 
@@ -318,6 +319,10 @@ func _activate_cat(cat: Cat):
 		Cat.AbilityType.QUEUE:
 			GameManager.has_queue_cat = true
 
+		Cat.AbilityType.COUNTER:
+			GameManager.has_counter_cat = true
+			call_deferred("_set_counter_plates_visible", true)
+
 
 func _deactivate_cat(cat: Cat):
 	match cat.ability_type:
@@ -338,3 +343,11 @@ func _deactivate_cat(cat: Cat):
 
 		Cat.AbilityType.QUEUE:
 			GameManager.has_queue_cat = false
+
+		Cat.AbilityType.COUNTER:
+			GameManager.has_counter_cat = false
+			_set_counter_plates_visible(false)
+
+func _set_counter_plates_visible(visible: bool) -> void:
+	for plate in get_tree().get_nodes_in_group("countertop_plates"):
+		plate.set_active(visible)

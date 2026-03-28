@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/CountertopPlate.gd" id="1_ctp"]
+[ext_resource type="Texture2D" path="res://assets/Misc/countertop_tray.png" id="2_ctp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctp"]
+size = Vector2(28, 22)
+
+[node name="CountertopPlate" type="Area2D"]
+script = ExtResource("1_ctp")
+
+[node name="TraySprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_ctp")
+texture_filter = 1
+
+[node name="FoodSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+visible = false
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ctp")

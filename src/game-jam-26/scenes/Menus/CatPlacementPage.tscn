@@ -8883,7 +8883,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Counter Cat ★★★★★
-Allows you to put items down on the counter, she will guard them any other critters"
+Unlocks the countertop plates — drop off a finished dish and come back for it later!"
 texture_normal = ExtResource("18_doeae")
 stretch_mode = 5
 

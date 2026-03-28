@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bt2034l3gwkvw" path="res://scenes/Menus/Puase menu.tscn" id="16_cvmbd"]
 [ext_resource type="PackedScene" path="res://scenes/Menus/CatPlacementPage.tscn" id="18_bb450"]
 [ext_resource type="PackedScene" path="res://scenes/Menus/store.tscn" id="18_nfivy"]
+[ext_resource type="PackedScene" path="res://scenes/CountertopPlate.tscn" id="19_ctp"]
 
 [node name="Main" type="Node2D" unique_id=1255642466]
 process_mode = 3
@@ -127,7 +128,26 @@ debug_cat_name = "host_cat"
 [node name="NonTableCatBed3" parent="GameWorld" unique_id=2001000004 instance=ExtResource("9_lhr70")]
 position = Vector2(136, -82)
 bed_id = "non_table_bed_3"
-debug_cat_name = "qr_cat"
+debug_cat_name = "counter_cat"
+
+[node name="CounterCatBedLeft" parent="GameWorld" unique_id=2001000005 instance=ExtResource("9_lhr70")]
+position = Vector2(-190, -55)
+bed_id = "counter_cat_bed_left"
+debug_cat_name = "counter_cat"
+
+[node name="CounterCatBedRight" parent="GameWorld" unique_id=2001000006 instance=ExtResource("9_lhr70")]
+position = Vector2(190, -55)
+bed_id = "counter_cat_bed_right"
+
+[node name="CountertopPlateLeft" parent="GameWorld" unique_id=2001000007 instance=ExtResource("19_ctp")]
+z_index = 6
+z_as_relative = false
+position = Vector2(-112, -46)
+
+[node name="CountertopPlateRight" parent="GameWorld" unique_id=2001000008 instance=ExtResource("19_ctp")]
+z_index = 6
+z_as_relative = false
+position = Vector2(112, -46)
 
 [node name="TableCatBed" parent="GameWorld" unique_id=901635110 instance=ExtResource("10_wp0k4")]
 position = Vector2(-105, 50)
