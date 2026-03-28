@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cyaxv3swo47ee"]
 
 [ext_resource type="Script" uid="uid://7skw74y3iydo" path="res://scenes/Menus/store.gd" id="1_h83mj"]
+[ext_resource type="Texture2D" uid="uid://dsw4o6iamwyat" path="res://assets/food/machines/oven.png" id="2_pimdn"]
 
 [node name="Store" type="Control" unique_id=1564420384]
 layout_mode = 3
@@ -19,35 +20,124 @@ anchor_bottom = 0.98800004
 offset_right = -8.064087
 offset_bottom = -0.22399902
 
-[node name="TabContainer" type="TabContainer" parent="." unique_id=1452188463]
+[node name="Websites" type="TabContainer" parent="." unique_id=1452188463]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.201
-anchor_top = 0.17500001
-anchor_right = 0.799
-anchor_bottom = 0.81200004
-offset_left = 0.44799805
-offset_top = -9.400009
-offset_right = -0.44799805
-offset_bottom = -1.0800781
-current_tab = 1
+anchor_left = 0.083000004
+anchor_top = 0.074
+anchor_right = 0.80600005
+anchor_bottom = 0.84000003
+offset_left = 0.38399506
+offset_top = 0.048000336
+offset_right = 7.487915
+offset_bottom = 7.6799927
+current_tab = 0
 tab_0/title = "Hardware.com"
 tab_1/title = "AdoptCat.com"
 
-[node name="Hardware,com" type="ColorRect" parent="TabContainer" unique_id=834827206]
-visible = false
+[node name="Hardware,com" type="ColorRect" parent="Websites" unique_id=834827206]
 layout_mode = 2
 color = Color(0.40392157, 1, 1, 1)
 metadata/_tab_index = 0
 metadata/_tab_name = "Hardware.com"
 
-[node name="AdoptCat,com" type="ColorRect" parent="TabContainer" unique_id=757846545]
+[node name="ScrollContainer" type="ScrollContainer" parent="Websites/Hardware,com" unique_id=1964229682]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.98700005
+offset_bottom = -0.024719238
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Websites/Hardware,com/ScrollContainer" unique_id=1299182198]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+alignment = 1
+
+[node name="Oven Unlocks" type="HBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer" unique_id=1041739830]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=1226151076]
+layout_mode = 2
+texture = ExtResource("2_pimdn")
+expand_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=642451203]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=1795578193]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 5.55
+text = "BUY"
+
+[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=191433813]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 12.67
+
+[node name="Latte Unlocks" type="HBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer" unique_id=807427160]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=1164514813]
+layout_mode = 2
+texture = ExtResource("2_pimdn")
+expand_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=733256544]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=620963001]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 5.55
+text = "BUY"
+
+[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=1186246386]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 12.67
+
+[node name="Catbed Unlock" type="HBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer" unique_id=729302901]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=85739564]
+layout_mode = 2
+texture = ExtResource("2_pimdn")
+expand_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=2354922]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=1573526568]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 5.55
+text = "BUY"
+
+[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=235634453]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 12.67
+
+[node name="AdoptCat,com" type="ColorRect" parent="Websites" unique_id=757846545]
+visible = false
 layout_mode = 2
 color = Color(1, 0.39215687, 1, 1)
 metadata/_tab_index = 1
 metadata/_tab_name = "AdoptCat.com"
 
-[node name="AdpotOne" type="Button" parent="TabContainer/AdoptCat,com" unique_id=1537507503]
+[node name="AdpotOne" type="Button" parent="Websites/AdoptCat,com" unique_id=1537507503]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.23300001
@@ -73,5 +163,6 @@ offset_right = 0.1920166
 offset_bottom = -0.24804688
 text = "LEAVE"
 
-[connection signal="pressed" from="TabContainer/AdoptCat,com/AdpotOne" to="." method="_on_adpot_one_pressed"]
+[connection signal="pressed" from="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/Button" to="." method="_on_oven_buy_button_pressed"]
+[connection signal="pressed" from="Websites/AdoptCat,com/AdpotOne" to="." method="_on_adpot_one_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
