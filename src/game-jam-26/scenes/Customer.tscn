@@ -81,7 +81,7 @@ animations = [{
 }]
 
 [node name="Customer" type="Area2D" unique_id=1785886218]
-z_index = 4
+z_index = 6
 z_as_relative = false
 script = ExtResource("1_4y7ah")
 
@@ -121,4 +121,6 @@ text = "..."
 
 [node name="OrderIndicator" type="Sprite2D" parent="." unique_id=322938626]
 visible = false
-position = Vector2(0, -16)
+position = Vector2(0, -28)
+z_index = 7
+z_as_relative = false
