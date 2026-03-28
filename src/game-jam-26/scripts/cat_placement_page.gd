@@ -23,10 +23,16 @@ func _ready():
 	_place_btn.pressed.connect(_on_place_pressed)
 	$VBox.add_child(_place_btn)
 	$VBox.move_child(_place_btn, selected_label.get_index() + 1)
+	# connect cat buttons once here only
+	for cat_id in CAT_IDS:
+		var node = find_child(cat_id, true, false)
+		if node:
+			node.pressed.connect(_on_cat_selected.bind(cat_id))
 	_update_cat_buttons()
 
 func open():
 	$"../".visible = true
+	$"../".process_mode = Node.PROCESS_MODE_ALWAYS
 	_update_cat_buttons()
 
 func _update_cat_buttons():
@@ -37,8 +43,6 @@ func _update_cat_buttons():
 		var owned = GlobalInventory.owns_cat(cat_id)
 		node.disabled = not owned
 		node.modulate = Color(1, 1, 1) if owned else Color(0.3, 0.3, 0.3)
-		if not node.pressed.is_connected(_on_cat_selected.bind(cat_id)):
-			node.pressed.connect(_on_cat_selected.bind(cat_id))
 
 func _on_cat_selected(cat_id: String):
 	selected_cat_id = cat_id

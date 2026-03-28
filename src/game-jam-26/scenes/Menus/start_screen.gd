@@ -30,8 +30,8 @@ func _on_quit_button_pressed() -> void:
 
 
 func _on_inventory_button_pressed() -> void:
-	$"../../CatPlacementPage".visible = true
-	$"../../NightScreen".process_mode = Node.PROCESS_MODE_ALWAYS
+	var page = $"../../CatPlacementPage/CatPlacementPage"
+	page.open()
 	$"../".visible = false
 	$"../".process_mode = Node.PROCESS_MODE_DISABLED
 
