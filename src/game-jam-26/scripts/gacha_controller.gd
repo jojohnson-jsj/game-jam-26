@@ -26,7 +26,7 @@ const CAT_DESCRIPTIONS = {
 	'hermes_cat':          ["Hermes Cat ★★★★★", "Grants you a dash ability"],
 	'money_cat':           ["Money Cat ★★★★★", "Collects money from tables for you"],
 	'host_cat':            ["Host Cat ★★★★★", "Click waiting groups so that the host can seat them instantly"],
-	'hopper_cat':          ["Queue Cat ★★★★★", "Holds your orders and allows you to use one extra slot"],
+	'hopper_cat':          ["Hopper Cat ★★★★★", "Holds your orders and allows you to use one extra slot"],
 	'nihao_cat':           ["Nihao Cat ★★★★★", "She makes the day last longer through her love and whimsy"],
 	'counter_cat':         ["Counter Cat ★★★★★", "Unlocks the countertop plates — drop off a finished dish and come back for it later!"],
 	'patience_cat':        ["Patience Cat ★★★★", "Customers absorb her serenity, and find they have more patience than before"],
