@@ -49,6 +49,7 @@ const EMOJI_ANGRY   = preload("res://assets/characters/emojis/emoji_angry.png")
 
 var _emoji_indicator: Sprite2D = null
 var _showing_heart: bool = false
+var _eating_sprite: Sprite2D = null
 
 # ── Character variants ────────────────────────────────────────────────────────
 # Individual const preloads — this pattern is always safe in GDScript 4.
@@ -133,6 +134,7 @@ func _ready():
 	_build_character_variants()
 	_apply_random_variant()
 	_create_emoji_indicator()
+	_create_eating_sprite()
 
 
 func _process(delta):
@@ -244,6 +246,7 @@ func walk_out(door_pos: Vector2):
 	$ThinkingTimer.stop()
 	$ThinkingLabel.visible = false
 	_hide_order_indicator()
+	z_index = 4  # restore default before walking out
 	# Don't hide the emoji here — an angry face should persist while the customer
 	# walks out. queue_free() will clean it up when they leave the building.
 	current_state = State.WALKING_OUT
@@ -258,6 +261,9 @@ func _set_nav_target(pos: Vector2):
 func _on_arrived_at_seat():
 	_show_idle()
 	$SpriteIdle.flip_h = global_position.x < table_center.x
+	# z=3: always above TileMap_PlantChairDecor (chairs, z=2),
+	# always below TileMap_Furniture (table tops, z=4) — no y_sort dependency.
+	z_index = 3
 	current_state = State.THINKING
 	$ThinkingLabel.visible = true
 	$ThinkingTimer.wait_time = randf_range(thinking_time_min, thinking_time_max)
@@ -281,6 +287,15 @@ func _on_thinking_finished():
 func interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
+			# Hotswap: player already has matching food → deliver immediately,
+			# hand back the order slip (mirrors equipment hotswap behaviour).
+			var food = find_food_in_inventory(player_inventory)
+			if food != null:
+				player_inventory.erase(food)
+				emit_signal("order_placed", order_item)
+				receive_food()
+				return true
+			# Normal path: take the order if there's inventory room.
 			if player_inventory.size() >= 2:
 				return false
 			modulate = Color(1, 1, 1)
@@ -312,6 +327,7 @@ func receive_food():
 	$PatienceTimer.stop()
 	$EatingTimer.start()
 	_update_proximity_highlight()
+	_show_eating_sprite()
 
 	# Brief reaction emoji based on how fast the customer was served.
 	if tip_delta <= fast_service_threshold:
@@ -340,6 +356,8 @@ func _on_patience_expired():
 func _on_finished_eating():
 	current_state = State.DONE
 	$EatingTimer.stop()
+	if _eating_sprite:
+		_eating_sprite.visible = false
 	emit_signal("customer_done")
 
 
@@ -393,7 +411,8 @@ func is_relevant() -> bool:
 func can_interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
-			return player_inventory.size() < 2
+			# Hotswap path (food in hand) works even on a full inventory
+			return find_food_in_inventory(player_inventory) != null or player_inventory.size() < 2
 		State.ORDER_TAKEN:
 			return find_food_in_inventory(player_inventory) != null
 	return false
@@ -424,8 +443,38 @@ func unhighlight():
 func _create_emoji_indicator():
 	_emoji_indicator = Sprite2D.new()
 	_emoji_indicator.position = Vector2(0, -30)
+	_emoji_indicator.z_index = 8
+	_emoji_indicator.z_as_relative = false
 	_emoji_indicator.visible = false
 	add_child(_emoji_indicator)
+
+func _create_eating_sprite():
+	_eating_sprite = Sprite2D.new()
+	_eating_sprite.position = Vector2(0, -14)
+	_eating_sprite.z_index = 4
+	_eating_sprite.visible = false
+	add_child(_eating_sprite)
+
+const FOOD_SPRITES = {
+	"latte": preload("res://assets/food/food/food_sprite_latte.png"),
+	"pie":   preload("res://assets/food/food/food_sprite_pie.png"),
+}
+
+func _show_eating_sprite():
+	if _eating_sprite == null:
+		return
+	var tex = FOOD_SPRITES.get(order_item)
+	if tex == null:
+		return
+	_eating_sprite.texture = tex
+	_eating_sprite.scale = Vector2.ONE
+	# position toward the table center from the customer
+	var dir = (table_center - global_position).normalized()
+	_eating_sprite.position = dir * 18.0
+	_eating_sprite.visible = true
+	var t = create_tween().set_loops()
+	t.tween_property(_eating_sprite, "scale", Vector2(1.15, 0.85), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	t.tween_property(_eating_sprite, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 ## Update the emoji based on how much patience the customer has left.

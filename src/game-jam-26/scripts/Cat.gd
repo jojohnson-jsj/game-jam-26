@@ -2,7 +2,7 @@ class_name Cat
 extends Resource
 
 enum CatType { TABLE, NON_TABLE }
-enum AbilityType { NONE, HERMES, MONEY, QR, QUEUE }
+enum AbilityType { NONE, HERMES, MONEY, QR, QUEUE, COUNTER, TRASH }
 
 @export var cat_name: String = ""
 @export var cat_type: CatType = CatType.NON_TABLE
