@@ -11,12 +11,12 @@ var current_state = State.AVAILABLE
 var seated_customers: Array = []
 var done_customers: int = 0
 var has_money_cat: bool  # initialized in _ready() from DebugConfig
+var money_cat_bed_position: Vector2 = Vector2.ZERO
 
 
 func _ready():
-	# has_money_cat is set per-table by CatBed when a money_cat is assigned.
-	# Defaulting to false here ensures only the table with the assigned bed
-	# auto-collects; all other tables still require player interaction.
+	# has_money_cat is set on ALL tables by CatBed when a money_cat is assigned.
+	# Coins from any table auto-collect when the money cat is active.
 	has_money_cat = false
 	GameManager.register_table(self)
 
@@ -75,16 +75,30 @@ func spawn_money(payout: float):
 	get_parent().add_child(money)
 	money.global_position = global_position + Vector2(0, -7)
 
-	# Money Cat — collect automatically instead of waiting for player
+	# Money Cat — animate coin flying to bed, then collect
 	if has_money_cat:
-		call_deferred("_auto_collect", money)
+		# Disable player interaction during animation
+		money.set_process_input(false)
+		money.monitoring = false
+		money.monitorable = false
+		_fly_coin_to_bed(money)
 
 
-func _auto_collect(money_node):
-	print("Auto collect called, valid: ", is_instance_valid(money_node))
-	if money_node and is_instance_valid(money_node):
-		print("Calling collect")
-		money_node.collect()
+func _fly_coin_to_bed(money_node: Node2D) -> void:
+	var target = money_cat_bed_position if money_cat_bed_position != Vector2.ZERO else global_position
+	var tween = create_tween()
+	# Sit on table for 1 second
+	tween.tween_interval(1.0)
+	# Fly to bed over 0.5s, scaling down to zero
+	tween.tween_property(money_node, "global_position", target, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(money_node, "scale", Vector2.ZERO, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_callback(func():
+		if is_instance_valid(money_node):
+			Wallet.add_money(money_node.amount)
+			money_node.source_table = null  # prevent double payment_collected
+			money_node.queue_free()
+		payment_collected()
+	)
 
 
 func payment_collected():

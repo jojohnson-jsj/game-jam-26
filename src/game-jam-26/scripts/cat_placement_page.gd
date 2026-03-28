@@ -58,13 +58,11 @@ func _on_place_pressed():
 	print("def: ", def)
 	if def.is_empty():
 		return
-	var required_type = CatBed.BedType.TABLE if def["cat_type"] == Cat.CatType.TABLE else CatBed.BedType.NON_TABLE
-	print("required_type: ", required_type)
 
 	_exit_placement_mode()
 	var all_beds = get_tree().get_nodes_in_group("cat_beds")
 	for bed in all_beds:
-		if not bed.unlocked or bed.bed_type != required_type:
+		if not bed.unlocked:
 			bed.modulate = Color(0.3, 0.3, 0.3)
 			_active_beds.append(bed)  # track for cleanup
 			continue

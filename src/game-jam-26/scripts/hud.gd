@@ -9,6 +9,9 @@ var _dash_was_ready: bool = true
 var _dash_ratio: float = 1.0       # 0..1 fill level, written by _process
 var _dash_icon_tex: Texture2D = null
 
+var _time_bar_fill: ColorRect = null
+var _time_bar_width: float = 0.0
+
 const DASH_ICON_SIZE = 42  # display size in pixels
 
 
@@ -93,8 +96,58 @@ func _ready() -> void:
 	GameManager.night_started.connect(_on_night_started)
 	Wallet.money_changed.connect(_on_money_changed)
 
+	# ── Time bar: centered top, sun → bar → moon ─────────────────────────────
+	var time_margin := MarginContainer.new()
+	time_margin.add_theme_constant_override("margin_top", 26)
+	time_margin.anchor_left = 0.5
+	time_margin.anchor_right = 0.5
+	time_margin.anchor_top = 0.0
+	time_margin.anchor_bottom = 0.0
+	time_margin.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	add_child(time_margin)
+
+	var time_panel := _make_panel()
+	time_margin.add_child(time_panel)
+
+	var time_inner := _make_inner(5, 5, 10, 10)
+	time_panel.add_child(time_inner)
+
+	var time_hbox := HBoxContainer.new()
+	time_hbox.add_theme_constant_override("separation", 6)
+	time_inner.add_child(time_hbox)
+
+	# Sun placeholder
+	var sun := ColorRect.new()
+	sun.color = Color(1.0, 0.85, 0.1)
+	sun.custom_minimum_size = Vector2(12, 12)
+	time_hbox.add_child(sun)
+
+	# Bar background
+	var bar_bg := ColorRect.new()
+	bar_bg.color = Color(0.45, 0.28, 0.12, 0.3)
+	bar_bg.custom_minimum_size = Vector2(400, 12)
+	time_hbox.add_child(bar_bg)
+
+	# Bar fill (child of bar_bg so it's clipped naturally)
+	_time_bar_fill = ColorRect.new()
+	_time_bar_fill.color = Color(0.95, 0.75, 0.2)
+	_time_bar_fill.size = Vector2(0, 12)
+	bar_bg.add_child(_time_bar_fill)
+	_time_bar_width = 400.0
+
+	# Moon placeholder
+	var moon := ColorRect.new()
+	moon.color = Color(0.95, 0.95, 1.0)
+	moon.custom_minimum_size = Vector2(12, 12)
+	time_hbox.add_child(moon)
+
 
 func _process(_delta: float) -> void:
+	# Time bar
+	if _time_bar_fill != null and GameManager.day_active:
+		var ratio = 1.0 - (GameManager.day_timer.time_left / GameManager.day_duration)
+		_time_bar_fill.size.x = _time_bar_width * ratio
+
 	if _dash_widget == null or not visible:
 		return
 	var player = get_tree().get_first_node_in_group("player")

@@ -9,9 +9,6 @@ enum BedType { TABLE, NON_TABLE }
 # Set this in the editor — e.g. "bed_hermes", "bed_money_table1".
 @export var bed_id: String = ""
 
-# For TABLE beds only — assign the Table node this bed sits on in the editor
-@export var assigned_table: NodePath
-
 # Set this to a cat name (e.g. "hermes_cat") to auto-assign that cat when its
 # debug flag is enabled. Only applies if nothing was already loaded from a save.
 @export var debug_cat_name: String = ""
@@ -74,7 +71,7 @@ const CAT_SPRITES: Dictionary = {
 const CAT_DEFINITIONS: Dictionary = {
 	"qr_cat":              {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.QR},
 	"hermes_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.HERMES},
-	"money_cat":           {"cat_type": Cat.CatType.TABLE,     "ability_type": Cat.AbilityType.MONEY},
+	"money_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.MONEY},
 	"host_cat":            {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.QUEUE},
 	"hopper_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"nihao_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
@@ -97,7 +94,7 @@ func _ready() -> void:
 	add_to_group("cat_beds")
 	_cat_sprite = Sprite2D.new()
 	_cat_sprite.position = Vector2(0, -7)
-	_cat_sprite.z_index = 6
+	_cat_sprite.z_index = 5
 	_cat_sprite.z_as_relative = false
 	_cat_sprite.visible = false
 	add_child(_cat_sprite)
@@ -117,14 +114,11 @@ func _ready() -> void:
 	add_child(_interaction_area)
 
 	SaveManager.register_bed(self)
-	# Debug: auto-assign money_cat to TABLE beds when the flag is on.
-	if bed_type == BedType.TABLE and DebugConfig.money_cat_enabled and assigned_cat == null:
-		load_cat_by_name("money_cat")
-
-	# Debug: auto-assign non-table cats based on debug_cat_name + DebugConfig flags.
+	# Debug: auto-assign cats based on debug_cat_name + DebugConfig flags.
 	if debug_cat_name != "" and assigned_cat == null:
 		var should_assign = false
 		match debug_cat_name:
+			"money_cat":    should_assign = DebugConfig.money_cat_enabled
 			"hermes_cat":   should_assign = DebugConfig.hermes_cat_enabled
 			"qr_cat":       should_assign = DebugConfig.qr_cat_enabled
 			"host_cat":     should_assign = DebugConfig.queue_cat_enabled
@@ -154,9 +148,6 @@ func load_cat_by_name(cat_name: String) -> void:
 
 func assign_cat(cat: Cat) -> bool:
 	if not unlocked:
-		return false
-	var required_bed = BedType.TABLE if cat.cat_type == Cat.CatType.TABLE else BedType.NON_TABLE
-	if required_bed != bed_type:
 		return false
 	if assigned_cat != null:
 		_deactivate_cat(assigned_cat)
@@ -296,12 +287,6 @@ func _get_player():
 	return get_tree().get_first_node_in_group("player")
 
 
-func _get_table():
-	if assigned_table.is_empty():
-		return null
-	return get_node(assigned_table)
-
-
 func _activate_cat(cat: Cat):
 	match cat.ability_type:
 		Cat.AbilityType.HERMES:
@@ -310,9 +295,11 @@ func _activate_cat(cat: Cat):
 				player.has_dash_cat = true
 
 		Cat.AbilityType.MONEY:
-			var table = _get_table()
-			if table:
+			# Enable money cat on ALL tables
+			for table in GameManager.tables:
 				table.has_money_cat = true
+			# Defer so global_position is valid after the node is in the scene tree
+			call_deferred("_set_all_tables_money_cat_position")
 
 		Cat.AbilityType.QR:
 			var player = _get_player()
@@ -338,9 +325,10 @@ func _deactivate_cat(cat: Cat):
 				player.has_dash_cat = false
 
 		Cat.AbilityType.MONEY:
-			var table = _get_table()
-			if table:
+			# Clear money cat from ALL tables
+			for table in GameManager.tables:
 				table.has_money_cat = false
+				table.money_cat_bed_position = Vector2.ZERO
 
 		Cat.AbilityType.QR:
 			var player = _get_player()
@@ -356,6 +344,10 @@ func _deactivate_cat(cat: Cat):
 
 		Cat.AbilityType.TRASH:
 			GameManager.has_trash_cat = false
+
+func _set_all_tables_money_cat_position() -> void:
+	for table in GameManager.tables:
+		table.money_cat_bed_position = global_position
 
 func _set_counter_plates_visible(visible: bool) -> void:
 	for plate in get_tree().get_nodes_in_group("countertop_plates"):
