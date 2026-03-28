@@ -38,7 +38,7 @@ var equipment_unlocked: Dictionary = {
 #gacha pity 
 var gacha_pity:int = 1 #pity currently: 10 -- reset on 5-star
 const PITY_THRESHOLD:int = 10
-const PULL_COST:int = 160 
+const PULL_COST:int = 40 
 
 #queries
 func owns_cat(catId: String) -> bool: 

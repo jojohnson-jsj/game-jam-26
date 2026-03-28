@@ -95,3 +95,25 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_j6sa8")
 expand_mode = 2
+
+[node name="Broke" type="ColorRect" parent="Control" unique_id=580038492]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.34300002
+anchor_top = 0.43400002
+anchor_right = 0.666
+anchor_bottom = 0.60300004
+offset_left = -0.13601685
+offset_top = 1.7680054
+offset_right = -0.23199463
+offset_bottom = 0.25598145
+color = Color(1, 0, 0, 1)
+
+[node name="TextEdit" type="Label" parent="Control/Broke" unique_id=643261362]
+layout_mode = 0
+offset_right = 374.0
+offset_bottom = 105.0
+text = "INSUFFICIENT FUNDS"
+horizontal_alignment = 1
+vertical_alignment = 1

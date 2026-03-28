@@ -18,3 +18,9 @@ func _on_exit_pressed() -> void:
 	$"../../StartMenu".process_mode = Node.PROCESS_MODE_ALWAYS
 	$"../".visible = false
 	$"../".process_mode = Node.PROCESS_MODE_DISABLED
+
+func _on_oven_buy_button_pressed() -> void:
+	GlobalInventory.unlock_equipment("oven")
+	var ovenBuyButton = $"Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/Button"
+	ovenBuyButton.disabled = true
+	ovenBuyButton.text = "SOLD"	
