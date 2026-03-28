@@ -51,6 +51,11 @@ var _emoji_indicator: Sprite2D = null
 var _showing_heart: bool = false
 var _eating_sprite: Sprite2D = null
 
+var _bar_bg: ColorRect = null
+var _bar_fill: ColorRect = null
+const BAR_WIDTH  = 14.0
+const BAR_HEIGHT = 3.0
+
 # ── Character variants ────────────────────────────────────────────────────────
 # Individual const preloads — this pattern is always safe in GDScript 4.
 # Putting preload() inside a const Array-of-Dicts can trip the parser, so we
@@ -135,6 +140,7 @@ func _ready():
 	_apply_random_variant()
 	_create_emoji_indicator()
 	_create_eating_sprite()
+	_create_patience_bar()
 
 
 func _process(delta):
@@ -151,6 +157,7 @@ func _process(delta):
 
 	if current_state != State.WALKING_TO_SEAT:
 		_update_emoji()
+		_update_patience_bar()
 		return
 
 	if _walking_to_slot:
@@ -221,6 +228,7 @@ func _show_food_indicator():
 	var tex = GameManager.get_food_sprite(order_item)
 	if tex:
 		$OrderIndicator.texture = tex
+	$OrderIndicator.position = Vector2(0, -23)
 	$OrderIndicator.visible = true
 
 
@@ -246,7 +254,9 @@ func walk_out(door_pos: Vector2):
 	$ThinkingTimer.stop()
 	$ThinkingLabel.visible = false
 	_hide_order_indicator()
-	z_index = 4  # restore default before walking out
+	if _bar_bg:   _bar_bg.visible   = false
+	if _bar_fill: _bar_fill.visible = false
+	z_index = 6  # restore walking z-index before walking out
 	# Don't hide the emoji here — an angry face should persist while the customer
 	# walks out. queue_free() will clean it up when they leave the building.
 	current_state = State.WALKING_OUT
@@ -451,7 +461,8 @@ func _create_emoji_indicator():
 func _create_eating_sprite():
 	_eating_sprite = Sprite2D.new()
 	_eating_sprite.position = Vector2(0, -14)
-	_eating_sprite.z_index = 4
+	_eating_sprite.z_index = 7
+	_eating_sprite.z_as_relative = false
 	_eating_sprite.visible = false
 	add_child(_eating_sprite)
 
@@ -522,6 +533,55 @@ func _on_reaction_finished():
 	_showing_heart = false
 	if _emoji_indicator:
 		_emoji_indicator.visible = false
+
+
+# ── Patience bar ──────────────────────────────────────────────────────────────
+
+func _create_patience_bar() -> void:
+	_bar_bg = ColorRect.new()
+	_bar_bg.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
+	_bar_bg.position = Vector2(-BAR_WIDTH / 2.0, -16.0)
+	_bar_bg.color = Color(0.15, 0.15, 0.15)
+	_bar_bg.z_index = 8
+	_bar_bg.z_as_relative = false
+	_bar_bg.visible = false
+	add_child(_bar_bg)
+
+	_bar_fill = ColorRect.new()
+	_bar_fill.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
+	_bar_fill.position = Vector2(-BAR_WIDTH / 2.0, -16.0)
+	_bar_fill.color = Color(0.3, 0.65, 0.9)
+	_bar_fill.z_index = 9
+	_bar_fill.z_as_relative = false
+	_bar_fill.visible = false
+	add_child(_bar_fill)
+
+
+func _update_patience_bar() -> void:
+	if _bar_bg == null:
+		return
+
+	var in_patience_state = (current_state == State.WAITING_FOR_PLAYER or current_state == State.ORDER_TAKEN)
+	var is_seated = (group == null or group.is_seated)
+	var timer_active = not $PatienceTimer.is_stopped()
+
+	if not (in_patience_state and is_seated and timer_active):
+		_bar_bg.visible   = false
+		_bar_fill.visible = false
+		return
+
+	var ratio = $PatienceTimer.time_left / $PatienceTimer.wait_time
+	_bar_bg.visible   = true
+	_bar_fill.visible = true
+	_bar_fill.size.x  = BAR_WIDTH * ratio
+
+
+	if ratio > 0.5:
+		_bar_fill.color = Color(0.3, 0.65, 0.9)  # blue — plenty of time
+	elif ratio > 0.25:
+		_bar_fill.color = Color(0.9, 0.7, 0.1)   # yellow — getting impatient
+	else:
+		_bar_fill.color = Color(0.9, 0.2, 0.1)   # red — about to leave
 
 
 # ── Character variant helpers ──────────────────────────────────────────────────
