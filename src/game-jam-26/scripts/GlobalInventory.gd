@@ -13,6 +13,7 @@ var cats: Dictionary = {
 	'hopper_cat': {'owned': false, 'copies': 0, 'stars': 5},
 	'nihao_cat': {'owned': false, 'copies': 0, 'stars': 5},
 	'counter_cat': {'owned': false, 'copies': 0, 'stars': 5},
+	'trash_cat': {'owned': false, 'copies': 0, 'stars': 5},
 	'patience_cat': {'owned': false, 'copies': 0, 'stars': 4},
 	'cooking_cat': {'owned': false, 'copies': 0, 'stars': 4},
 	'quality_control_cat': {'owned': false, 'copies': 0, 'stars': 4},

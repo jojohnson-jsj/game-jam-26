@@ -17,3 +17,6 @@ extends Node
 
 ## Counter Cat — unlocks the countertop plates for staging food items.
 @export var counter_cat_enabled: bool = true
+
+## Trash Cat — lets the player click the trash can to discard inventory.
+@export var trash_cat_enabled: bool = true
