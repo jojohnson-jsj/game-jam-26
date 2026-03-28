@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_df32p"]
 
 [node name="NonTableCatBed" type="Node2D" unique_id=1468040532]
-z_index = 2
+z_index = 5
 z_as_relative = false
 script = ExtResource("1_sg57d")
 unlocked = true

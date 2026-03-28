@@ -13,6 +13,7 @@ var cats: Dictionary = {
 	'hopper_cat': {'owned': false, 'copies': 0, 'stars': 5},
 	'nihao_cat': {'owned': false, 'copies': 0, 'stars': 5},
 	'counter_cat': {'owned': false, 'copies': 0, 'stars': 5},
+	'trash_cat': {'owned': false, 'copies': 0, 'stars': 5},
 	'patience_cat': {'owned': false, 'copies': 0, 'stars': 4},
 	'cooking_cat': {'owned': false, 'copies': 0, 'stars': 4},
 	'quality_control_cat': {'owned': false, 'copies': 0, 'stars': 4},
@@ -38,10 +39,6 @@ var equipment_unlocked: Dictionary = {
 var gacha_pity:int = 1 #pity currently: 10 -- reset on 5-star
 const PITY_THRESHOLD:int = 10
 const PULL_COST:int = 160 
-
-func _ready():
-	cats['hermes_cat']['owned'] = true
-	cats['qr_cat']['owned'] = true
 
 #queries
 func owns_cat(catId: String) -> bool: 

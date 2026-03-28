@@ -8883,7 +8883,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Counter Cat ★★★★★
-Allows you to put items down on the counter, she will guard them any other critters"
+Unlocks the countertop plates — drop off a finished dish and come back for it later!"
+texture_normal = ExtResource("18_doeae")
+stretch_mode = 5
+
+[node name="trash_cat" type="TextureButton" parent="VBox/CatGrid" unique_id=722215143]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Trash Cat ★★★★★
+Click the trash can from anywhere to toss your inventory — no more running across the kitchen!"
 texture_normal = ExtResource("18_doeae")
 stretch_mode = 5
 
