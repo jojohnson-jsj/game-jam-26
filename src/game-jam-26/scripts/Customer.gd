@@ -244,6 +244,7 @@ func walk_out(door_pos: Vector2):
 	$ThinkingTimer.stop()
 	$ThinkingLabel.visible = false
 	_hide_order_indicator()
+	z_index = 4  # restore default before walking out
 	# Don't hide the emoji here — an angry face should persist while the customer
 	# walks out. queue_free() will clean it up when they leave the building.
 	current_state = State.WALKING_OUT
@@ -258,6 +259,8 @@ func _set_nav_target(pos: Vector2):
 func _on_arrived_at_seat():
 	_show_idle()
 	$SpriteIdle.flip_h = global_position.x < table_center.x
+	# Raise above the tabletop tilemap so seated customers render on top
+	z_index = 3
 	current_state = State.THINKING
 	$ThinkingLabel.visible = true
 	$ThinkingTimer.wait_time = randf_range(thinking_time_min, thinking_time_max)
