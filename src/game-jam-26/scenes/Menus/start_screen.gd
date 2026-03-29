@@ -15,6 +15,7 @@ func _on_play_button_pressed() -> void:
 	$"../../GameWorld".visible = true
 	$"../../GameWorld".process_mode = Node.PROCESS_MODE_PAUSABLE
 	$"../../GameWorld".startDay()
+	$"../../GameWorld/Music".play()
 	visible = false
 	process_mode = Node.PROCESS_MODE_DISABLED
 

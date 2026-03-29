@@ -161,7 +161,6 @@ script = ExtResource("13_qmy6f")
 [node name="Music" type="AudioStreamPlayer2D" parent="GameWorld" unique_id=1307656184]
 process_mode = 3
 stream = ExtResource("14_mwfav")
-autoplay = true
 
 [node name="Camera2D" type="Camera2D" parent="GameWorld" unique_id=346177374]
 z_index = 100

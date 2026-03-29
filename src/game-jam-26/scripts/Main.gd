@@ -68,6 +68,8 @@ func _on_start_day_pressed() -> void:
 		$GameWorld.visible = true
 		$GameWorld.process_mode = Node.PROCESS_MODE_PAUSABLE
 		$GameWorld.startDay()
+		if not $GameWorld/Music.playing:
+			$GameWorld/Music.play()
 		_fade_to(0.0, FADE_DURATION)
 	)
 

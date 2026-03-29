@@ -67,7 +67,7 @@ func _ready() -> void:
 	vbox.add_child(resume_btn)
 
 	# Back to menu button
-	var menu_btn := _make_button("Back to Menu")
+	var menu_btn := _make_button("Restart Game")
 	menu_btn.pressed.connect(_on_back_to_menu)
 	vbox.add_child(menu_btn)
 
