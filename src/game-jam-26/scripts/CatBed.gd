@@ -21,18 +21,19 @@ var _placement_callback: Callable = Callable()
 
 func enter_placement_mode(callback: Callable) -> void:
 	_placement_callback = callback
-	print("enter_placement_mode called, callback valid: ", _placement_callback.is_valid())
-	var cr = get_node_or_null("ColorRect")
-	if cr:
-		cr.visible = true
-	set_process_input(true)
+	# Gentle idle pulse to indicate this bed is selectable
+	var tween = create_tween().set_loops()
+	tween.tween_property(self, "scale", Vector2(1.08, 1.08), 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	set_meta("placement_tween", tween)
 
 func exit_placement_mode() -> void:
 	_placement_callback = Callable()
-	var cr = get_node_or_null("ColorRect")
-	if cr:
-		cr.visible = false
-	set_process_input(false)
+	if has_meta("placement_tween"):
+		get_meta("placement_tween").kill()
+		remove_meta("placement_tween")
+	scale = Vector2.ONE
+	modulate = Color(1, 1, 1)
 
 func _input(event: InputEvent) -> void:
 	if not _placement_callback.is_valid():
@@ -108,6 +109,12 @@ func _ready() -> void:
 	else:
 		_set_visible(true)
 
+	# Ensure bed art renders above furniture
+	var art = get_node_or_null("Sprite2D - for art replacement later")
+	if art:
+		art.z_index = 6
+		art.z_as_relative = false
+
 	# Area2D for hover highlight and click-to-pet
 	var shape = RectangleShape2D.new()
 	shape.size = Vector2(22, 16)
@@ -145,6 +152,8 @@ func _set_visible(show: bool) -> void:
 	var art = get_node_or_null("Sprite2D - for art replacement later")
 	if art:
 		art.visible = show
+		art.z_index = 6
+		art.z_as_relative = false
 	if _interaction_area:
 		_interaction_area.input_pickable = show
 		_interaction_area.monitoring = show
@@ -273,12 +282,28 @@ func _do_yawn() -> void:
 
 
 func _on_bed_mouse_entered() -> void:
-	if _cat_sprite and _cat_sprite.visible:
+	if _placement_callback.is_valid():
+		# Kill the idle pulse, do a bigger hover pop
+		if has_meta("placement_tween"):
+			get_meta("placement_tween").kill()
+		var tween = create_tween()
+		tween.tween_property(self, "scale", Vector2(1.25, 1.25), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		modulate = Color(1.5, 1.5, 1.0)
+	elif _cat_sprite and _cat_sprite.visible:
 		_cat_sprite.modulate = Color(1.4, 1.4, 1.4)
 
 
 func _on_bed_mouse_exited() -> void:
-	if _cat_sprite:
+	if _placement_callback.is_valid():
+		# Return to idle pulse
+		var tween = create_tween()
+		tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_SINE)
+		modulate = Color(1, 1, 1)
+		var loop_tween = create_tween().set_loops()
+		loop_tween.tween_property(self, "scale", Vector2(1.08, 1.08), 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		loop_tween.tween_property(self, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		set_meta("placement_tween", loop_tween)
+	elif _cat_sprite:
 		_cat_sprite.modulate = Color(1, 1, 1)
 
 

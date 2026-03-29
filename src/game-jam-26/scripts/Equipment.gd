@@ -20,23 +20,12 @@ var _bar_fill: ColorRect = null
 func _ready():
 	add_to_group("equipment")
 
-	if not unlocked:
-		visible = false
-		monitoring = false
-		monitorable = false
-		set_process(false)
-		return
-
 	max_queue_size = 1 + (1 if GlobalInventory.owns_cat('hopper_cat') else 0)
-
 	cook_time = max(1.0, cook_time - GlobalInventory.get_cooking_bonus())
-
 	$CookTimer.wait_time = cook_time
 	$CookTimer.one_shot = true
 	$CookTimer.timeout.connect(_on_cooking_finished)
 
-	# Set machine and food sprites from GameManager registry
-	# SpriteReady shows the food art when the item is ready for pickup
 	$SpriteReady.visible = false
 	$CookingLabel.visible = false
 	var machine_tex = GameManager.get_machine_sprite(item_type)
@@ -49,7 +38,6 @@ func _ready():
 	if indicator_y_offset != 0.0:
 		$SpriteReady.position.y += indicator_y_offset
 
-	# Progress bar — centered in the region where "..." used to appear (y=-29 to y=-6)
 	var bar_y = -20.0 + indicator_y_offset
 	_bar_bg = ColorRect.new()
 	_bar_bg.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
@@ -64,6 +52,11 @@ func _ready():
 	_bar_fill.color = Color(0.9, 0.6, 0.1)
 	_bar_fill.visible = false
 	add_child(_bar_fill)
+
+	if not unlocked:
+		visible = false
+		monitoring = false
+		monitorable = false
 
 
 func _process(_delta):
@@ -166,7 +159,6 @@ func set_unlocked(value: bool) -> void:
 	visible = value
 	monitoring = value
 	monitorable = value
-	set_process(value)
 
 
 func force_reset() -> void:
