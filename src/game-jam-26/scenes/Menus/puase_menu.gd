@@ -66,11 +66,6 @@ func _ready() -> void:
 	resume_btn.pressed.connect(_on_resume)
 	vbox.add_child(resume_btn)
 
-	# Back to menu button
-	var menu_btn := _make_button("Restart Game")
-	menu_btn.pressed.connect(_on_back_to_menu)
-	vbox.add_child(menu_btn)
-
 
 func _make_button(label_text: String) -> Button:
 	var btn := Button.new()
