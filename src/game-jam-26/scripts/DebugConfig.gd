@@ -25,7 +25,7 @@ extends Node
 @export var patience_bar_enabled: bool = true
 
 ## Day duration in seconds. Default is 180.
-@export var day_duration: float = 30.0
+@export var day_duration: float = 180.0
 
 ## Starting money for testing. Set to 0 for normal gameplay.
-@export var starting_money: float = 1000.0
+@export var starting_money: float = 0.0
