@@ -76,12 +76,14 @@ func _ready():
 	spawn_timer = Timer.new()
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.one_shot = false
+	spawn_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	add_child(spawn_timer)
 
 	day_timer = Timer.new()
 	day_timer.wait_time = day_duration
 	day_timer.one_shot = true
+	day_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	day_timer.timeout.connect(_on_day_ended)
 	add_child(day_timer)
 
@@ -230,6 +232,7 @@ func spawn_group(size: int):
 		if oven_unlocked and randf() < _pie_chance:
 			customer.order_item = "pie"
 		get_tree().current_scene.add_child(customer)
+		customer.process_mode = Node.PROCESS_MODE_PAUSABLE
 		customer.global_position = door_point
 		customer.initial_patience  = _customer_initial_patience
 		customer.delivery_patience = _customer_delivery_patience

@@ -20,6 +20,7 @@ func setup(customer_list: Array, parent: Node, waiting_time: float = 30.0):
 	waiting_timer = Timer.new()
 	waiting_timer.wait_time = waiting_time
 	waiting_timer.one_shot = true
+	waiting_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	waiting_timer.timeout.connect(_on_waiting_patience_expired)
 	parent.add_child(waiting_timer)
 	waiting_timer.start()
