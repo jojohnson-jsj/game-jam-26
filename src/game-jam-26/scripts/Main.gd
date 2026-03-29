@@ -77,6 +77,9 @@ func _on_night_continue_pressed() -> void:
 		var start_music = $StartMenu.get_node_or_null("Start Screen/Music")
 		if start_music:
 			start_music.stop()
+		var start_screen = $StartMenu.get_node_or_null("Start Screen")
+		if start_screen and start_screen.has_method("show_info_panel"):
+			start_screen.show_info_panel()
 		_fade_to(0.0, FADE_DURATION)
 	)
 

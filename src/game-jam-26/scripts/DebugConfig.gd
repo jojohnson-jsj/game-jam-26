@@ -4,25 +4,25 @@
 extends Node
 
 ## Hermes Cat — grants the player a dash ability.
-@export var hermes_cat_enabled: bool = true
+@export var hermes_cat_enabled: bool = false
 
 ## QR Cat — lets the player receive orders by clicking seated customers.
 @export var qr_cat_enabled: bool = false
 
 ## Queue Cat — lets the player click waiting groups to seat them immediately.
-@export var queue_cat_enabled: bool = true
+@export var queue_cat_enabled: bool = false
 
 ## Money Cat — auto-collects payment from tables when customers finish eating.
-@export var money_cat_enabled: bool = true
+@export var money_cat_enabled: bool = false
 
 ## Counter Cat — unlocks the countertop plates for staging food items.
-@export var counter_cat_enabled: bool = true
+@export var counter_cat_enabled: bool = false
 
 ## Trash Cat — lets the player click the trash can to discard inventory.
-@export var trash_cat_enabled: bool = true
+@export var trash_cat_enabled: bool = false
 
 ## Patience Bar — shows a progress bar above seated customers' heads.
 @export var patience_bar_enabled: bool = true
 
 ## Day duration in seconds. Default is 180.
-@export var day_duration: float = 10.0
+@export var day_duration: float = 180.0
