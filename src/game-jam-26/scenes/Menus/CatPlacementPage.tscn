@@ -19,7 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://dw8atkw7my3nv" path="res://assets/cats/ingame/cat_sprite_inspector.png" id="17_2v7cr"]
 [ext_resource type="Texture2D" uid="uid://bpuoat62vyb51" path="res://assets/cats/ingame/cat_sprite_countertop.png" id="18_doeae"]
 [ext_resource type="Texture2D" uid="uid://be132fgsa7bb4" path="res://assets/cats/ingame/cat_sprite_valentines.png" id="19_idax8"]
+[ext_resource type="Texture2D" uid="uid://dnwdyvsttg64b" path="res://assets/cats/ingame/cat_sprite_trash.png" id="19_rrsuv"]
 [ext_resource type="Texture2D" uid="uid://rbbx7wtxna7b" path="res://assets/cats/ingame/cat_sprite_recommender.png" id="20_gkb0q"]
+[ext_resource type="Texture2D" uid="uid://dh2jehe4ghrav" path="res://assets/cats/ingame/cat_sprite_chef.png" id="22_bhcdd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hnxwo"]
 texture = ExtResource("2_832su")
@@ -8773,7 +8775,7 @@ layout_mode = 2
 [node name="CatGrid" type="GridContainer" parent="HBox/VBox" unique_id=2060072366]
 layout_mode = 2
 size_flags_vertical = 3
-columns = 4
+columns = 6
 
 [node name="qr_cat" type="TextureButton" parent="HBox/VBox/CatGrid" unique_id=1408593738]
 layout_mode = 2
@@ -8834,7 +8836,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Hopper Cat
-Holds your orders for you and puts them into their machine allowing you to use one extra slot"
+Queue an extra order into a machine so you can load it and walk away"
 texture_normal = ExtResource("11_knh5r")
 stretch_mode = 5
 
@@ -8907,7 +8909,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Trash Cat
 Click the trash can from anywhere to toss your inventory — no more running across the kitchen!"
-texture_normal = ExtResource("18_doeae")
+texture_normal = ExtResource("19_rrsuv")
 stretch_mode = 5
 
 [node name="valentines_cat" type="TextureButton" parent="HBox/VBox/CatGrid" unique_id=794708604]
@@ -8928,7 +8930,16 @@ Customers order faster when this cat is pawing at the menu "
 texture_normal = ExtResource("20_gkb0q")
 stretch_mode = 5
 
-[node name="SelectedLabel" type="Label" parent="HBox/VBox" unique_id=1209503658]
+[node name="cooking_cat" type="TextureButton" parent="VBox/CatGrid" unique_id=794520099]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Chef Cat
+Decreases cooking time so dishes are ready faster"
+texture_normal = ExtResource("22_bhcdd")
+stretch_mode = 5
+
+[node name="SelectedLabel" type="Label" parent="VBox" unique_id=1209503658]
 layout_mode = 2
 
 [node name="HBox" type="HBoxContainer" parent="HBox/VBox" unique_id=2020933338]
