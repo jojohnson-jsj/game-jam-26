@@ -338,9 +338,24 @@ func _on_table_cleared(_table):
 func _on_day_ended():
 	day_active = false
 	spawn_timer.stop()
+	# Dismiss waiting queue only — seated customers stay to be served
 	for group in waiting_queue:
 		group.cleanup()
 	waiting_queue.clear()
+	print("Day timer ended — waiting for restaurant to clear")
+	_wait_for_day_clear()
+
+
+func _wait_for_day_clear() -> void:
+	# Poll until all customers are gone and no money remains, then 2s buffer
+	await get_tree().create_timer(0.5).timeout  # small initial delay
+	while true:
+		var customers_remain = active_customers.any(func(c): return is_instance_valid(c))
+		var money_remains = not get_tree().get_nodes_in_group("money").is_empty()
+		if not customers_remain and not money_remains:
+			break
+		await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(2.0).timeout
 	print("Day ended. Final money: $", Wallet.money_owned)
 	emit_signal("day_ended", Wallet.money_owned)
 	emit_signal("night_started")
