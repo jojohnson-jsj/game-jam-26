@@ -65,6 +65,9 @@ const CAT_SPRITES: Dictionary = {
 	"ankle_biter_cat":     preload("res://assets/cats/ingame/cat_sprite_ankle.png"),
 	"reccomendation_cat":  preload("res://assets/cats/ingame/cat_sprite_recommender.png"),
 	"cooking_cat":         preload("res://assets/cats/ingame/cat_sprite_chef.png"),
+	"sign_spinner_cat":    preload("res://assets/cats/ingame/cat_sprite_cute.png"),
+	"hopper_cat":          preload("res://assets/cats/ingame/cat_sprite_queue.png"),
+	"nihao_cat":           preload("res://assets/cats/ingame/cat_sprite_celebrity.png"),
 }
 
 # Maps every cat name to its static Cat resource properties so we can
@@ -95,7 +98,7 @@ func _ready() -> void:
 	add_to_group("cat_beds")
 	_cat_sprite = Sprite2D.new()
 	_cat_sprite.position = Vector2(0, -7)
-	_cat_sprite.z_index = 5
+	_cat_sprite.z_index = 6
 	_cat_sprite.z_as_relative = false
 	_cat_sprite.visible = false
 	add_child(_cat_sprite)

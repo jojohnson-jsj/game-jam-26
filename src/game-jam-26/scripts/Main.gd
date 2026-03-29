@@ -52,6 +52,8 @@ func _ready() -> void:
 
 	# Save state is only used to bridge days within a single session.
 	# Do NOT load it here — every game launch starts fresh from day 1.
+	if DebugConfig.starting_money > 0.0:
+		Wallet.add_money(DebugConfig.starting_money)
 
 
 func _on_night_started() -> void:
