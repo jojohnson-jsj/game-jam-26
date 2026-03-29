@@ -112,3 +112,34 @@ func load_state() -> bool:
 
 func has_save() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
+
+
+func reset_all() -> void:
+	# Delete save file
+	if FileAccess.file_exists(SAVE_PATH):
+		DirAccess.remove_absolute(SAVE_PATH)
+
+	# Reset GlobalInventory
+	GlobalInventory.day = 1
+	GlobalInventory.gacha_pity = 1
+	for cat_name in GlobalInventory.cats:
+		GlobalInventory.cats[cat_name]["owned"] = false
+		GlobalInventory.cats[cat_name]["copies"] = 0
+	GlobalInventory.equipment_unlocked["latte_machine"] = true
+	GlobalInventory.equipment_unlocked["oven"] = true
+
+	# Reset Wallet
+	Wallet.money_owned = 0.0
+
+	# Reset GameManager
+	GameManager.tables.clear()
+	GameManager.waiting_queue.clear()
+	GameManager.active_customers.clear()
+	GameManager.day_active = false
+	GameManager.has_queue_cat = DebugConfig.queue_cat_enabled
+	GameManager.has_counter_cat = false
+	GameManager.has_trash_cat = false
+
+	# Clear pending bed assignments
+	_pending_bed_assignments = {}
+	_registered_beds.clear()
