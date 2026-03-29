@@ -164,7 +164,7 @@ func _apply_day_scaling() -> void:
 	# Max group size: 3 on day 1, +1 at day 5, +1 at day 10 (cap 5)
 	max_group_size = min(5, 3 + int(GlobalInventory.day >= 5) + int(GlobalInventory.day >= 10))
 	# Pie order rate: 10% on day 1, up to 60% as days progress
-	_pie_chance = clamp(0.30 + s * 0.50, 0.30, 0.60)
+	_pie_chance = clamp(0.15 + s * 0.50, 0.15, 0.60)
 	# Per-customer seated patience (used after they're thinking)
 	_customer_initial_patience  = max(15.0, 40.0 - s * 22.0)
 	_customer_delivery_patience = max(20.0, 60.0 - s * 35.0)
@@ -223,13 +223,11 @@ func spawn_group(size: int):
 	busy_variants.shuffle()
 	var variant_indices: Array = free_variants + busy_variants
 
-	var oven_unlocked = GlobalInventory.is_equipment_unlocked("oven")
-
 	var customer_list = []
 	for i in range(size):
 		var customer = preload("res://scenes/Customer.tscn").instantiate()
 		customer.assigned_variant_index = variant_indices[i % variant_indices.size()]
-		if oven_unlocked and randf() < _pie_chance:
+		if randf() < _pie_chance:
 			customer.order_item = "pie"
 		get_tree().current_scene.add_child(customer)
 		customer.process_mode = Node.PROCESS_MODE_PAUSABLE
