@@ -97,6 +97,7 @@ func calculate_tip(delta: float) -> float:
 
 
 func register_table(table):
+	tables = tables.filter(func(t): return is_instance_valid(t))
 	tables.append(table)
 	table.table_finished.connect(_on_table_finished.bind(table))
 	table.table_vacated.connect(_on_table_cleared.bind(table))

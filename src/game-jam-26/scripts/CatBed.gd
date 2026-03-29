@@ -297,7 +297,8 @@ func _activate_cat(cat: Cat):
 		Cat.AbilityType.MONEY:
 			# Enable money cat on ALL tables
 			for table in GameManager.tables:
-				table.has_money_cat = true
+				if is_instance_valid(table):
+					table.has_money_cat = true
 			# Defer so global_position is valid after the node is in the scene tree
 			call_deferred("_set_all_tables_money_cat_position")
 
