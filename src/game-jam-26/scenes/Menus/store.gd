@@ -20,7 +20,19 @@ func _on_exit_pressed() -> void:
 	$"../".process_mode = Node.PROCESS_MODE_DISABLED
 
 func _on_oven_buy_button_pressed() -> void:
-	GlobalInventory.unlock_equipment("oven")
-	var ovenBuyButton = $"Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/Button"
-	ovenBuyButton.disabled = true
-	ovenBuyButton.text = "SOLD"	
+	var ovenBuyButton = $"Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/buyOven"
+	if (GlobalInventory.unlock_equipment("oven") == 4):
+		ovenBuyButton.disabled = true
+		ovenBuyButton.text = "SOLD"	
+
+func _on_buy_latte_pressed() -> void:
+	var latteBuyButton = $"Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks/buyLatte"
+	if (GlobalInventory.unlock_equipment("latte_machine") == 4):
+		latteBuyButton.disabled = true
+		latteBuyButton.text = "SOLD"	
+
+func _on_buy_catbed_pressed() -> void:
+	var catBedBuyButton = $"Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock/buyCatbed"
+	if (GlobalInventory.unlock_equipment("cat_bed") == 7):
+		catBedBuyButton.disabled = true
+		catBedBuyButton.text = "SOLD"	

@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://7skw74y3iydo" path="res://scenes/Menus/store.gd" id="1_h83mj"]
 [ext_resource type="Texture2D" uid="uid://dsw4o6iamwyat" path="res://assets/food/machines/oven.png" id="2_pimdn"]
+[ext_resource type="Texture2D" uid="uid://datq8my45k4rh" path="res://assets/food/machines/latte_machine.png" id="3_awhdt"]
+[ext_resource type="Texture2D" uid="uid://kgct4ktx7sbl" path="res://assets/Misc/cat_bed_red.png" id="4_nhq1t"]
 
 [node name="Store" type="Control" unique_id=1564420384]
 layout_mode = 3
@@ -68,7 +70,7 @@ expand_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=1795578193]
+[node name="buyOven" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=1795578193]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -86,14 +88,14 @@ size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=1164514813]
 layout_mode = 2
-texture = ExtResource("2_pimdn")
+texture = ExtResource("3_awhdt")
 expand_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=733256544]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=620963001]
+[node name="buyLatte" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=620963001]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -111,14 +113,14 @@ size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=85739564]
 layout_mode = 2
-texture = ExtResource("2_pimdn")
+texture = ExtResource("4_nhq1t")
 expand_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=2354922]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=1573526568]
+[node name="buyCatbed" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=1573526568]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -163,6 +165,8 @@ offset_right = 0.1920166
 offset_bottom = -0.24804688
 text = "LEAVE"
 
-[connection signal="pressed" from="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/Button" to="." method="_on_oven_buy_button_pressed"]
+[connection signal="pressed" from="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/buyOven" to="." method="_on_oven_buy_button_pressed"]
+[connection signal="pressed" from="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks/buyLatte" to="." method="_on_buy_latte_pressed"]
+[connection signal="pressed" from="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock/buyCatbed" to="." method="_on_buy_catbed_pressed"]
 [connection signal="pressed" from="Websites/AdoptCat,com/AdpotOne" to="." method="_on_adpot_one_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

@@ -31,8 +31,9 @@ func debug_cats() -> void:
 
 #Equipment unlocks
 var equipment_unlocked: Dictionary = {
-	'latte_machine': true,
-	'oven': true
+	'latte_machine': 1,
+	'oven': 0,
+	'cat_bed': 1
 }
 
 #gacha pity 
@@ -48,7 +49,7 @@ func copies_of(catId: String) -> int:
 	return cats.get(catId).get('copies')
 	
 func is_equipment_unlocked(equipment) -> bool:
-	return equipment_unlocked.get(equipment)
+	return equipment_unlocked.get(equipment) > 0
 	
 
 #mutations 
@@ -58,10 +59,17 @@ func add_cat(catId:String) -> void:
 	emit_signal('inventory_changed')
 	
 
-func unlock_equipment(equipment:String) -> void:
-	equipment_unlocked[equipment] = true
-	emit_signal('inventory_changed')
-	
+func unlock_equipment(equipment:String) -> int:
+	if(equipment == 'cat_bed' && equipment_unlocked[equipment] < 7):
+		equipment_unlocked[equipment] += 1
+		emit_signal('inventory_changed')
+		return equipment_unlocked[equipment]
+	elif(equipment_unlocked[equipment] < 4):
+		equipment_unlocked[equipment] += 1
+		emit_signal('inventory_changed')
+		return equipment_unlocked[equipment]
+	return -1
+
 
 #Cat mutations 
 func get_patience_bonus() -> float:
