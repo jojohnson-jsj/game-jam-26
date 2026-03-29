@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	# ── Outer container: main panel + dash panel side by side ───────────────
 	var outer_margin := MarginContainer.new()
-	outer_margin.add_theme_constant_override("margin_top", 12)
+	outer_margin.add_theme_constant_override("margin_top", 34)
 	outer_margin.add_theme_constant_override("margin_left", 12)
 	outer_margin.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	add_child(outer_margin)
@@ -98,7 +98,7 @@ func _ready() -> void:
 
 	# ── Time bar: centered top, sun → bar → moon ─────────────────────────────
 	var time_margin := MarginContainer.new()
-	time_margin.add_theme_constant_override("margin_top", 12)
+	time_margin.add_theme_constant_override("margin_top", 34)
 	time_margin.anchor_left = 0.5
 	time_margin.anchor_right = 0.5
 	time_margin.anchor_top = 0.0
