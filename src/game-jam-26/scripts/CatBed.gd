@@ -55,7 +55,7 @@ const CAT_SPRITES: Dictionary = {
 	"money_cat":           preload("res://assets/cats/ingame/cat_sprite_money.png"),
 	"host_cat":            preload("res://assets/cats/ingame/cat_sprite_host.png"),
 	"counter_cat":         preload("res://assets/cats/ingame/cat_sprite_countertop.png"),
-	"trash_cat":           preload("res://assets/cats/ingame/cat_sprite_cute.png"),
+	"trash_cat":           preload("res://assets/cats/ingame/cat_sprite_trash.png"),
 	"patience_cat":        preload("res://assets/cats/ingame/cat_sprite_patience.png"),
 	"quality_control_cat": preload("res://assets/cats/ingame/cat_sprite_inspector.png"),
 	"cheetah_cat":         preload("res://assets/cats/ingame/cat_sprite_zoomies.png"),
@@ -64,6 +64,7 @@ const CAT_SPRITES: Dictionary = {
 	"fat_cat":             preload("res://assets/cats/ingame/cat_sprite_fat.png"),
 	"ankle_biter_cat":     preload("res://assets/cats/ingame/cat_sprite_ankle.png"),
 	"reccomendation_cat":  preload("res://assets/cats/ingame/cat_sprite_recommender.png"),
+	"cooking_cat":         preload("res://assets/cats/ingame/cat_sprite_chef.png"),
 }
 
 # Maps every cat name to its static Cat resource properties so we can
