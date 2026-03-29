@@ -91,7 +91,7 @@ func _fly_coin_to_bed(money_node: Node2D) -> void:
 	tween.tween_interval(1.0)
 	# Fly to bed over 0.5s, scaling down to zero
 	tween.tween_property(money_node, "global_position", target, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tween.parallel().tween_property(money_node, "scale", Vector2.ZERO, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.parallel().tween_property(money_node, "scale", Vector2.ZERO, 0.75).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func():
 		if is_instance_valid(money_node):
 			Wallet.add_money(money_node.amount)

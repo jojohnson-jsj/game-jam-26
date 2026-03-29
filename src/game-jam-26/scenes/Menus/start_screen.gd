@@ -11,13 +11,7 @@ func _process(delta: float) -> void:
 
 
 func _on_play_button_pressed() -> void:
-	#get_tree().change_scene_to_file("res://scenes/Main.tscn")
-	$"../../GameWorld".visible = true
-	$"../../GameWorld".process_mode = Node.PROCESS_MODE_PAUSABLE
-	$"../../GameWorld".startDay()
-	$"../../GameWorld/Music".play()
-	visible = false
-	process_mode = Node.PROCESS_MODE_DISABLED
+	$"../../".call("_on_start_day_pressed")
 
 func _on_pull_button_pressed() -> void:
 	$"../../StoreMenu".visible = true

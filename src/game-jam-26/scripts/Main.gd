@@ -7,6 +7,8 @@ var _hud: CanvasLayer
 var _fade_rect: ColorRect
 
 
+var _first_day: bool = true
+
 func _ready() -> void:
 	# Initial visibility: only the start menu is active
 	$GameWorld.visible = false
@@ -20,7 +22,7 @@ func _ready() -> void:
 
 	# Build the night screen UI and wire its button back here
 	_night_screen_ctrl = load("res://scripts/night_screen.gd").new()
-	_night_screen_ctrl.start_day_pressed.connect(_on_start_day_pressed)
+	_night_screen_ctrl.start_day_pressed.connect(_on_night_continue_pressed)
 	$NightScreen.add_child(_night_screen_ctrl)
 
 	# HUD — self-managing via GameManager signals
@@ -50,6 +52,11 @@ func _on_night_started() -> void:
 	_fade_to(1.0, FADE_DURATION, func():
 		$GameWorld.visible = false
 		$GameWorld.process_mode = Node.PROCESS_MODE_DISABLED
+		# Clean up customers so they don't show through the night screen
+		for customer in GameManager.active_customers:
+			if is_instance_valid(customer):
+				customer.queue_free()
+		GameManager.active_customers.clear()
 		$NightScreen.visible = true
 		$NightScreen.process_mode = Node.PROCESS_MODE_ALWAYS
 		# Day hasn't incremented yet — pass the completed day number
@@ -58,13 +65,29 @@ func _on_night_started() -> void:
 	)
 
 
-func _on_start_day_pressed() -> void:
-	# Fade to black, then reset + start next day, then fade back in
+func _on_night_continue_pressed() -> void:
 	_fade_to(1.0, FADE_DURATION, func():
-		SaveManager.save_state()
-		GlobalInventory.day += 1
 		$NightScreen.visible = false
 		$NightScreen.process_mode = Node.PROCESS_MODE_DISABLED
+		$StartMenu.visible = true
+		$StartMenu.process_mode = Node.PROCESS_MODE_ALWAYS
+		# Stop start screen music — game music continues from GameWorld/Music
+		var start_music = $StartMenu.get_node_or_null("Start Screen/Music")
+		if start_music:
+			start_music.stop()
+		_fade_to(0.0, FADE_DURATION)
+	)
+
+func _on_start_day_pressed() -> void:
+	_fade_to(1.0, FADE_DURATION, func():
+		SaveManager.save_state()
+		if not _first_day:
+			GlobalInventory.day += 1
+		_first_day = false
+		$NightScreen.visible = false
+		$NightScreen.process_mode = Node.PROCESS_MODE_DISABLED
+		$StartMenu.visible = false
+		$StartMenu.process_mode = Node.PROCESS_MODE_DISABLED
 		$GameWorld.visible = true
 		$GameWorld.process_mode = Node.PROCESS_MODE_PAUSABLE
 		$GameWorld.startDay()

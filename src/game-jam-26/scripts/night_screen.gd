@@ -95,7 +95,7 @@ func _ready() -> void:
 	btn_hover.set_content_margin_all(0)
 
 	var start_btn := Button.new()
-	start_btn.text = "Start Next Day"
+	start_btn.text = "Continue"
 	start_btn.add_theme_stylebox_override("normal", btn_style)
 	start_btn.add_theme_stylebox_override("hover", btn_hover)
 	start_btn.add_theme_stylebox_override("pressed", btn_style)

@@ -72,6 +72,7 @@ func get_machine_sprite(item_type: String) -> Texture2D:
 
 func _ready():
 	has_queue_cat = DebugConfig.queue_cat_enabled
+	day_duration = DebugConfig.day_duration
 	spawn_timer = Timer.new()
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.one_shot = false
