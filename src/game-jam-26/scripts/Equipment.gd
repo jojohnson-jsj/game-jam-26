@@ -150,6 +150,9 @@ func unhighlight():
 	modulate = Color(1, 1, 1)
 
 
+func apply_day_bonuses() -> void:
+	max_queue_size = 1 + (1 if GameManager.has_hopper_cat else 0)
+
 func force_reset() -> void:
 	current_state = State.IDLE
 	order_queue.clear()

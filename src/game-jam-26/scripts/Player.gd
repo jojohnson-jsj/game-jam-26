@@ -9,6 +9,7 @@ const FRICTION = 1400.0
 @export var DASH_COOLDOWN = 5.0
 
 var speed = 150.0
+const BASE_SPEED = 150.0
 var inventory: Array = []
 var _nearby_groups: Array = []
 var _nearby_interactables: Array = []
@@ -32,8 +33,6 @@ var _dash_direction: Vector2 = Vector2.ZERO
 func _ready():
 	has_dash_cat = DebugConfig.hermes_cat_enabled
 	has_qr_cat   = DebugConfig.qr_cat_enabled
-	speed *= (1.0 + GlobalInventory.get_speed_bonus())
-	
 	$OrderConnectionTimer.wait_time = 0.5
 	$OrderConnectionTimer.one_shot = true
 	$OrderConnectionTimer.timeout.connect(_on_order_connection_timeout)
