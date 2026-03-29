@@ -109,10 +109,11 @@ func payment_collected():
 # Called by GameManager at the start of each new day to guarantee a clean slate.
 func force_reset() -> void:
 	for customer in seated_customers:
-		if customer.patience_expired.is_connected(_on_patience_expired):
-			customer.patience_expired.disconnect(_on_patience_expired)
-		if customer.customer_done.is_connected(_on_customer_done):
-			customer.customer_done.disconnect(_on_customer_done)
+		if is_instance_valid(customer):
+			if customer.patience_expired.is_connected(_on_patience_expired):
+				customer.patience_expired.disconnect(_on_patience_expired)
+			if customer.customer_done.is_connected(_on_customer_done):
+				customer.customer_done.disconnect(_on_customer_done)
 	seated_customers = []
 	done_customers = 0
 	current_state = State.AVAILABLE

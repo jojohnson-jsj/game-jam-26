@@ -55,8 +55,10 @@ func _on_night_started() -> void:
 		# Clean up customers so they don't show through the night screen
 		for customer in GameManager.active_customers:
 			if is_instance_valid(customer):
+				customer.get_node("PatienceTimer").stop()
 				customer.queue_free()
 		GameManager.active_customers.clear()
+		GameManager.waiting_queue.clear()
 		$NightScreen.visible = true
 		$NightScreen.process_mode = Node.PROCESS_MODE_ALWAYS
 		# Day hasn't incremented yet — pass the completed day number
