@@ -5,6 +5,7 @@ const FADE_DURATION := 0.65
 var _night_screen_ctrl: Control
 var _hud: CanvasLayer
 var _fade_rect: ColorRect
+var _night_music: AudioStreamPlayer
 
 
 var _first_day: bool = true
@@ -40,6 +41,12 @@ func _ready() -> void:
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade_layer.add_child(_fade_rect)
 
+	# Night music player — persists across night screen and start menu
+	_night_music = AudioStreamPlayer.new()
+	_night_music.stream = load("res://assets/sound assests/Bkg-Music/harumachimusic-morning-calm-236192.mp3")
+	_night_music.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_night_music)
+
 	# Connect to the day/night cycle
 	GameManager.night_started.connect(_on_night_started)
 
@@ -50,6 +57,8 @@ func _ready() -> void:
 func _on_night_started() -> void:
 	# Fade to black, then swap to night screen, then fade back in
 	_fade_to(1.0, FADE_DURATION, func():
+		$GameWorld/Music.stop()
+		_night_music.play()
 		$GameWorld.visible = false
 		$GameWorld.process_mode = Node.PROCESS_MODE_DISABLED
 		# Clean up customers so they don't show through the night screen
@@ -96,6 +105,7 @@ func _on_start_day_pressed() -> void:
 		$GameWorld.visible = true
 		$GameWorld.process_mode = Node.PROCESS_MODE_PAUSABLE
 		$GameWorld.startDay()
+		_night_music.stop()
 		if not $GameWorld/Music.playing:
 			$GameWorld/Music.play()
 		_fade_to(0.0, FADE_DURATION)
