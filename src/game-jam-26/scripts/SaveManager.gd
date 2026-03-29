@@ -39,8 +39,7 @@ func save_state() -> void:
 		var c: Dictionary = GlobalInventory.cats[cat_name]
 		data["cats"][cat_name] = {
 			"owned": c["owned"],
-			"copies": c["copies"],
-			"stars": c["stars"]
+			"copies": c["copies"]
 		}
 
 	for equip_name in GlobalInventory.equipment_unlocked:
@@ -91,7 +90,6 @@ func load_state() -> bool:
 				var src: Dictionary = data["cats"][cat_name]
 				GlobalInventory.cats[cat_name]["owned"]  = src.get("owned", false)
 				GlobalInventory.cats[cat_name]["copies"] = src.get("copies", 0)
-				GlobalInventory.cats[cat_name]["stars"]  = src.get("stars", 4)
 
 	if "equipment" in data:
 		for equip_name in data["equipment"]:

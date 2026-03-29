@@ -22,22 +22,22 @@ var catsArt: Dictionary = {
 }
 
 const CAT_DESCRIPTIONS = {
-	'qr_cat':              ["QR Cat ★★★★★", "Click seated customers to take their order"],
-	'hermes_cat':          ["Hermes Cat ★★★★★", "Grants you a dash ability"],
-	'money_cat':           ["Money Cat ★★★★★", "Collects money from tables for you"],
-	'host_cat':            ["Host Cat ★★★★★", "Click waiting groups so that the host can seat them instantly"],
-	'hopper_cat':          ["Hopper Cat ★★★★★", "Holds your orders and allows you to use one extra slot"],
-	'nihao_cat':           ["Nihao Cat ★★★★★", "She makes the day last longer through her love and whimsy"],
-	'counter_cat':         ["Counter Cat ★★★★★", "Unlocks the countertop plates — drop off a finished dish and come back for it later!"],
-	'patience_cat':        ["Patience Cat ★★★★", "Customers absorb her serenity, and find they have more patience than before"],
-	'quality_control_cat': ["Inspector Cat ★★★★", "She will only take the highest of quality items, with her in charge you can sell them for more"],
-	'cheetah_cat':         ["Cheetah Cat ★★★★", "Helps the player get around faster"],
-	'pretty_cat':          ["Pretty Cat ★★★★", "Makes your customers more generous with their tips, as they get to look at her"],
-	'valentines_cat':      ["Valentines Cat ★★★★", "Less single people find their way to your cafe"],
-	'fat_cat':             ["Fat Cat ★★★★", "Eats customer's food so they eat faster"],
-	'sign_spinner_cat':    ["Sign Spinner Cat ★★★★", "Spreads awareness so more customers come to your cafe!"],
-	'ankle_biter_cat':     ["Ankle Biter Cat ★★★★", "Nips at your customers' heels, making them walk faster"],
-	'reccomendation_cat':  ["Recommendation Cat ★★★★", "Customers order faster when this cat is pawing at the menu"],
+	'qr_cat':              ["QR Cat", "Click seated customers to take their order"],
+	'hermes_cat':          ["Hermes Cat", "Grants you a dash ability"],
+	'money_cat':           ["Money Cat", "Collects money from tables for you"],
+	'host_cat':            ["Host Cat", "Click waiting groups so that the host can seat them instantly"],
+	'hopper_cat':          ["Hopper Cat", "Holds your orders and allows you to use one extra slot"],
+	'nihao_cat':           ["Nihao Cat", "She makes the day last longer through her love and whimsy"],
+	'counter_cat':         ["Counter Cat", "Unlocks the countertop plates — drop off a finished dish and come back for it later!"],
+	'patience_cat':        ["Patience Cat", "Customers absorb her serenity, and find they have more patience than before"],
+	'quality_control_cat': ["Inspector Cat", "She will only take the highest of quality items, with her in charge you can sell them for more"],
+	'cheetah_cat':         ["Cheetah Cat", "Helps the player get around faster"],
+	'pretty_cat':          ["Pretty Cat", "Makes your customers more generous with their tips, as they get to look at her"],
+	'valentines_cat':      ["Valentines Cat", "Less single people find their way to your cafe"],
+	'fat_cat':             ["Fat Cat", "Eats customer's food so they eat faster"],
+	'sign_spinner_cat':    ["Sign Spinner Cat", "Spreads awareness so more customers come to your cafe!"],
+	'ankle_biter_cat':     ["Ankle Biter Cat", "Nips at your customers' heels, making them walk faster"],
+	'reccomendation_cat':  ["Recommendation Cat", "Customers order faster when this cat is pawing at the menu"],
 }
 
 var cat_id := 'cheetah_cat'
@@ -165,8 +165,7 @@ func _show_description_panel() -> void:
 	name_panel.add_child(name_inner)
 
 	var name_label := Label.new()
-	var parts = desc[0].split(" ★", false)
-	name_label.text = parts[0] + "\n★" + (parts[1] if parts.size() > 1 else "")
+	name_label.text = desc[0]
 	name_label.add_theme_font_size_override("font_size", 24)
 	name_label.add_theme_color_override("font_color", Color(0.45, 0.28, 0.12, 1.0))
 	name_inner.add_child(name_label)

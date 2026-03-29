@@ -8765,7 +8765,7 @@ columns = 4
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "QR Cat ★★★★★
+tooltip_text = "QR Cat
 Click seated customers to take their order"
 texture_normal = ExtResource("5_oou2q")
 stretch_mode = 5
@@ -8774,7 +8774,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Fat Cat ★★★★
+tooltip_text = "Fat Cat
 Eats customer's food so they eat faster"
 texture_normal = ExtResource("6_tu5fq")
 stretch_mode = 5
@@ -8783,7 +8783,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Sign Spinner Cat ★★★★
+tooltip_text = "Sign Spinner Cat
 Spreads awareness so more customers come to your cafe! "
 texture_normal = ExtResource("7_rrsuv")
 stretch_mode = 5
@@ -8792,7 +8792,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "\"Host Cat ★★★★★
+tooltip_text = "\"Host Cat
 Click waiting groups so that the host can seat them instantly"
 texture_normal = ExtResource("8_bhcdd")
 stretch_mode = 5
@@ -8801,7 +8801,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Ankle Biter Cat ★★★★
+tooltip_text = "Ankle Biter Cat
 This little kitty will nip at your customers heels, making them walk faster"
 texture_normal = ExtResource("9_isp8q")
 stretch_mode = 5
@@ -8810,7 +8810,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Money Cat ★★★★★
+tooltip_text = "Money Cat
 This southern belle will take money from this table  for you (don't be surprised if she skims some off the top ;)"
 texture_normal = ExtResource("10_2lvoa")
 stretch_mode = 5
@@ -8819,7 +8819,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Hopper Cat ★★★★★
+tooltip_text = "Hopper Cat
 Holds your orders for you and puts them into their machine allowing you to use one extra slot"
 texture_normal = ExtResource("11_knh5r")
 stretch_mode = 5
@@ -8828,7 +8828,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Hermes Cat ★★★★★
+tooltip_text = "Hermes Cat
 Grants you a dash ability"
 texture_normal = ExtResource("12_n21lt")
 stretch_mode = 5
@@ -8837,7 +8837,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Pretty Cat ★★★★
+tooltip_text = "Pretty Cat
 Makes your customers more generous with their tips, as they get to look at her"
 texture_normal = ExtResource("13_lkjma")
 stretch_mode = 5
@@ -8846,7 +8846,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Cheetah Cat ★★★★
+tooltip_text = "Cheetah Cat
 Helps the player get around faster"
 texture_normal = ExtResource("14_pwlqq")
 stretch_mode = 5
@@ -8855,7 +8855,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Patience Cat ★★★★
+tooltip_text = "Patience Cat
 Customers absorb her serenity, and find they have more patience than before  "
 texture_normal = ExtResource("15_u3l60")
 stretch_mode = 5
@@ -8864,7 +8864,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Nihao Cat ★★★★★
+tooltip_text = "Nihao Cat
 She makes the day last longer through her love and whimsy "
 texture_normal = ExtResource("16_gjsv5")
 stretch_mode = 5
@@ -8873,7 +8873,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Inspector Cat ★★★★
+tooltip_text = "Inspector Cat
 She will only take the highest of quality items, with her in charge you can sell them for more"
 texture_normal = ExtResource("17_2v7cr")
 stretch_mode = 5
@@ -8882,7 +8882,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Counter Cat ★★★★★
+tooltip_text = "Counter Cat
 Unlocks the countertop plates — drop off a finished dish and come back for it later!"
 texture_normal = ExtResource("18_doeae")
 stretch_mode = 5
@@ -8891,7 +8891,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Trash Cat ★★★★★
+tooltip_text = "Trash Cat
 Click the trash can from anywhere to toss your inventory — no more running across the kitchen!"
 texture_normal = ExtResource("18_doeae")
 stretch_mode = 5
@@ -8900,7 +8900,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Valentines Cat ★★★★
+tooltip_text = "Valentines Cat
 Customers somehow find themselves matched up? Less single people find their way to your cafe "
 texture_normal = ExtResource("19_idax8")
 stretch_mode = 5
@@ -8909,7 +8909,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Recommendation Cat ★★★★
+tooltip_text = "Recommendation Cat
 Customers order faster when this cat is pawing at the menu "
 texture_normal = ExtResource("20_gkb0q")
 stretch_mode = 5
