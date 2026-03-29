@@ -376,7 +376,8 @@ func _on_finished_eating():
 
 func _on_mouse_entered():
 	if group != null and not group.is_seated:
-		group.highlight()
+		if GameManager.has_queue_cat:
+			group.highlight()
 	elif current_state == State.WAITING_FOR_PLAYER:
 		var player = get_tree().get_first_node_in_group("player")
 		if player and player.has_qr_cat:

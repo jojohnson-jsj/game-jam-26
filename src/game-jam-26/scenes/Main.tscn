@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dwpv8d7qv2wgp" path="res://scenes/Menus/start_screen.tscn" id="15_3p2gp"]
 [ext_resource type="PackedScene" uid="uid://bt2034l3gwkvw" path="res://scenes/Menus/Puase menu.tscn" id="16_cvmbd"]
 [ext_resource type="PackedScene" uid="uid://bif2o8ggtdvir" path="res://scenes/Menus/CatPlacementPage.tscn" id="18_bb450"]
-[ext_resource type="PackedScene" path="res://scenes/Menus/store.tscn" id="18_nfivy"]
+[ext_resource type="PackedScene" uid="uid://cyaxv3swo47ee" path="res://scenes/Menus/store.tscn" id="18_nfivy"]
 [ext_resource type="PackedScene" path="res://scenes/CountertopPlate.tscn" id="19_ctp"]
 
 [node name="Main" type="Node2D" unique_id=1255642466]
@@ -56,9 +56,19 @@ position = Vector2(-56, -49)
 z_index = 5
 position = Vector2(-72, -49)
 
+[node name="LatteMachine3" parent="GameWorld" unique_id=1894341630 instance=ExtResource("3_r0du0")]
+z_index = 5
+position = Vector2(-88, -49)
+unlocked = false
+
+[node name="LatteMachine4" parent="GameWorld" unique_id=273499566 instance=ExtResource("3_r0du0")]
+z_index = 5
+position = Vector2(-40, -49)
+unlocked = false
+
 [node name="Oven1" parent="GameWorld" unique_id=2001000001 instance=ExtResource("3_r0du0")]
 z_index = 5
-position = Vector2(57, -37)
+position = Vector2(56, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
@@ -69,6 +79,22 @@ position = Vector2(72, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
+
+[node name="Oven3" parent="GameWorld" unique_id=565378824 instance=ExtResource("3_r0du0")]
+z_index = 5
+position = Vector2(40, -37)
+item_type = "pie"
+cook_time = 20.0
+indicator_y_offset = -8.0
+unlocked = false
+
+[node name="Oven4" parent="GameWorld" unique_id=1012433486 instance=ExtResource("3_r0du0")]
+z_index = 5
+position = Vector2(88, -37)
+item_type = "pie"
+cook_time = 20.0
+indicator_y_offset = -8.0
+unlocked = false
 
 [node name="World" parent="GameWorld" unique_id=1775352503 instance=ExtResource("4_rarhs")]
 z_as_relative = false
@@ -121,18 +147,39 @@ debug_cat_name = "hermes_cat"
 
 [node name="NonTableCatBed2" parent="GameWorld" unique_id=2001000003 instance=ExtResource("9_lhr70")]
 position = Vector2(45, 130)
+unlocked = false
 bed_id = "non_table_bed_2"
 debug_cat_name = "host_cat"
 
 [node name="NonTableCatBed3" parent="GameWorld" unique_id=2001000004 instance=ExtResource("9_lhr70")]
 position = Vector2(136, -82)
+unlocked = false
 bed_id = "non_table_bed_3"
 debug_cat_name = "counter_cat"
 
 [node name="NonTableCatBed4" parent="GameWorld" unique_id=2001000009 instance=ExtResource("9_lhr70")]
-position = Vector2(40, -15)
+position = Vector2(240, -20)
+unlocked = false
 bed_id = "non_table_bed_4"
 debug_cat_name = "trash_cat"
+
+[node name="NonTableCatBed5" parent="GameWorld" unique_id=901635110 instance=ExtResource("9_lhr70")]
+position = Vector2(-240, -20)
+unlocked = false
+bed_id = "non_table_bed_5"
+debug_cat_name = "money_cat"
+
+[node name="NonTableCatBed6" parent="GameWorld" unique_id=564909941 instance=ExtResource("9_lhr70")]
+position = Vector2(-240, 70)
+unlocked = false
+bed_id = "non_table_bed_6"
+debug_cat_name = "money_cat"
+
+[node name="NonTableCatBed7" parent="GameWorld" unique_id=1227984056 instance=ExtResource("9_lhr70")]
+position = Vector2(240, 70)
+unlocked = false
+bed_id = "non_table_bed_7"
+debug_cat_name = "money_cat"
 
 [node name="CountertopPlateLeft" parent="GameWorld" unique_id=2001000007 instance=ExtResource("19_ctp")]
 z_index = 6
@@ -143,11 +190,6 @@ position = Vector2(-112, -46)
 z_index = 6
 z_as_relative = false
 position = Vector2(112, -46)
-
-[node name="NonTableCatBed5" parent="GameWorld" unique_id=901635110 instance=ExtResource("9_lhr70")]
-position = Vector2(-105, 50)
-bed_id = "money_cat_bed"
-debug_cat_name = "money_cat"
 
 [node name="GlobalInventory" type="Node2D" parent="GameWorld" unique_id=1462444103]
 script = ExtResource("11_wp0k4")

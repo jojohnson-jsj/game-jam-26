@@ -7,6 +7,7 @@ var current_state = State.IDLE
 @export var item_type: String = "latte"
 @export var cook_time: float = 10.0
 @export var indicator_y_offset: float = 0.0
+@export var unlocked: bool = true
 
 var order_queue: Array = []
 var max_queue_size = 1 # affected by hopper cat
@@ -18,6 +19,13 @@ var _bar_fill: ColorRect = null
 
 func _ready():
 	add_to_group("equipment")
+
+	if not unlocked:
+		visible = false
+		monitoring = false
+		monitorable = false
+		set_process(false)
+		return
 
 	max_queue_size = 1 + (1 if GlobalInventory.owns_cat('hopper_cat') else 0)
 
@@ -152,6 +160,14 @@ func unhighlight():
 
 func apply_day_bonuses() -> void:
 	max_queue_size = 1 + (1 if GameManager.has_hopper_cat else 0)
+
+func set_unlocked(value: bool) -> void:
+	unlocked = value
+	visible = value
+	monitoring = value
+	monitorable = value
+	set_process(value)
+
 
 func force_reset() -> void:
 	current_state = State.IDLE

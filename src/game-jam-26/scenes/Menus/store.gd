@@ -299,6 +299,10 @@ func _on_buy_pressed(item: Dictionary, btn: Button, price_lbl: Label, owned_lbl:
 	if not Wallet.remove_money(price):
 		return
 	GlobalInventory.unlock_equipment(item.key)
+	# Apply unlock immediately so new equipment appears without waiting for next day
+	var game_world = get_tree().root.get_node_or_null("Main/GameWorld")
+	if game_world and game_world.has_method("_apply_equipment_unlocks"):
+		game_world._apply_equipment_unlocks()
 	var amt = GlobalInventory.equipment_amt(item.key)
 	owned_lbl.text = "Owned: %d / %d" % [amt, item.max]
 	if amt >= item.max:

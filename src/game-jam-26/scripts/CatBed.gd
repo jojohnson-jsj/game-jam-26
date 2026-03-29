@@ -103,6 +103,11 @@ func _ready() -> void:
 	_cat_sprite.visible = false
 	add_child(_cat_sprite)
 
+	if not unlocked:
+		_set_visible(false)
+	else:
+		_set_visible(true)
+
 	# Area2D for hover highlight and click-to-pet
 	var shape = RectangleShape2D.new()
 	shape.size = Vector2(22, 16)
@@ -134,6 +139,22 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	SaveManager.unregister_bed(self)
+
+
+func _set_visible(show: bool) -> void:
+	var art = get_node_or_null("Sprite2D - for art replacement later")
+	if art:
+		art.visible = show
+	if _interaction_area:
+		_interaction_area.input_pickable = show
+		_interaction_area.monitoring = show
+
+
+func set_unlocked(value: bool) -> void:
+	unlocked = value
+	_set_visible(value)
+	if not value and assigned_cat != null:
+		remove_cat()
 
 
 # Reconstruct and assign a cat from a saved name string.

@@ -33,6 +33,10 @@ func _ready():
 func open():
 	$"../".visible = true
 	$"../".process_mode = Node.PROCESS_MODE_ALWAYS
+	# Ensure newly purchased beds/equipment are visible
+	var game_world = get_tree().root.get_node_or_null("Main/GameWorld")
+	if game_world and game_world.has_method("_apply_equipment_unlocks"):
+		game_world._apply_equipment_unlocks()
 	_update_cat_buttons()
 
 func _update_cat_buttons():

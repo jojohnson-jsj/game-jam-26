@@ -31,8 +31,8 @@ func debug_cats() -> void:
 
 #Equipment unlocks
 var equipment_unlocked: Dictionary = {
-	'latte_machine': 1,
-	'oven': 0,
+	'latte_machine': 2,
+	'oven': 2,
 	'cat_bed': 1
 }
 
