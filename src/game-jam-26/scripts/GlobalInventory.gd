@@ -52,7 +52,6 @@ func is_equipment_unlocked(equipment) -> bool:
 	return equipment_unlocked.get(equipment) > 0
 
 func equipment_amt(equipment: String) -> int:
-	print(equipment + str(equipment_unlocked[equipment]))
 	return equipment_unlocked[equipment]
 # cats currently placed in a bed — managed by CatBed activate/deactivate
 var placed_cats: Array = []
@@ -75,9 +74,9 @@ func unlock_equipment(equipment:String) -> int:
 		emit_signal('inventory_changed')
 		return equipment_unlocked[equipment]
 	elif(equipment_unlocked[equipment] < 4):
-		print("hi")
 		equipment_unlocked[equipment] += 1
 		emit_signal('inventory_changed')
+		print("hi")
 		return equipment_unlocked[equipment]
 	return -1
 

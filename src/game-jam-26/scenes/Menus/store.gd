@@ -37,7 +37,7 @@ func _on_oven_buy_button_pressed() -> void:
 	print(amt)
 	ovenLabelCont.get_node("NumOwn").text = "Number Owned: " + str(amt)
 	
-	if (GlobalInventory.unlock_equipment("oven") == 4):
+	if (amt == 4):
 		ovenBuyButton.disabled = true
 		ovenBuyButton.text = "SOLD"	
 		ovenLabelCont.get_node("Price").text = "Price: SOLD OUT"
