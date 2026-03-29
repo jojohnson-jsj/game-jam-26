@@ -69,6 +69,7 @@ expand_mode = 3
 [node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=642451203]
 layout_mode = 2
 size_flags_horizontal = 3
+color = Color(0, 1, 1, 0)
 
 [node name="buyOven" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=1795578193]
 layout_mode = 2
@@ -80,7 +81,24 @@ text = "BUY"
 [node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=191433813]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 12.67
+size_flags_stretch_ratio = 1.56
+color = Color(1, 1, 1, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks" unique_id=371493391]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.7
+
+[node name="NumOwn" type="Label" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/VBoxContainer" unique_id=1823456710]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Number Owned: "
+vertical_alignment = 1
+
+[node name="Price" type="Label" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Oven Unlocks/VBoxContainer" unique_id=767901941]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Price: "
 
 [node name="Latte Unlocks" type="HBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer" unique_id=807427160]
 layout_mode = 2
@@ -94,6 +112,7 @@ expand_mode = 3
 [node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=733256544]
 layout_mode = 2
 size_flags_horizontal = 3
+color = Color(1, 1, 1, 0)
 
 [node name="buyLatte" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=620963001]
 layout_mode = 2
@@ -102,10 +121,27 @@ size_flags_vertical = 4
 size_flags_stretch_ratio = 5.55
 text = "BUY"
 
-[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=1186246386]
+[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=1941434902]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 12.67
+size_flags_stretch_ratio = 1.56
+color = Color(1, 1, 1, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks" unique_id=1971957945]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.7
+
+[node name="NumOwn" type="Label" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks/VBoxContainer" unique_id=1066433568]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Number Owned: "
+vertical_alignment = 1
+
+[node name="Price" type="Label" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Latte Unlocks/VBoxContainer" unique_id=1936574431]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Price: "
 
 [node name="Catbed Unlock" type="HBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer" unique_id=729302901]
 layout_mode = 2
@@ -119,6 +155,7 @@ expand_mode = 3
 [node name="ColorRect" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=2354922]
 layout_mode = 2
 size_flags_horizontal = 3
+color = Color(1, 1, 1, 0)
 
 [node name="buyCatbed" type="Button" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=1573526568]
 layout_mode = 2
@@ -127,10 +164,27 @@ size_flags_vertical = 4
 size_flags_stretch_ratio = 5.55
 text = "BUY"
 
-[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=235634453]
+[node name="ColorRect2" type="ColorRect" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=1475682348]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 12.67
+size_flags_stretch_ratio = 1.56
+color = Color(1, 1, 1, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock" unique_id=2043125081]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.7
+
+[node name="NumOwn" type="Label" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock/VBoxContainer" unique_id=617441473]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Number Owned: "
+vertical_alignment = 1
+
+[node name="Price" type="Label" parent="Websites/Hardware,com/ScrollContainer/VBoxContainer/Catbed Unlock/VBoxContainer" unique_id=1722100680]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Price: "
 
 [node name="AdoptCat,com" type="ColorRect" parent="Websites" unique_id=757846545]
 visible = false
@@ -151,6 +205,20 @@ offset_top = -8.115692
 offset_right = -0.32003784
 offset_bottom = -0.085372925
 text = "ADOPT 1"
+
+[node name="Price" type="Label" parent="Websites/AdoptCat,com" unique_id=1040091354]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.34300002
+anchor_top = 0.51000005
+anchor_right = 0.52400005
+anchor_bottom = 0.64500004
+offset_left = -0.120025635
+offset_top = -0.23002625
+offset_right = -0.16003418
+offset_bottom = -8.085022
+text = "Price: 160"
+horizontal_alignment = 1
 
 [node name="Exit" type="Button" parent="." unique_id=467340867]
 layout_mode = 1

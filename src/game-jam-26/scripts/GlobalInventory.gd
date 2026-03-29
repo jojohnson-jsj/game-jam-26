@@ -51,6 +51,9 @@ func copies_of(catId: String) -> int:
 func is_equipment_unlocked(equipment) -> bool:
 	return equipment_unlocked.get(equipment) > 0
 
+func equipment_amt(equipment: String) -> int:
+	print(equipment + str(equipment_unlocked[equipment]))
+	return equipment_unlocked[equipment]
 # cats currently placed in a bed — managed by CatBed activate/deactivate
 var placed_cats: Array = []
 
@@ -66,11 +69,13 @@ func add_cat(catId:String) -> void:
 	
 
 func unlock_equipment(equipment:String) -> int:
+	print("unlock equipment amt " + equipment + str(equipment_unlocked[equipment]))
 	if(equipment == 'cat_bed' && equipment_unlocked[equipment] < 7):
 		equipment_unlocked[equipment] += 1
 		emit_signal('inventory_changed')
 		return equipment_unlocked[equipment]
 	elif(equipment_unlocked[equipment] < 4):
+		print("hi")
 		equipment_unlocked[equipment] += 1
 		emit_signal('inventory_changed')
 		return equipment_unlocked[equipment]
