@@ -73,7 +73,7 @@ const CAT_DEFINITIONS: Dictionary = {
 	"hermes_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.HERMES},
 	"money_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.MONEY},
 	"host_cat":            {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.QUEUE},
-	"hopper_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
+	"hopper_cat":          {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.HOPPER},
 	"nihao_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.NONE},
 	"counter_cat":         {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.COUNTER},
 	"trash_cat":           {"cat_type": Cat.CatType.NON_TABLE, "ability_type": Cat.AbilityType.TRASH},
@@ -288,6 +288,8 @@ func _get_player():
 
 
 func _activate_cat(cat: Cat):
+	if not cat.cat_name in GlobalInventory.placed_cats:
+		GlobalInventory.placed_cats.append(cat.cat_name)
 	match cat.ability_type:
 		Cat.AbilityType.HERMES:
 			var player = _get_player()
@@ -317,6 +319,9 @@ func _activate_cat(cat: Cat):
 		Cat.AbilityType.TRASH:
 			GameManager.has_trash_cat = true
 
+		Cat.AbilityType.HOPPER:
+			GameManager.has_hopper_cat = true
+
 
 func _deactivate_cat(cat: Cat):
 	match cat.ability_type:
@@ -345,6 +350,9 @@ func _deactivate_cat(cat: Cat):
 
 		Cat.AbilityType.TRASH:
 			GameManager.has_trash_cat = false
+
+		Cat.AbilityType.HOPPER:
+			GameManager.has_hopper_cat = false
 
 func _set_all_tables_money_cat_position() -> void:
 	for table in GameManager.tables:

@@ -34,6 +34,7 @@ var door_point: Vector2 = Vector2.ZERO
 var has_queue_cat: bool  # initialized in _ready() from DebugConfig
 var has_counter_cat: bool = false
 var has_trash_cat: bool = false
+var has_hopper_cat: bool = false
 
 const ITEM_PRICES = {
 	"latte": 3.0,
@@ -176,6 +177,14 @@ func start_day():
 	spawn_timer.wait_time = max(5.0, spawn_interval - GlobalInventory.get_spawn_interval_reduction())
 	queue_patience += GlobalInventory.get_patience_bonus()
 	tip_floor_time += GlobalInventory.get_tip_floor_bonus()
+	day_timer.wait_time = day_duration + GlobalInventory.get_day_extension()
+
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		player.speed = player.BASE_SPEED * (1.0 + GlobalInventory.get_speed_bonus())
+
+	for equip in get_tree().get_nodes_in_group("equipment"):
+		equip.apply_day_bonuses()
 
 	day_active = true
 	spawn_timer.start()
