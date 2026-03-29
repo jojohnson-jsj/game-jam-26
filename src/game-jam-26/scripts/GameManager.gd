@@ -164,7 +164,7 @@ func _apply_day_scaling() -> void:
 	# Max group size: 3 on day 1, +1 at day 5, +1 at day 10 (cap 5)
 	max_group_size = min(5, 3 + int(GlobalInventory.day >= 5) + int(GlobalInventory.day >= 10))
 	# Pie order rate: 10% on day 1, up to 60% as days progress
-	_pie_chance = clamp(0.10 + s * 0.50, 0.10, 0.60)
+	_pie_chance = clamp(0.30 + s * 0.50, 0.30, 0.60)
 	# Per-customer seated patience (used after they're thinking)
 	_customer_initial_patience  = max(15.0, 40.0 - s * 22.0)
 	_customer_delivery_patience = max(20.0, 60.0 - s * 35.0)
