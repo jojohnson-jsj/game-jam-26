@@ -51,6 +51,9 @@ func copies_of(catId: String) -> int:
 func is_equipment_unlocked(equipment) -> bool:
 	return equipment_unlocked.get(equipment) > 0
 
+func equipment_amt(equipment: String) -> int:
+	return equipment_unlocked.get(equipment, 0)
+
 # cats currently placed in a bed — managed by CatBed activate/deactivate
 var placed_cats: Array = []
 

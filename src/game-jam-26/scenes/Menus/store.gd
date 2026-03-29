@@ -4,27 +4,31 @@ const GACHA_SCENE = preload("res://scenes/GachaController.tscn")
 
 var _money_label: Label
 var _day_label: Label
-var _active_tab: int = 0  # 0 = hardware, 1 = adopt
+var _active_tab: int = 0
 var _tab_contents: Array = []
 var _tab_buttons: Array = []
+var _item_rows: Array = []  # [{price_lbl, buy_btn, owned_lbl, item}]
 
 const BROWN       = Color(0.45, 0.28, 0.12, 1.0)
-const BROWN_LIGHT = Color(0.58, 0.38, 0.18, 1.0)
 const CREAM       = Color(0.98, 0.95, 0.88, 1.0)
 const CREAM_DARK  = Color(0.88, 0.82, 0.70, 1.0)
 const TEXT_DARK   = Color(0.28, 0.15, 0.05, 1.0)
 const TEXT_MID    = Color(0.45, 0.28, 0.12, 0.6)
 
 const HARDWARE_ITEMS = [
-	{"key": "oven",          "label": "Oven",          "desc": "Unlocks pie orders",          "price": 5},
-	{"key": "latte_machine", "label": "Latte Machine",  "desc": "Unlocks latte orders",        "price": 5},
+	{"key": "oven",          "label": "Oven",          "desc": "Unlocks pie orders",   "base_price": 300, "price_step": 50,  "max": 4},
+	{"key": "latte_machine", "label": "Latte Machine", "desc": "Unlocks latte orders", "base_price": 250, "price_step": 25,  "max": 4},
+	{"key": "cat_bed",       "label": "Cat Bed",       "desc": "Adds a cat bed slot",  "base_price": 30,  "price_step": 100, "max": 7},
 ]
+
+func _get_price(item: Dictionary) -> int:
+	return item.base_price + item.price_step * GlobalInventory.equipment_amt(item.key)
 
 func _ready() -> void:
 	_build_ui()
 	Wallet.money_changed.connect(_on_money_changed)
 
-func _make_panel_style(bg: Color = CREAM) -> StyleBoxFlat:
+func _make_style(bg: Color = CREAM) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
 	s.bg_color = bg
 	s.border_color = BROWN
@@ -37,32 +41,29 @@ func _make_button(text: String, min_w: float = 180) -> Button:
 	var btn := Button.new()
 	btn.text = text
 	btn.custom_minimum_size = Vector2(min_w, 36)
-	var sn := _make_panel_style(CREAM)
-	sn.set_content_margin_all(6)
-	var sh := _make_panel_style(CREAM_DARK)
-	sh.set_content_margin_all(6)
-	btn.add_theme_stylebox_override("normal",  sn)
-	btn.add_theme_stylebox_override("hover",   sh)
-	btn.add_theme_stylebox_override("pressed", sh)
-	btn.add_theme_stylebox_override("disabled", _make_panel_style(Color(0.85, 0.82, 0.76)))
+	var sn := _make_style(CREAM); sn.set_content_margin_all(6)
+	var sh := _make_style(CREAM_DARK); sh.set_content_margin_all(6)
+	var sd := _make_style(Color(0.85, 0.82, 0.76)); sd.set_content_margin_all(6)
+	btn.add_theme_stylebox_override("normal",   sn)
+	btn.add_theme_stylebox_override("hover",    sh)
+	btn.add_theme_stylebox_override("pressed",  sh)
+	btn.add_theme_stylebox_override("disabled", sd)
 	btn.add_theme_color_override("font_color",          TEXT_DARK)
 	btn.add_theme_color_override("font_disabled_color", TEXT_MID)
 	return btn
 
 func _build_ui() -> void:
-	# Dark overlay
 	var bg := ColorRect.new()
 	bg.color = Color(0.08, 0.04, 0.02, 0.88)
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
-	# Centered main panel
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _make_panel_style())
+	panel.add_theme_stylebox_override("panel", _make_style())
 	panel.custom_minimum_size = Vector2(480, 360)
 	center.add_child(panel)
 
@@ -75,7 +76,7 @@ func _build_ui() -> void:
 	vbox.add_theme_constant_override("separation", 12)
 	outer.add_child(vbox)
 
-	# ── Header row ────────────────────────────────────────────────────────────
+	# Header
 	var header := HBoxContainer.new()
 	vbox.add_child(header)
 
@@ -86,7 +87,6 @@ func _build_ui() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
 
-	# Day + money
 	var info_hbox := HBoxContainer.new()
 	info_hbox.add_theme_constant_override("separation", 8)
 	header.add_child(info_hbox)
@@ -96,10 +96,10 @@ func _build_ui() -> void:
 	_day_label.add_theme_color_override("font_color", TEXT_DARK)
 	info_hbox.add_child(_day_label)
 
-	var sep_lbl := Label.new()
-	sep_lbl.text = "|"
-	sep_lbl.add_theme_color_override("font_color", TEXT_MID)
-	info_hbox.add_child(sep_lbl)
+	var sep := Label.new()
+	sep.text = "|"
+	sep.add_theme_color_override("font_color", TEXT_MID)
+	info_hbox.add_child(sep)
 
 	var coin := TextureRect.new()
 	coin.texture = load("res://assets/Misc/coin.png")
@@ -114,26 +114,24 @@ func _build_ui() -> void:
 	_money_label.custom_minimum_size = Vector2(40, 0)
 	info_hbox.add_child(_money_label)
 
-	# ── Tab buttons ───────────────────────────────────────────────────────────
+	# Tabs
 	var tab_row := HBoxContainer.new()
 	tab_row.add_theme_constant_override("separation", 6)
 	vbox.add_child(tab_row)
 
 	for i in range(2):
-		var label = ["Hardware.com", "AdoptCat.com"][i]
-		var tb := _make_button(label, 0)
+		var tb := _make_button(["Hardware.com", "AdoptCat.com"][i], 0)
 		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		tb.pressed.connect(_on_tab_pressed.bind(i))
 		tab_row.add_child(tb)
 		_tab_buttons.append(tb)
 
-	# Divider
 	var div := ColorRect.new()
 	div.color = Color(BROWN, 0.3)
 	div.custom_minimum_size = Vector2(0, 2)
 	vbox.add_child(div)
 
-	# ── Tab content area ──────────────────────────────────────────────────────
+	# Content area
 	var content_area := Control.new()
 	content_area.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content_area.custom_minimum_size = Vector2(0, 220)
@@ -165,7 +163,7 @@ func _build_ui() -> void:
 	adopt_panel.add_child(adopt_center)
 
 	var adopt_card := PanelContainer.new()
-	adopt_card.add_theme_stylebox_override("panel", _make_panel_style(CREAM_DARK))
+	adopt_card.add_theme_stylebox_override("panel", _make_style(CREAM_DARK))
 	adopt_center.add_child(adopt_card)
 
 	var adopt_inner := MarginContainer.new()
@@ -197,7 +195,7 @@ func _build_ui() -> void:
 
 	_tab_contents.append(adopt_panel)
 
-	# ── Footer: Leave button ──────────────────────────────────────────────────
+	# Footer
 	var footer_div := ColorRect.new()
 	footer_div.color = Color(BROWN, 0.3)
 	footer_div.custom_minimum_size = Vector2(0, 2)
@@ -215,7 +213,7 @@ func _build_ui() -> void:
 
 func _make_item_row(item: Dictionary) -> Control:
 	var row := PanelContainer.new()
-	row.add_theme_stylebox_override("panel", _make_panel_style(CREAM_DARK))
+	row.add_theme_stylebox_override("panel", _make_style(CREAM_DARK))
 
 	var inner := MarginContainer.new()
 	for s in ["margin_top","margin_bottom","margin_left","margin_right"]:
@@ -226,7 +224,6 @@ func _make_item_row(item: Dictionary) -> Control:
 	hbox.add_theme_constant_override("separation", 12)
 	inner.add_child(hbox)
 
-	# Icon
 	var icon_tex = GameManager.get_machine_sprite(item.key)
 	if icon_tex:
 		var icon := TextureRect.new()
@@ -236,7 +233,6 @@ func _make_item_row(item: Dictionary) -> Control:
 		icon.custom_minimum_size = Vector2(40, 40)
 		hbox.add_child(icon)
 
-	# Name + desc
 	var text_vbox := VBoxContainer.new()
 	text_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text_vbox.add_theme_constant_override("separation", 2)
@@ -253,23 +249,31 @@ func _make_item_row(item: Dictionary) -> Control:
 	desc_lbl.add_theme_font_size_override("font_size", 11)
 	text_vbox.add_child(desc_lbl)
 
-	# Price + buy
+	var owned_lbl := Label.new()
+	owned_lbl.text = "Owned: %d / %d" % [GlobalInventory.equipment_amt(item.key), item.max]
+	owned_lbl.add_theme_color_override("font_color", TEXT_MID)
+	owned_lbl.add_theme_font_size_override("font_size", 11)
+	text_vbox.add_child(owned_lbl)
+
 	var right_vbox := VBoxContainer.new()
 	right_vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	right_vbox.add_theme_constant_override("separation", 4)
 	hbox.add_child(right_vbox)
 
+	var amt = GlobalInventory.equipment_amt(item.key)
+	var at_max = amt >= item.max
+
 	var price_lbl := Label.new()
-	price_lbl.text = "$%d" % item.price
+	price_lbl.text = "SOLD OUT" if at_max else "$%d" % _get_price(item)
 	price_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	price_lbl.add_theme_color_override("font_color", BROWN)
 	right_vbox.add_child(price_lbl)
 
 	var buy_btn := _make_button("BUY", 80)
-	if GlobalInventory.is_equipment_unlocked(item.key):
-		buy_btn.text = "OWNED"
-		buy_btn.disabled = true
-	buy_btn.pressed.connect(_on_buy_pressed.bind(item.key, item.price, buy_btn))
+	buy_btn.disabled = at_max
+	if at_max:
+		buy_btn.text = "MAX"
+	buy_btn.pressed.connect(_on_buy_pressed.bind(item, buy_btn, price_lbl, owned_lbl))
 	right_vbox.add_child(buy_btn)
 
 	return row
@@ -278,7 +282,7 @@ func _make_item_row(item: Dictionary) -> Control:
 func _refresh_tabs() -> void:
 	for i in range(_tab_buttons.size()):
 		var active = i == _active_tab
-		var style = _make_panel_style(BROWN if active else CREAM)
+		var style = _make_style(BROWN if active else CREAM)
 		style.set_content_margin_all(6)
 		_tab_buttons[i].add_theme_stylebox_override("normal", style)
 		_tab_buttons[i].add_theme_stylebox_override("hover",  style)
@@ -291,12 +295,19 @@ func _on_tab_pressed(idx: int) -> void:
 	_refresh_tabs()
 
 
-func _on_buy_pressed(key: String, price: int, btn: Button) -> void:
+func _on_buy_pressed(item: Dictionary, btn: Button, price_lbl: Label, owned_lbl: Label) -> void:
+	var price = _get_price(item)
 	if not Wallet.remove_money(price):
 		return
-	GlobalInventory.unlock_equipment(key)
-	btn.text = "OWNED"
-	btn.disabled = true
+	GlobalInventory.unlock_equipment(item.key)
+	var amt = GlobalInventory.equipment_amt(item.key)
+	owned_lbl.text = "Owned: %d / %d" % [amt, item.max]
+	if amt >= item.max:
+		btn.text = "MAX"
+		btn.disabled = true
+		price_lbl.text = "SOLD OUT"
+	else:
+		price_lbl.text = "$%d" % _get_price(item)
 
 
 func _on_adopt_pressed() -> void:
