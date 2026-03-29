@@ -79,6 +79,8 @@ func _on_place_pressed():
 	game_world.process_mode = Node.PROCESS_MODE_ALWAYS
 	self.modulate.a = 0.0
 	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	$VBox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	$VBox.visible = false
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _on_bed_clicked(bed: CatBed):
@@ -100,6 +102,8 @@ func _on_bed_clicked(bed: CatBed):
 	game_world.process_mode = Node.PROCESS_MODE_DISABLED
 	self.modulate.a = 1.0
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	$VBox.mouse_filter = Control.MOUSE_FILTER_STOP
+	$VBox.visible = true
 	self.visible = true
 	selected_label.text = "Placed!"
 	selected_cat_id = ""
