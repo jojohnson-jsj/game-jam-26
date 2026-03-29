@@ -8930,17 +8930,14 @@ Customers order faster when this cat is pawing at the menu "
 texture_normal = ExtResource("20_gkb0q")
 stretch_mode = 5
 
-[node name="cooking_cat" type="TextureButton" parent="VBox/CatGrid" unique_id=794520099]
+[node name="cooking_cat" type="TextureButton" parent="HBox/VBox/CatGrid" unique_id=625302425]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Chef Cat
-Decreases cooking time so dishes are ready faster"
+tooltip_text = "Recommendation Cat
+Customers order faster when this cat is pawing at the menu "
 texture_normal = ExtResource("22_bhcdd")
 stretch_mode = 5
-
-[node name="SelectedLabel" type="Label" parent="VBox" unique_id=1209503658]
-layout_mode = 2
 
 [node name="HBox" type="HBoxContainer" parent="HBox/VBox" unique_id=2020933338]
 layout_mode = 2
@@ -8957,6 +8954,18 @@ layout_mode = 2
 [node name="MarginContainer2" type="MarginContainer" parent="HBox" unique_id=1027821991]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+
+[node name="VBox_CatGrid#cooking_cat" type="TextureButton" parent="." unique_id=794520099]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Chef Cat
+Decreases cooking time so dishes are ready faster"
+texture_normal = ExtResource("22_bhcdd")
+stretch_mode = 5
+
+[node name="VBox#SelectedLabel" type="Label" parent="." unique_id=1209503658]
+layout_mode = 0
 
 [node name="BedList" type="VBoxContainer" parent="." unique_id=1764354969]
 layout_mode = 0
