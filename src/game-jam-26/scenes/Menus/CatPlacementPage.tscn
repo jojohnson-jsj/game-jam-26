@@ -8792,7 +8792,7 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "\"Host Cat
+tooltip_text = "Host Cat
 Click waiting groups so that the host can seat them instantly"
 texture_normal = ExtResource("8_bhcdd")
 stretch_mode = 5
@@ -8811,7 +8811,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Money Cat
-This southern belle will take money from this table  for you (don't be surprised if she skims some off the top ;)"
+Automatically collects money so you don't have to"
 texture_normal = ExtResource("10_2lvoa")
 stretch_mode = 5
 

@@ -24,7 +24,7 @@ var catsArt: Dictionary = {
 const CAT_DESCRIPTIONS = {
 	'qr_cat':              ["QR Cat", "Click seated customers to take their order"],
 	'hermes_cat':          ["Hermes Cat", "Grants you a dash ability"],
-	'money_cat':           ["Money Cat", "Collects money from tables for you"],
+	'money_cat':           ["Money Cat", "Automatically collects money so you don't have to"],
 	'host_cat':            ["Host Cat", "Click waiting groups so that the host can seat them instantly"],
 	'hopper_cat':          ["Hopper Cat", "Holds your orders and allows you to use one extra slot"],
 	'nihao_cat':           ["Nihao Cat", "She makes the day last longer through her love and whimsy"],
