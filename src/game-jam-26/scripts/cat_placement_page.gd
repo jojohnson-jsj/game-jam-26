@@ -2,8 +2,8 @@ extends Control
 
 var selected_cat_id: String = ""
 
-@onready var selected_label = $VBox/SelectedLabel
-@onready var close_btn = $VBox/CloseButton
+@onready var selected_label = $HBox/VBox/SelectedLabel
+@onready var close_btn = $HBox/VBox/HBox/CloseButton
 
 const CAT_IDS = [
 	'qr_cat', 'hermes_cat', 'money_cat', 'host_cat', 'hopper_cat',
@@ -21,8 +21,8 @@ func _ready():
 	_place_btn.text = "Place"
 	_place_btn.visible = false
 	_place_btn.pressed.connect(_on_place_pressed)
-	$VBox.add_child(_place_btn)
-	$VBox.move_child(_place_btn, selected_label.get_index() + 1)
+	$HBox/VBox/HBox.add_child(_place_btn)
+	$HBox/VBox/HBox.move_child(_place_btn, 0)
 	# connect cat buttons once here only
 	for cat_id in CAT_IDS:
 		var node = find_child(cat_id, true, false)
@@ -83,8 +83,8 @@ func _on_place_pressed():
 	game_world.process_mode = Node.PROCESS_MODE_ALWAYS
 	self.modulate.a = 0.0
 	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	$VBox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	$VBox.visible = false
+	$HBox/VBox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	$HBox/VBox.visible = false
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _on_bed_clicked(bed: CatBed):
@@ -106,8 +106,8 @@ func _on_bed_clicked(bed: CatBed):
 	game_world.process_mode = Node.PROCESS_MODE_DISABLED
 	self.modulate.a = 1.0
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
-	$VBox.mouse_filter = Control.MOUSE_FILTER_STOP
-	$VBox.visible = true
+	$HBox/VBox.mouse_filter = Control.MOUSE_FILTER_STOP
+	$HBox/VBox.visible = true
 	self.visible = true
 	selected_label.text = "Placed!"
 	selected_cat_id = ""
