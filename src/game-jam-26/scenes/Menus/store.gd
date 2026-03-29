@@ -17,8 +17,8 @@ const TEXT_MID    = Color(0.45, 0.28, 0.12, 0.6)
 
 const HARDWARE_ITEMS = [
 	{"key": "oven",          "label": "Oven",          "desc": "Unlocks pie orders",   "base_price": 300, "price_step": 50,  "max": 4},
-	{"key": "latte_machine", "label": "Latte Machine", "desc": "Unlocks latte orders", "base_price": 250, "price_step": 25,  "max": 4},
-	{"key": "cat_bed",       "label": "Cat Bed",       "desc": "Adds a cat bed slot",  "base_price": 30,  "price_step": 100, "max": 7},
+	{"key": "latte_machine", "label": "Latte Machine", "desc": "Unlocks latte orders", "base_price": 225, "price_step": 25,  "max": 4},
+	{"key": "cat_bed",       "label": "Cat Bed",       "desc": "Adds a cat bed slot",  "base_price": -70,  "price_step": 100, "max": 7},
 ]
 
 func _get_price(item: Dictionary) -> int:
@@ -120,7 +120,7 @@ func _build_ui() -> void:
 	vbox.add_child(tab_row)
 
 	for i in range(2):
-		var tb := _make_button(["Hardware.com", "AdoptCat.com"][i], 0)
+		var tb := _make_button(["Hardware", "AdoptCat"][i], 0)
 		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		tb.pressed.connect(_on_tab_pressed.bind(i))
 		tab_row.add_child(tb)
@@ -209,7 +209,6 @@ func _build_ui() -> void:
 	vbox.add_child(footer)
 
 	_refresh_tabs()
-
 
 func _make_item_row(item: Dictionary) -> Control:
 	var row := PanelContainer.new()
@@ -308,7 +307,6 @@ func _on_buy_pressed(item: Dictionary, btn: Button, price_lbl: Label, owned_lbl:
 		price_lbl.text = "SOLD OUT"
 	else:
 		price_lbl.text = "$%d" % _get_price(item)
-
 
 func _on_adopt_pressed() -> void:
 	visible = false
