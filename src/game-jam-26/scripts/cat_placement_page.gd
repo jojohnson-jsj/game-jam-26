@@ -7,7 +7,7 @@ var selected_cat_id: String = ""
 
 const CAT_IDS = [
 	'qr_cat', 'hermes_cat', 'money_cat', 'host_cat', 'hopper_cat',
-	'nihao_cat', 'counter_cat', 'trash_cat', 'patience_cat',
+	'nihao_cat', 'counter_cat', 'trash_cat', 'patience_cat', 'cooking_cat',
 	'quality_control_cat', 'cheetah_cat', 'pretty_cat', 'valentines_cat',
 	'fat_cat', 'sign_spinner_cat', 'ankle_biter_cat', 'reccomendation_cat'
 ]
