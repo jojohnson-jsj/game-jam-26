@@ -27,8 +27,8 @@ extends Node
 ## Patience Bar — shows a progress bar above seated customers' heads.
 @export var patience_bar_enabled: bool = true
 
-## Day duration in seconds. Default is 180.
-@export var day_duration: float = 180.0
+## Day duration in seconds. Default is 120.
+@export var day_duration: float = 120.0
 
 ## Starting money for testing. Set to 0 for normal gameplay.
 @export var starting_money: float = 0.0

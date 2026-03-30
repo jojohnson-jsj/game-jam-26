@@ -55,20 +55,20 @@ script = ExtResource("2_ft6cd")
 [node name="Player" parent="GameWorld" unique_id=727168745 groups=["player"] instance=ExtResource("1_glv2v")]
 
 [node name="LatteMachine1" parent="GameWorld" unique_id=1707120334 instance=ExtResource("3_r0du0")]
-z_index = 5
+z_index = 8
 position = Vector2(-56, -49)
 
 [node name="LatteMachine2" parent="GameWorld" unique_id=534699615 instance=ExtResource("3_r0du0")]
-z_index = 5
+z_index = 8
 position = Vector2(-72, -49)
 
 [node name="LatteMachine3" parent="GameWorld" unique_id=1894341630 instance=ExtResource("3_r0du0")]
-z_index = 5
+z_index = 8
 position = Vector2(-88, -49)
 unlocked = false
 
 [node name="LatteMachine4" parent="GameWorld" unique_id=273499566 instance=ExtResource("3_r0du0")]
-z_index = 5
+z_index = 8
 position = Vector2(-40, -49)
 unlocked = false
 
@@ -78,6 +78,7 @@ position = Vector2(56, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
+collision_y_offset = -12.0
 
 [node name="Oven2" parent="GameWorld" unique_id=2001000002 instance=ExtResource("3_r0du0")]
 z_index = 5
@@ -85,6 +86,7 @@ position = Vector2(72, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
+collision_y_offset = -12.0
 
 [node name="Oven3" parent="GameWorld" unique_id=565378824 instance=ExtResource("3_r0du0")]
 z_index = 5
@@ -92,6 +94,7 @@ position = Vector2(40, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
+collision_y_offset = -12.0
 unlocked = false
 
 [node name="Oven4" parent="GameWorld" unique_id=1012433486 instance=ExtResource("3_r0du0")]
@@ -100,6 +103,7 @@ position = Vector2(88, -37)
 item_type = "pie"
 cook_time = 20.0
 indicator_y_offset = -8.0
+collision_y_offset = -12.0
 unlocked = false
 
 [node name="World" parent="GameWorld" unique_id=1775352503 instance=ExtResource("4_rarhs")]

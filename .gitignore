@@ -25,6 +25,8 @@ src/game-jam-26/index.wasm
 src/game-jam-26/index.*.js
 src/game-jam-26/index.*.png
 src/game-jam-26/index.*.png.import
+src/game-jam-26/index.png
+src/game-jam-26/index.png.import
 
 # Build artifacts
 *.zip
