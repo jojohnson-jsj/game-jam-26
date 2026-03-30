@@ -117,10 +117,13 @@ func interact(player_inventory: Array) -> bool:
 				var order = find_order_in_inventory(player_inventory)
 				if order == null:
 					return false
+				# Auto-redirect to an idle machine of the same type if one exists
+				for equip in get_tree().get_nodes_in_group("equipment"):
+					if equip != self and equip.item_type == item_type and equip.current_state == State.IDLE and equip.unlocked:
+						return equip.interact(player_inventory)
 				player_inventory.erase(order)
 				order_queue.append(order)
 				_has_queued_order = true
-				# Shift ready sprite up to make room for bar
 				$SpriteReady.position.y = -15.0 + indicator_y_offset - 5.0
 				print('queued order: ', item_type)
 				return true
