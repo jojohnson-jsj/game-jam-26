@@ -79,6 +79,8 @@ var _ambience_player: AudioStreamPlayer = null
 
 func _ready():
 	has_queue_cat = DebugConfig.queue_cat_enabled
+	if DebugConfig.hopper_cat_enabled:
+		has_hopper_cat = true
 	day_duration = DebugConfig.day_duration
 
 	_ambience_player = AudioStreamPlayer.new()

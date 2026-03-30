@@ -108,6 +108,27 @@ func _ready():
 	_update_cat_buttons()
 
 
+const CAT_DESCRIPTIONS = {
+	'qr_cat':              "Click seated customers to take their order",
+	'hermes_cat':          "Grants you a dash ability",
+	'money_cat':           "Collects money from tables for you",
+	'host_cat':            "Click waiting groups to seat them instantly",
+	'hopper_cat':          "Holds your orders and allows one extra slot",
+	'nihao_cat':           "Makes the day last longer",
+	'counter_cat':         "Unlocks countertop plates for staging food",
+	'patience_cat':        "Customers have more patience",
+	'quality_control_cat': "Sell items for more money",
+	'cheetah_cat':         "Helps the player move faster",
+	'pretty_cat':          "Customers tip more generously",
+	'valentines_cat':      "Fewer solo customers visit",
+	'fat_cat':             "Customers eat faster",
+	'sign_spinner_cat':    "More customers come to your cafe",
+	'ankle_biter_cat':     "Customers walk faster",
+	'reccomendation_cat':  "Customers order faster",
+	'cooking_cat':         "Food cooks faster",
+	'trash_cat':           "Click the trash can to discard inventory",
+}
+
 func _format_cat_name(cat_id: String) -> String:
 	const NAMES = {
 		'qr_cat': 'QR', 'hermes_cat': 'Hermes', 'money_cat': 'Money',
@@ -162,6 +183,7 @@ func _make_cat_card(cat_id: String) -> Button:
 	vbox.add_child(lbl)
 
 	btn.pressed.connect(_on_cat_selected.bind(cat_id))
+	btn.tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
 	return btn
 
 
