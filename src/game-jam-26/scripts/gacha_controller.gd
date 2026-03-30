@@ -19,26 +19,28 @@ var catsArt: Dictionary = {
 	'sign_spinner_cat': {'splash': 'res://assets/cats/splashes/cat_splash_cute.png', 'stars': 4},
 	'ankle_biter_cat': {'splash': 'res://assets/cats/splashes/cat_splash_ankle.png', 'stars': 4},
 	'reccomendation_cat': {'splash': 'res://assets/cats/splashes/cat_splash_recommender.png', 'stars': 4},
+	'trash_cat': {'splash': 'res://assets/cats/splashes/cat_splash_trash.png', 'stars': 4},
 }
 
 const CAT_DESCRIPTIONS = {
 	'qr_cat':              ["QR Cat", "Click seated customers to take their order"],
-	'hermes_cat':          ["Hermes Cat", "Grants you a dash ability"],
+	'hermes_cat':          ["Hermes Cat", "Grants you a dash ability (press Shift to use)"],
 	'money_cat':           ["Money Cat", "Automatically collects money so you don't have to"],
 	'host_cat':            ["Host Cat", "Click waiting groups so that the host can seat them instantly"],
 	'hopper_cat':          ["Hopper Cat", "Queue an extra order into a machine so you can load it and walk away"],
 	'nihao_cat':           ["Nihao Cat", "She makes the day last longer through her love and whimsy"],
 	'counter_cat':         ["Counter Cat", "Unlocks the countertop plates — drop off a finished dish and come back for it later!"],
-	'patience_cat':        ["Patience Cat", "Customers absorb her serenity, and find they have more patience than before"],
+	'patience_cat':        ["Patience Cat", "Customers absorb his serenity, and find they have more patience than before"],
 	'cooking_cat':         ["Chef Cat", "Decreases cooking time so dishes are ready faster"],
-	'quality_control_cat': ["Inspector Cat", "She will only take the highest of quality items, with her in charge you can sell them for more"],
-	'cheetah_cat':         ["Cheetah Cat", "Helps the player get around faster"],
+	'quality_control_cat': ["Inspector Cat", "He will only take the highest of quality items, with him in charge your items sell them for more"],
+	'cheetah_cat':         ["Cheetah Cat", "Helps the player get around faster (base speed increase)"],
 	'pretty_cat':          ["Pretty Cat", "Makes your customers more generous with their tips, as they get to look at her"],
-	'valentines_cat':      ["Valentines Cat", "Less single people find their way to your cafe"],
-	'fat_cat':             ["Fat Cat", "Eats customer's food so they eat faster"],
+	'valentines_cat':      ["Valentines Cat", "Less single people find their way to your cafe (more pairs or groups)"],
+	'fat_cat':             ["Fat Cat", "Eats customers' food so they eat faster"],
 	'sign_spinner_cat':    ["Sign Spinner Cat", "Spreads awareness so more customers come to your cafe!"],
 	'ankle_biter_cat':     ["Ankle Biter Cat", "Nips at your customers' heels, making them walk faster"],
 	'reccomendation_cat':  ["Recommendation Cat", "Customers order faster when this cat is pawing at the menu"],
+	'trash_cat':           ["Trash Cat", "Click the trash can to discard inventory rather than walking to it"],
 }
 
 var cat_id := 'cheetah_cat'
