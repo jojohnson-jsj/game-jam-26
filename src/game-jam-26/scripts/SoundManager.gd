@@ -7,7 +7,7 @@ func play_sfx(stream: AudioStream, volume_db := 0, pitch := 1.0):
 	player.stream = stream
 	player.volume_db = volume_db
 	player.pitch_scale = pitch
-	player.bus = "SFX"
+	player.bus = "Master"
 
 	player.play()
 	player.finished.connect(player.queue_free)

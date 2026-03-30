@@ -86,7 +86,7 @@ func _ready():
 	_ambience_player = AudioStreamPlayer.new()
 	_ambience_player.stream = AMBIENCE_STREAM
 	_ambience_player.volume_db = AMBIENCE_MIN_DB
-	_ambience_player.bus = "SFX"
+	_ambience_player.bus = "Master"
 	add_child(_ambience_player)
 
 	spawn_timer = Timer.new()

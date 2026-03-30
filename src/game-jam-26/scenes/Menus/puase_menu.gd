@@ -58,7 +58,7 @@ func _ready() -> void:
 	slider.min_value = 0.0
 	slider.max_value = 1.0
 	slider.step = 0.01
-	slider.value = db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Master")))
+	slider.value = db_to_linear(AudioServer.get_bus_volume_db(0))
 	slider.custom_minimum_size = Vector2(160, 20)
 	slider.value_changed.connect(_on_slider_changed)
 	slider_row.add_child(slider)
@@ -89,10 +89,7 @@ func _make_button(label_text: String) -> Button:
 
 
 func _on_slider_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("Master"),
-		linear_to_db(value)
-	)
+	AudioServer.set_bus_volume_db(0, linear_to_db(value))
 
 
 func _on_resume() -> void:
