@@ -97,3 +97,8 @@ func _on_inventory_button_pressed() -> void:
 
 func _on_cat_button_pressed() -> void:
 	$catButton/AudioStreamPlayer.play()
+
+
+func _on_tutorial_button_pressed() -> void:
+	$"../../Tutorial".visible = true
+	

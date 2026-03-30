@@ -15,6 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://b1stiyjrnrck0" path="res://assets/ui-assets/table-cat-on-hold.png" id="12_tbwny"]
 [ext_resource type="AudioStream" uid="uid://i1u8kvx4g1ic" path="res://assets/sound assests/Bkg-Music/harumachimusic-morning-calm-236192.mp3" id="14_tbwny"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbwny"]
+bg_color = Color(0.95500356, 0.8755671, 0.7505323, 1)
+
 [node name="Start Screen" type="Control" unique_id=450327167]
 layout_mode = 3
 anchors_preset = 15
@@ -124,8 +127,24 @@ stream = ExtResource("14_tbwny")
 volume_db = 10.0
 autoplay = true
 
+[node name="TutorialButton" type="Button" parent="." unique_id=1728358250]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.038000003
+anchor_top = 0.85200006
+anchor_right = 0.18200001
+anchor_bottom = 0.91700006
+offset_left = 0.22399902
+offset_top = -0.0960083
+offset_right = 0.33598328
+offset_bottom = -0.21606445
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_tbwny")
+text = "Tutorial"
+
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="pullButton" to="." method="_on_pull_button_pressed"]
 [connection signal="pressed" from="quitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="inventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="pressed" from="catButton" to="." method="_on_cat_button_pressed"]
+[connection signal="pressed" from="TutorialButton" to="." method="_on_tutorial_button_pressed"]
