@@ -3,7 +3,8 @@ extends Node2D
 const CAT_POOL = ['qr_cat', 'hermes_cat', 'money_cat', 'host_cat', 'hopper_cat', 'nihao_cat', 'counter_cat', 'patience_cat', 'cooking_cat', 'quality_control_cat', 'cheetah_cat', 'pretty_cat', 'valentines_cat', 'fat_cat', 'sign_spinner_cat', 'ankle_biter_cat', 'reccomendation_cat']
 
 func pull_cat() -> String:
-
+	if not Wallet.remove_money(GlobalInventory.PULL_COST):
+		return ""
 
 	GlobalInventory.gacha_pity += 1
 
