@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://bif2o8ggtdvir"]
+[gd_scene format=3 uid="uid://bif2o8ggtdvir"]
 
 [ext_resource type="Script" uid="uid://dggt0outkhnb1" path="res://scripts/cat_placement_page.gd" id="1_a74tp"]
 

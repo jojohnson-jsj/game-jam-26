@@ -129,7 +129,7 @@ const CAT_DESCRIPTIONS = {
 	'counter_cat':         "Unlocks the countertop plates — drop off a finished dish and come back for it later!",
 	'patience_cat':        "Customers absorb his serenity, and find they have more patience than before",
 	'cooking_cat':         "Decreases cooking time so dishes are ready faster",
-	'quality_control_cat': "He will only take the highest of quality items, with him in charge your items sell them for more",
+	'quality_control_cat': "He will only take the highest of quality items, your items sell for more",
 	'cheetah_cat':         "Helps the player get around faster (base speed increase)",
 	'pretty_cat':          "Makes your customers more generous with their tips, as they get to look at her",
 	'valentines_cat':      "Less single people find their way to your cafe (more pairs or groups)",
