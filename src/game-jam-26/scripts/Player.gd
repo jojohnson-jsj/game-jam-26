@@ -138,10 +138,17 @@ func receive_order_from_qr(customer) -> void:
 		return
 	if not customer.is_waiting_for_order():
 		return
+	# QR cat should only take orders, not deliver food.
+	# Temporarily hide matching food so interact() takes the order instead of hotswapping.
+	var food = customer.find_food_in_inventory(inventory)
+	if food != null:
+		inventory.erase(food)
 	if not customer.order_placed.is_connected(_on_order_received):
 		pending_order_source = customer
 		customer.order_placed.connect(_on_order_received)
 	customer.interact(inventory)
+	if food != null:
+		inventory.append(food)
 	_update_inventory_display()
 
 

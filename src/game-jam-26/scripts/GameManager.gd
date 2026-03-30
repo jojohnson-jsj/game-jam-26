@@ -83,6 +83,9 @@ func _ready():
 		has_hopper_cat = true
 	day_duration = DebugConfig.day_duration
 
+	# Apply player-ability debug flags directly (no bed needed)
+	call_deferred("_apply_debug_player_cats")
+
 	_ambience_player = AudioStreamPlayer.new()
 	_ambience_player.stream = AMBIENCE_STREAM
 	_ambience_player.volume_db = AMBIENCE_MIN_DB
@@ -102,6 +105,16 @@ func _ready():
 	day_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	day_timer.timeout.connect(_on_day_ended)
 	add_child(day_timer)
+
+
+func _apply_debug_player_cats() -> void:
+	var player = get_tree().get_first_node_in_group("player")
+	if not player:
+		return
+	if DebugConfig.hermes_cat_enabled:
+		player.has_dash_cat = true
+	if DebugConfig.qr_cat_enabled:
+		player.has_qr_cat = true
 
 
 func get_item_price(item: String) -> float:
