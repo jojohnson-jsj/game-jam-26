@@ -262,7 +262,7 @@ func spawn_group(size: int):
 		customer.process_mode = Node.PROCESS_MODE_PAUSABLE
 		customer.global_position = door_point
 		customer.initial_patience  = _customer_initial_patience
-		customer.delivery_patience = _customer_delivery_patience
+		customer.delivery_patience = _customer_delivery_patience * (1.5 if customer.order_item == "pie" else 1.0)
 		customer_list.append(customer)
 		active_customers.append(customer)
 
