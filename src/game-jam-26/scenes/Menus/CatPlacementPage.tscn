@@ -8921,7 +8921,7 @@ Customers somehow find themselves matched up? Less single people find their way 
 texture_normal = ExtResource("19_idax8")
 stretch_mode = 5
 
-[node name="recommendation_cat" type="TextureButton" parent="HBox/VBox/CatGrid" unique_id=1562537742]
+[node name="reccomendation_cat" type="TextureButton" parent="HBox/VBox/CatGrid" unique_id=1562537742]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -8934,8 +8934,8 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tooltip_text = "Recommendation Cat
-Customers order faster when this cat is pawing at the menu "
+tooltip_text = "Chef Cat
+Decreases cooking time so dishes are ready faster"
 texture_normal = ExtResource("22_bhcdd")
 stretch_mode = 5
 
