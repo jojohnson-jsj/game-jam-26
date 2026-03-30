@@ -1,5 +1,7 @@
 extends Control
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 const GACHA_SCENE = preload("res://scenes/GachaController.tscn")
 
 var _money_label: Label
@@ -290,6 +292,7 @@ func _refresh_tabs() -> void:
 
 
 func _on_tab_pressed(idx: int) -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	_active_tab = idx
 	_refresh_tabs()
 
@@ -298,6 +301,7 @@ func _on_buy_pressed(item: Dictionary, btn: Button, price_lbl: Label, owned_lbl:
 	var price = _get_price(item)
 	if not Wallet.remove_money(price):
 		return
+	SoundManager.play_sfx(INTERACT_SFX)
 	GlobalInventory.unlock_equipment(item.key)
 	# Apply unlock immediately so new equipment appears without waiting for next day
 	var game_world = get_tree().root.get_node_or_null("Main/GameWorld")
@@ -313,6 +317,7 @@ func _on_buy_pressed(item: Dictionary, btn: Button, price_lbl: Label, owned_lbl:
 		price_lbl.text = "$%d" % _get_price(item)
 
 func _on_adopt_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	visible = false
 	var gacha_instance = GACHA_SCENE.instantiate()
 	gacha_instance.visible = true
@@ -321,6 +326,7 @@ func _on_adopt_pressed() -> void:
 
 
 func _on_exit_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	$"../../StartMenu".visible = true
 	$"../../StartMenu".process_mode = Node.PROCESS_MODE_ALWAYS
 	$"../".visible = false

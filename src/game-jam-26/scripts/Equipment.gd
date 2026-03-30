@@ -16,11 +16,14 @@ const BAR_WIDTH  = 12  # slightly narrower than the ~14px visible sprite content
 const BAR_HEIGHT = 4
 var _bar_bg:   ColorRect = null
 var _bar_fill: ColorRect = null
+var _queue_label: Label = null
+var _has_queued_order: bool = false  # true when a second order is cooking behind a ready item
+var _queued_ready: bool = false       # true when second item is also done, waiting behind first
 
 func _ready():
 	add_to_group("equipment")
 
-	max_queue_size = 1 + (1 if GlobalInventory.owns_cat('hopper_cat') else 0)
+	max_queue_size = 1 + (1 if GameManager.has_hopper_cat else 0)
 	cook_time = max(1.0, cook_time - GlobalInventory.get_cooking_bonus())
 	$CookTimer.wait_time = cook_time
 	$CookTimer.one_shot = true
@@ -38,7 +41,7 @@ func _ready():
 	if indicator_y_offset != 0.0:
 		$SpriteReady.position.y += indicator_y_offset
 
-	var bar_y = -20.0 + indicator_y_offset
+	var bar_y = -15.0 + indicator_y_offset
 	_bar_bg = ColorRect.new()
 	_bar_bg.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
 	_bar_bg.position = Vector2(-BAR_WIDTH / 2.0, bar_y)
@@ -53,6 +56,18 @@ func _ready():
 	_bar_fill.visible = false
 	add_child(_bar_fill)
 
+	# Queue indicator label — shows "+1" when a second order is queued
+	_queue_label = Label.new()
+	_queue_label.text = "+1"
+	_queue_label.add_theme_font_size_override("font_size", 8)
+	_queue_label.add_theme_color_override("font_color", Color(0.98, 0.95, 0.88))
+	_queue_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	_queue_label.add_theme_constant_override("shadow_offset_x", 1)
+	_queue_label.add_theme_constant_override("shadow_offset_y", 1)
+	_queue_label.position = Vector2(4, bar_y - 10)
+	_queue_label.visible = false
+	add_child(_queue_label)
+
 	if not unlocked:
 		visible = false
 		monitoring = false
@@ -62,12 +77,26 @@ func _ready():
 func _process(_delta):
 	if _bar_bg == null:
 		return
-	var cooking = (current_state == State.COOKING)
-	_bar_bg.visible = cooking
-	_bar_fill.visible = cooking
-	if cooking and not $CookTimer.is_stopped():
-		var ratio = 1.0 - ($CookTimer.time_left / $CookTimer.wait_time)
-		_bar_fill.size.x = BAR_WIDTH * ratio
+	if _queue_label:
+		var show_plus = (_has_queued_order and current_state == State.COOKING) or _queued_ready
+		_queue_label.visible = show_plus
+	match current_state:
+		State.COOKING:
+			_bar_bg.visible = true
+			_bar_fill.visible = true
+			if not $CookTimer.is_stopped():
+				_bar_fill.size.x = BAR_WIDTH * (1.0 - $CookTimer.time_left / $CookTimer.wait_time)
+		State.READY:
+			if _has_queued_order and not $CookTimer.is_stopped():
+				_bar_bg.visible = true
+				_bar_fill.visible = true
+				_bar_fill.size.x = BAR_WIDTH * (1.0 - $CookTimer.time_left / $CookTimer.wait_time)
+			else:
+				_bar_bg.visible = false
+				_bar_fill.visible = false
+		_:
+			_bar_bg.visible = false
+			_bar_fill.visible = false
 
 
 func interact(player_inventory: Array) -> bool:
@@ -88,8 +117,14 @@ func interact(player_inventory: Array) -> bool:
 				var order = find_order_in_inventory(player_inventory)
 				if order == null:
 					return false
+				# Auto-redirect to an idle machine of the same type if one exists
+				for equip in get_tree().get_nodes_in_group("equipment"):
+					if equip != self and equip.item_type == item_type and equip.current_state == State.IDLE and equip.unlocked:
+						return equip.interact(player_inventory)
 				player_inventory.erase(order)
 				order_queue.append(order)
+				_has_queued_order = true
+				$SpriteReady.position.y = -15.0 + indicator_y_offset - 5.0
 				print('queued order: ', item_type)
 				return true
 			else:
@@ -98,10 +133,11 @@ func interact(player_inventory: Array) -> bool:
 		State.READY:
 			var order = find_order_in_inventory(player_inventory)
 			if order != null:
-				# Always swap: pick up food and immediately start cooking the held order
 				player_inventory.erase(order)
 				player_inventory.append({"type": "food", "item": item_type})
 				$SpriteReady.visible = false
+				$SpriteReady.position.y = -16.0 + indicator_y_offset
+				_has_queued_order = false
 				order_queue.pop_front()
 				order_queue.append(order)
 				$CookTimer.start()
@@ -110,10 +146,20 @@ func interact(player_inventory: Array) -> bool:
 				print("Swapped order for food, started cooking next: ", item_type)
 				return true
 			elif player_inventory.size() < 2:
-				# No order in hand — normal pickup if there's room
 				player_inventory.append({"type": "food", "item": item_type})
-				$SpriteReady.visible = false
-				current_state = State.IDLE
+				$SpriteReady.position.y = -16.0 + indicator_y_offset
+				_has_queued_order = false
+				if _queued_ready:
+					# Second already done — stay READY
+					_queued_ready = false
+					$SpriteReady.visible = true
+					current_state = State.READY
+				elif not $CookTimer.is_stopped():
+					$SpriteReady.visible = false
+					current_state = State.COOKING
+				else:
+					$SpriteReady.visible = false
+					current_state = State.IDLE
 				print("Picked up: ", item_type)
 				return true
 			return false
@@ -167,16 +213,25 @@ func force_reset() -> void:
 	$CookTimer.stop()
 	$SpriteReady.visible = false
 	$CookingLabel.visible = false
+	_has_queued_order = false
+	_queued_ready = false
+	if _queue_label:
+		_queue_label.visible = false
 	unhighlight()
 
 
 func _on_cooking_finished():
-	current_state = State.READY
-	$SpriteReady.visible = true
 	$CookingLabel.visible = false
 	order_queue.pop_front()
-	if not order_queue.is_empty():
-		$CookTimer.start()
-		current_state = State.COOKING
-
+	if current_state == State.READY:
+		# Second order finished while first is still sitting — mark queued ready
+		_queued_ready = true
+		_has_queued_order = false
+		# Move sprite back to default position since bar is now hidden
+		$SpriteReady.position.y = -16.0 + indicator_y_offset
+	else:
+		$SpriteReady.visible = true
+		if not order_queue.is_empty():
+			$CookTimer.start()
+		current_state = State.READY
 	print("Order ready: ", item_type)

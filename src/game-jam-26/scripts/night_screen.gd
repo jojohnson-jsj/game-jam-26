@@ -2,6 +2,8 @@ extends Control
 
 signal start_day_pressed
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 var _header_label: Label
 var _money_label: Label
 
@@ -114,4 +116,5 @@ func refresh(completed_day: int, current_money: float) -> void:
 
 
 func _on_start_day_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	emit_signal("start_day_pressed")

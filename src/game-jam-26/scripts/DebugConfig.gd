@@ -21,6 +21,9 @@ extends Node
 ## Trash Cat — lets the player click the trash can to discard inventory.
 @export var trash_cat_enabled: bool = false
 
+## Hopper Cat — adds an extra inventory slot.
+@export var hopper_cat_enabled: bool = true
+
 ## Patience Bar — shows a progress bar above seated customers' heads.
 @export var patience_bar_enabled: bool = true
 

@@ -22,6 +22,7 @@ GlobalInventory="*res://scripts/GlobalInventory.gd"
 Wallet="*res://scripts/Wallet.gd"
 DebugConfig="*res://scripts/DebugConfig.gd"
 SaveManager="*res://scripts/SaveManager.gd"
+SoundManager="*res://scripts/SoundManager.gd"
 
 [display]
 

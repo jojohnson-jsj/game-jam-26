@@ -140,6 +140,7 @@ func _ready() -> void:
 			"host_cat":     should_assign = DebugConfig.queue_cat_enabled
 			"counter_cat":  should_assign = DebugConfig.counter_cat_enabled
 			"trash_cat":    should_assign = DebugConfig.trash_cat_enabled
+			"hopper_cat":   should_assign = DebugConfig.hopper_cat_enabled
 		if should_assign:
 			load_cat_by_name(debug_cat_name)
 
