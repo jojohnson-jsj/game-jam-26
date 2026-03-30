@@ -5,6 +5,7 @@ var _place_btn: Button = null
 var _selected_label: Label = null
 var _active_beds: Array = []
 var _cat_buttons: Dictionary = {}  # cat_id -> Button
+var _in_placement_mode: bool = false
 var _all_cats_unlocked: bool = false
 var _original_cats: Dictionary = {}
 var _unlock_btn: Button = null
@@ -272,6 +273,7 @@ func _on_place_pressed():
 	self.modulate.a = 0.0
 	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
+	_in_placement_mode = true
 
 
 func _on_bed_clicked(bed):
@@ -293,6 +295,7 @@ func _on_bed_clicked(bed):
 	self.modulate.a = 1.0
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
 	self.visible = true
+	_in_placement_mode = false
 	_selected_label.text = "Placed!"
 	selected_cat_id = ""
 	_place_btn.visible = false
@@ -326,6 +329,19 @@ func _on_unlock_all_pressed() -> void:
 	_update_cat_buttons()
 	_unlock_btn.text = "Lock All (Debug)" if _all_cats_unlocked else "Unlock All (Debug)"
 
+
+func is_in_placement_mode() -> bool:
+	return _in_placement_mode
+
+func cancel_placement() -> void:
+	_in_placement_mode = false
+	_exit_placement_mode()
+	var game_world = get_tree().root.get_node("Main/GameWorld")
+	game_world.visible = false
+	game_world.process_mode = Node.PROCESS_MODE_DISABLED
+	self.modulate.a = 1.0
+	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	self.visible = true
 
 func _on_exit_pressed() -> void:
 	selected_cat_id = ""

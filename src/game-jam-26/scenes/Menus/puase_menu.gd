@@ -109,6 +109,14 @@ func _on_back_to_menu() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# If placement mode is active, ESC cancels it and returns to the page
+	if event.is_action_pressed("ui_cancel"):
+		var page = get_tree().root.get_node_or_null("Main/CatPlacementPage/CatPlacementPage")
+		if page and page.is_in_placement_mode():
+			page.cancel_placement()
+			get_viewport().set_input_as_handled()
+			return
+
 	if event.is_action_pressed("pause"):
 		var main = get_tree().current_scene
 		if not main.get_node("GameWorld").visible:
