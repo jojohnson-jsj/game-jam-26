@@ -227,8 +227,14 @@ func _update_cat_buttons():
 		if not btn:
 			continue
 		var owned = GlobalInventory.owns_cat(cat_id)
+		var placed = GlobalInventory.is_placed(cat_id)
 		btn.disabled = not owned
-		btn.modulate = Color(1, 1, 1) if owned else Color(0.5, 0.5, 0.5, 0.7)
+		if placed:
+			btn.modulate = Color(0.8, 1.0, 0.8)
+		elif owned:
+			btn.modulate = Color(1, 1, 1)
+		else:
+			btn.modulate = Color(0.5, 0.5, 0.5, 0.7)
 
 
 func _on_cat_selected(cat_id: String):
@@ -265,6 +271,7 @@ func _on_place_pressed():
 				bed.remove_cat()
 		_selected_label.text = "Removed!"
 		_place_btn.text = "Place"
+		_update_cat_buttons()
 		return
 
 	var def = CatBed.CAT_DEFINITIONS.get(selected_cat_id, {})
@@ -317,6 +324,7 @@ func _on_bed_clicked(bed):
 	_selected_label.text = "Placed!"
 	_place_btn.text = "Remove"
 	_place_btn.visible = true
+	_update_cat_buttons()
 
 
 func _exit_placement_mode():
