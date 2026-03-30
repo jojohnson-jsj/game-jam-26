@@ -4,6 +4,8 @@ const INVENTORY_MAX = 2
 const ACCELERATION = 1800.0
 const FRICTION = 1400.0
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 @export var DASH_SPEED = 600.0
 @export var DASH_DURATION = 0.12
 @export var DASH_COOLDOWN = 5.0
@@ -111,7 +113,9 @@ func _handle_interact():
 
 		var success = body.interact(inventory)
 		_update_inventory_display()
-		if not success:
+		if success:
+			SoundManager.play_sfx(INTERACT_SFX)
+		else:
 			_flash_error()
 		return
 

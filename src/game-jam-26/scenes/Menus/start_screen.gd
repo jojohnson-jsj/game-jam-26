@@ -1,5 +1,7 @@
 extends Control
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 var _money_label: Label
 var _day_label: Label
 var _info_panel: MarginContainer
@@ -75,9 +77,11 @@ func _on_money_changed(amount: float) -> void:
 
 
 func _on_play_button_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	$"../../".call("_on_start_day_pressed")
 
 func _on_pull_button_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	$"../../StoreMenu".visible = true
 	$"../../StoreMenu".process_mode = Node.PROCESS_MODE_ALWAYS
 	$"../".visible = false
@@ -85,10 +89,12 @@ func _on_pull_button_pressed() -> void:
 
 
 func _on_quit_button_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	get_tree().quit()
 
 
 func _on_inventory_button_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	var page = $"../../CatPlacementPage/CatPlacementPage"
 	page.open()
 	$"../".visible = false

@@ -1,5 +1,7 @@
 extends ColorRect
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 func _ready() -> void:
 	color = Color(0.1, 0.05, 0.02, 0.75)
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -94,6 +96,7 @@ func _on_slider_changed(value: float) -> void:
 
 
 func _on_resume() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	get_tree().paused = false
 	get_parent().visible = false
 	_set_hud_visible(true)
