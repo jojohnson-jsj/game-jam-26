@@ -50,6 +50,14 @@ var _is_being_petted: bool = false
 signal cat_assigned(cat: Cat)
 signal cat_removed
 
+const MEOW_SOUNDS: Array = [
+	preload("res://assets/sound assests/cat-meows/virtual_vibes-cat-meow-sound-383823.mp3"),
+	preload("res://assets/sound assests/cat-meows/sound_garage-cat-meow-8-fx-306184.mp3"),
+	preload("res://assets/sound assests/cat-meows/u_6ekfl947a2-cat-meow-297927.mp3"),
+	preload("res://assets/sound assests/cat-meows/dragon-studio-cat-meow-401729.mp3"),
+	preload("res://assets/sound assests/cat-meows/dragon-studio-cute-cat-meow-472372.mp3"),
+]
+
 const CAT_SPRITES: Dictionary = {
 	"qr_cat":              preload("res://assets/cats/ingame/cat_sprite_qr.png"),
 	"hermes_cat":          preload("res://assets/cats/ingame/cat_sprite_hermes.png"),
@@ -320,6 +328,7 @@ func _on_bed_input_event(_viewport, event, _shape_idx) -> void:
 func _do_pet() -> void:
 	if _is_yawning:
 		return
+	SoundManager.play_sfx(MEOW_SOUNDS[randi() % MEOW_SOUNDS.size()], -6)
 	_is_being_petted = true
 	var t = create_tween()
 	# squish sideways (leaning into the pet)

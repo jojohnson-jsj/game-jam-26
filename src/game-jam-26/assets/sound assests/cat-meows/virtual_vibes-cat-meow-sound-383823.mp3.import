@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://f4sxrkqoh0ch"
+path="res://.godot/imported/virtual_vibes-cat-meow-sound-383823.mp3-2cb7a3cf32ad897d4cd9c26ca3116bdc.mp3str"
+
+[deps]
+
+source_file="res://assets/sound assests/cat-meows/virtual_vibes-cat-meow-sound-383823.mp3"
+dest_files=["res://.godot/imported/virtual_vibes-cat-meow-sound-383823.mp3-2cb7a3cf32ad897d4cd9c26ca3116bdc.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

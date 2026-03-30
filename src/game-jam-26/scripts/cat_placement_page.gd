@@ -1,5 +1,7 @@
 extends Control
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 var selected_cat_id: String = ""
 var _place_btn: Button = null
 var _selected_label: Label = null
@@ -230,6 +232,7 @@ func _update_cat_buttons():
 
 
 func _on_cat_selected(cat_id: String):
+	SoundManager.play_sfx(INTERACT_SFX)
 	selected_cat_id = cat_id
 	_selected_label.text = "Selected: " + _format_cat_name(cat_id)
 	_place_btn.visible = true
@@ -247,6 +250,7 @@ func _on_cat_selected(cat_id: String):
 
 
 func _on_place_pressed():
+	SoundManager.play_sfx(INTERACT_SFX)
 	if selected_cat_id == "":
 		return
 	var def = CatBed.CAT_DEFINITIONS.get(selected_cat_id, {})
@@ -344,6 +348,7 @@ func cancel_placement() -> void:
 	self.visible = true
 
 func _on_exit_pressed() -> void:
+	SoundManager.play_sfx(INTERACT_SFX)
 	selected_cat_id = ""
 	_place_btn.visible = false
 	_exit_placement_mode()
