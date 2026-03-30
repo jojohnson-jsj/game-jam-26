@@ -50,7 +50,8 @@ func _update_cat_buttons():
 
 func _on_cat_selected(cat_id: String):
 	selected_cat_id = cat_id
-	selected_label.text = "Selected: " + cat_id.replace("_", " ").capitalize()
+	if selected_label:
+		selected_label.text = "Selected: " + cat_id.replace("_", " ").capitalize()
 	_place_btn.visible = true
 	_exit_placement_mode()
 
@@ -109,7 +110,8 @@ func _on_bed_clicked(bed: CatBed):
 	$HBox/VBox.mouse_filter = Control.MOUSE_FILTER_STOP
 	$HBox/VBox.visible = true
 	self.visible = true
-	selected_label.text = "Placed!"
+	if selected_label:
+		selected_label.text = "Placed!"
 	selected_cat_id = ""
 	_place_btn.visible = false
 

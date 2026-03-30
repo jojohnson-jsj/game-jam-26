@@ -70,9 +70,23 @@ func get_machine_sprite(item_type: String) -> Texture2D:
 	return MACHINE_SPRITES.get(item_type, null)
 
 
+const AMBIENCE_STREAM = preload("res://assets/sound assests/cafe-ambience-customer-noise.mp3")
+const AMBIENCE_MIN_DB = -30.0
+const AMBIENCE_MAX_DB = -18.0
+const AMBIENCE_MAX_CUSTOMERS = 8
+
+var _ambience_player: AudioStreamPlayer = null
+
 func _ready():
 	has_queue_cat = DebugConfig.queue_cat_enabled
 	day_duration = DebugConfig.day_duration
+
+	_ambience_player = AudioStreamPlayer.new()
+	_ambience_player.stream = AMBIENCE_STREAM
+	_ambience_player.volume_db = AMBIENCE_MIN_DB
+	_ambience_player.bus = "SFX"
+	add_child(_ambience_player)
+
 	spawn_timer = Timer.new()
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.one_shot = false
@@ -242,6 +256,7 @@ func spawn_group(size: int):
 	group.setup(customer_list, self, queue_patience)
 	waiting_queue.append(group)
 	_position_group(group, waiting_queue.size() - 1)
+	_update_ambience()
 	print("Group of ", size, " added to queue. Queue size: ", waiting_queue.size())
 
 
@@ -325,6 +340,26 @@ func _on_table_finished(payout: float, _table):
 	print("Table finished. Payout: $", payout)
 
 
+var _ambience_update_timer: float = 0.0
+
+func _process(delta: float) -> void:
+	_ambience_update_timer += delta
+	if _ambience_update_timer >= 2.0:
+		_ambience_update_timer = 0.0
+		_update_ambience()
+
+func _update_ambience() -> void:
+	if _ambience_player == null:
+		return
+	var count = active_customers.filter(func(c): return is_instance_valid(c)).size()
+	if count == 0:
+		_ambience_player.stop()
+		return
+	if not _ambience_player.playing:
+		_ambience_player.play()
+	var t = clamp(float(count) / AMBIENCE_MAX_CUSTOMERS, 0.0, 1.0)
+	_ambience_player.volume_db = lerp(AMBIENCE_MIN_DB, AMBIENCE_MAX_DB, t)
+
 # Hook for future systems
 func on_payment_collected():
 	pass
@@ -342,6 +377,7 @@ func _on_day_ended():
 	for group in waiting_queue:
 		group.cleanup()
 	waiting_queue.clear()
+	_update_ambience()
 	print("Day timer ended — waiting for restaurant to clear")
 	_wait_for_day_clear()
 

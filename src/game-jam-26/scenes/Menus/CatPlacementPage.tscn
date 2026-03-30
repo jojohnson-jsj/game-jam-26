@@ -8955,15 +8955,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="VBox_CatGrid#cooking_cat" type="TextureButton" parent="." unique_id=794520099]
-layout_mode = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Chef Cat
-Decreases cooking time so dishes are ready faster"
-texture_normal = ExtResource("22_bhcdd")
-stretch_mode = 5
-
 [node name="VBox#SelectedLabel" type="Label" parent="." unique_id=1209503658]
 layout_mode = 0
 
