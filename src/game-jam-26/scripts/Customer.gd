@@ -542,6 +542,16 @@ func _on_reaction_finished():
 # ── Patience bar ──────────────────────────────────────────────────────────────
 
 func _create_patience_bar() -> void:
+	const O := 1.0  # outline thickness
+	var outline := ColorRect.new()
+	outline.size = Vector2(BAR_WIDTH + O * 2, BAR_HEIGHT + O * 2)
+	outline.position = Vector2(-BAR_WIDTH / 2.0 - O, -16.0 - O)
+	outline.color = Color(0, 0, 0, 0.8)
+	outline.z_index = 7
+	outline.z_as_relative = false
+	outline.visible = false
+	add_child(outline)
+
 	_bar_bg = ColorRect.new()
 	_bar_bg.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
 	_bar_bg.position = Vector2(-BAR_WIDTH / 2.0, -16.0)
@@ -559,6 +569,9 @@ func _create_patience_bar() -> void:
 	_bar_fill.z_as_relative = false
 	_bar_fill.visible = false
 	add_child(_bar_fill)
+
+	# Keep outline visibility in sync with bg
+	_bar_bg.visibility_changed.connect(func(): outline.visible = _bar_bg.visible)
 
 
 func _update_patience_bar() -> void:

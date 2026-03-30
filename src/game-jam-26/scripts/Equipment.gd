@@ -46,6 +46,14 @@ func _ready():
 		$SpriteReady.position.y += indicator_y_offset
 
 	var bar_y = -15.0 + indicator_y_offset
+	const O := 1.0
+	var outline := ColorRect.new()
+	outline.size = Vector2(BAR_WIDTH + O * 2, BAR_HEIGHT + O * 2)
+	outline.position = Vector2(-BAR_WIDTH / 2.0 - O, bar_y - O)
+	outline.color = Color(0, 0, 0, 0.8)
+	outline.visible = false
+	add_child(outline)
+
 	_bar_bg = ColorRect.new()
 	_bar_bg.size = Vector2(BAR_WIDTH, BAR_HEIGHT)
 	_bar_bg.position = Vector2(-BAR_WIDTH / 2.0, bar_y)
@@ -59,6 +67,8 @@ func _ready():
 	_bar_fill.color = Color(0.9, 0.6, 0.1)
 	_bar_fill.visible = false
 	add_child(_bar_fill)
+
+	_bar_bg.visibility_changed.connect(func(): outline.visible = _bar_bg.visible)
 
 	# Queue indicator label — shows "+1" when a second order is queued
 	_queue_label = Label.new()
