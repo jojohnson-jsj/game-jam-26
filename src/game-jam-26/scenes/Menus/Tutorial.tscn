@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://der640forgg82" path="res://assets/ui-assets/Exit-button-on-hover.png" id="2_1xo7s"]
 [ext_resource type="Texture2D" uid="uid://bti681g8c8i0a" path="res://assets/characters/idle/girl1_idle.png" id="4_6gef8"]
 [ext_resource type="Texture2D" uid="uid://ctrpfwp2d311g" path="res://assets/ui-assets/Tutorial assets/Move buttons.png" id="5_tro7r"]
-[ext_resource type="Texture2D" uid="uid://dn1j2ov05ca3" path="res://assets/ui-assets/Tutorial assets/Game Screen.png" id="5_wpxp0"]
+[ext_resource type="Texture2D" uid="uid://cgggf8oomh10r" path="res://assets/ui-assets/Tutorial assets/Game Screen 2.png" id="5_wpxp0"]
 [ext_resource type="Texture2D" uid="uid://ny3v8oprabwj" path="res://assets/ui-assets/Tutorial assets/Interact buttons.png" id="6_to5ty"]
 [ext_resource type="Texture2D" uid="uid://cxi3ca76kyrr0" path="res://assets/ui-assets/Tutorial assets/Interact click.png" id="7_0ehet"]
 [ext_resource type="Texture2D" uid="uid://b0wt4evcnmbib" path="res://assets/ui-assets/Tutorial assets/pause.png" id="7_to5ty"]
@@ -108,6 +108,21 @@ bbcode_enabled = true
 text = "[b]How to Play"
 fit_content = true
 
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1625605022]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "Gameplay is split into day/night cycles, where you'll switch between running your cafe and customizing your cafe. 
+
+During the day, you will cycle between greeting customers, taking orders, and making orders. Interact with the customers at the door to greet them. Customers that have been greeted will automatically seat themselves. When their orders are ready, interact again to take their orders. You can then bring their order to the correct machine to start preparing it, before bringing the finished item back to the table to serve that customer. Keep in mind you can only carry two items at a time! When the customer is finished eating, they will leave their payment for their food on the table. Interact with the table again to pick up their check. If you serve them quickly you may even get some extra money as a tip! 
+
+Make sure you watch that patience bar! Patience will start winding down as soon as the customer enters your cafe, and customers that run out of patience will storm out!
+
+During the night, you will be able to purchase more equipment for your cafe, switch around your cats, as well as gacha for new cats. You can buy new equipment and adopt new cats in the store, and equip your cats in the My Cats menu. You will need a free cat bed in order to bring a new cats. Cats that are brought to the cafe will automatically have their buffs applied during the next day cycle. "
+autowrap_mode = 3
+
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1286291975]
 layout_mode = 2
 
@@ -130,21 +145,6 @@ E - Seated customers - Customers that have not been served will show a patience 
 F - Waiting customers - customers that have yet to be seated
 G - Cat beds - For your current cats to rest on
 H - You :)"
-autowrap_mode = 3
-
-[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1625605022]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
-text = "Gameplay is split into day/night cycles, where you'll switch between running your cafe and customizing your cafe. 
-
-During the day, you will cycle between greeting customers, taking orders, and making orders. Interact with the customers at the door to greet them. Customers that have been greeted will automatically seat themselves. When their orders are ready, interact again to take their orders. You can then bring their order to the correct machine to start preparing it, before bringing the finished item back to the table to serve that customer. Keep in mind you can only carry two items at a time! When the customer is finished eating, they will leave their payment for their food on the table. Interact with the table again to pick up their check. If you serve them quickly you may even get some extra money as a tip! 
-
-Make sure you watch that patience bar! Patience will start winding down as soon as the customer enters your cafe, and customers that run out of patience will storm out!
-
-During the night, you will be able to purchase more equipment for your cafe, switch around your cats, as well as gacha for new cats. You can buy new equipment and adopt new cats in the store, and equip your cats in the My Cats menu. You will need a free cat bed in order to equip a new cats. Cats that are equipped will automatically have their buffs applied during the next day cycle. "
 autowrap_mode = 3
 
 [node name="Controls" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer" unique_id=391992652]
