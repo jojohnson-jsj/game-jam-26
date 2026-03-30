@@ -7,6 +7,7 @@ var current_state = State.IDLE
 @export var item_type: String = "latte"
 @export var cook_time: float = 10.0
 @export var indicator_y_offset: float = 0.0
+@export var collision_y_offset: float = 0.0
 @export var unlocked: bool = true
 
 var order_queue: Array = []
@@ -37,6 +38,9 @@ func _ready():
 	var food_tex = GameManager.get_food_sprite(item_type)
 	if food_tex:
 		$SpriteReady.texture = food_tex
+
+	if collision_y_offset != 0.0:
+		$CollisionShape2D.position.y += collision_y_offset
 
 	if indicator_y_offset != 0.0:
 		$SpriteReady.position.y += indicator_y_offset
