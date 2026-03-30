@@ -1,0 +1,272 @@
+[gd_scene format=3 uid="uid://5ps51ggh5105"]
+
+[ext_resource type="Script" uid="uid://buqfqpq3lx2ws" path="res://scenes/Menus/tutorial.gd" id="1_1xo7s"]
+[ext_resource type="Texture2D" uid="uid://bchcjitojdyv2" path="res://assets/ui-assets/Exit-button.png" id="1_8gplp"]
+[ext_resource type="Texture2D" uid="uid://der640forgg82" path="res://assets/ui-assets/Exit-button-on-hover.png" id="2_1xo7s"]
+[ext_resource type="Texture2D" uid="uid://bti681g8c8i0a" path="res://assets/characters/idle/girl1_idle.png" id="4_6gef8"]
+[ext_resource type="Texture2D" uid="uid://ctrpfwp2d311g" path="res://assets/ui-assets/Tutorial assets/Move buttons.png" id="5_tro7r"]
+[ext_resource type="Texture2D" uid="uid://dn1j2ov05ca3" path="res://assets/ui-assets/Tutorial assets/Game Screen.png" id="5_wpxp0"]
+[ext_resource type="Texture2D" uid="uid://ny3v8oprabwj" path="res://assets/ui-assets/Tutorial assets/Interact buttons.png" id="6_to5ty"]
+[ext_resource type="Texture2D" uid="uid://cxi3ca76kyrr0" path="res://assets/ui-assets/Tutorial assets/Interact click.png" id="7_0ehet"]
+[ext_resource type="Texture2D" uid="uid://b0wt4evcnmbib" path="res://assets/ui-assets/Tutorial assets/pause.png" id="7_to5ty"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xo7s"]
+bg_color = Color(0.98844606, 0.9669935, 0.84200066, 1)
+
+[node name="Tutorial" type="CanvasLayer" unique_id=1272786662]
+script = ExtResource("1_1xo7s")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1932381710]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13333334, 0.078431375, 0.050980393, 1)
+
+[node name="quitButton" type="TextureButton" parent="ColorRect" unique_id=710930140]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.91700006
+anchor_top = 0.864
+anchor_right = 1.003
+anchor_bottom = 1.0120001
+offset_left = -0.3840332
+offset_top = 0.12799072
+offset_right = -0.4560547
+offset_bottom = -1.776062
+texture_normal = ExtResource("1_8gplp")
+texture_hover = ExtResource("2_1xo7s")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ColorRect" unique_id=1378693817]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.014
+anchor_top = 0.025
+anchor_right = 0.97900003
+anchor_bottom = 0.88900006
+offset_left = 7.8719997
+offset_top = 7.799999
+offset_right = 0.1920166
+offset_bottom = -0.072021484
+theme_override_styles/panel = SubResource("StyleBoxFlat_1xo7s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer" unique_id=1409795305]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Intro" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer" unique_id=468819527]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Intro" unique_id=3427277]
+layout_mode = 2
+
+[node name="Welcome" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/Intro/HBoxContainer" unique_id=1527159293]
+layout_mode = 2
+size_flags_stretch_ratio = 2.0
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "Welcome, Player to your newly opened, hit Catcha Cafe, owned, managed and waited by the one and only you!
+Bring your cafe to new heights by buying new equipment and hiring more staff (cats)."
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Intro/HBoxContainer" unique_id=1162491180]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/ScrollContainer/VBoxContainer/Intro/HBoxContainer/MarginContainer" unique_id=195402160]
+layout_mode = 2
+texture = ExtResource("4_6gef8")
+expand_mode = 3
+
+[node name="How to play" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer" unique_id=207292529]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/How to play" unique_id=707966470]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1454094061]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Header" type="RichTextLabel" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer/MarginContainer2" unique_id=1228285671]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "[b]How to Play"
+fit_content = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1286291975]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer/HBoxContainer" unique_id=1668199582]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("5_wpxp0")
+expand_mode = 5
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer/HBoxContainer" unique_id=1566257488]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "A - Day progress bar - shows how much time is left in the day
+B - Trash can - Discards held items
+C- Latte Machine - Produces lattes
+D - Oven - Produces pies
+E - Seated customers - Customers that have not been served will show a patience bar above their heads
+F - Waiting customers - customers that have yet to be seated
+G - Cat beds - For your current cats to rest on
+H - You :)"
+autowrap_mode = 3
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1625605022]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "Gameplay is split into day/night cycles, where you'll switch between running your cafe and customizing your cafe. 
+
+During the day, you will cycle between greeting customers, taking orders, and making orders. Interact with the customers at the door to greet them. Customers that have been greeted will automatically seat themselves. When their orders are ready, interact again to take their orders. You can then bring their order to the correct machine to start preparing it, before bringing the finished item back to the table to serve that customer. Keep in mind you can only carry two items at a time! When the customer is finished eating, they will leave their payment for their food on the table. Interact with the table again to pick up their check. If you serve them quickly you may even get some extra money as a tip! 
+
+Make sure you watch that patience bar! Patience will start winding down as soon as the customer enters your cafe, and customers that run out of patience will storm out!
+
+During the night, you will be able to purchase more equipment for your cafe, switch around your cats, as well as gacha for new cats. You can buy new equipment and adopt new cats in the store, and equip your cats in the My Cats menu. You will need a free cat bed in order to equip a new cats. Cats that are equipped will automatically have their buffs applied during the next day cycle. "
+autowrap_mode = 3
+
+[node name="Controls" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer" unique_id=391992652]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls" unique_id=8123713]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer" unique_id=458753394]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Header" type="RichTextLabel" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/MarginContainer2" unique_id=300632175]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+text = "[b]Controls"
+fit_content = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer" unique_id=56256316]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.31
+
+[node name="Movement" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer" unique_id=738699218]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.9
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Movement" unique_id=1584665982]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Movement/MarginContainer" unique_id=1542288965]
+layout_mode = 2
+texture = ExtResource("5_tro7r")
+expand_mode = 3
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Movement" unique_id=1059694212]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "
+
+Use WASD or arrow keys to move around
+
+"
+
+[node name="Interact" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer" unique_id=674525517]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.9
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Interact" unique_id=1843300247]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Interact/MarginContainer" unique_id=1925598484]
+layout_mode = 2
+texture = ExtResource("6_to5ty")
+expand_mode = 3
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Interact" unique_id=1955324545]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "
+Press E or space to interact with machines and customers
+"
+
+[node name="Click" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer" unique_id=592355901]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.9
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Click" unique_id=907044424]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Click/MarginContainer" unique_id=56792362]
+layout_mode = 2
+texture = ExtResource("7_0ehet")
+expand_mode = 3
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Click" unique_id=1762709315]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "
+Use left click to interact with cats and menus
+"
+
+[node name="Pause" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer" unique_id=846322577]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.9
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Pause" unique_id=389395794]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Pause/MarginContainer" unique_id=1949080494]
+layout_mode = 2
+texture = ExtResource("7_to5ty")
+expand_mode = 3
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/Controls/VBoxContainer/VBoxContainer/Pause" unique_id=308472064]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "
+Press Escape while the day is started to pause the game and adjust the volume
+"
+
+[connection signal="pressed" from="ColorRect/quitButton" to="." method="_on_quit_button_pressed"]
