@@ -55,20 +55,6 @@ func _ready() -> void:
 	if DebugConfig.starting_money > 0.0:
 		Wallet.add_money(DebugConfig.starting_money)
 
-	# Add debug cats to inventory so they appear in the placement screen
-	const DEBUG_CAT_FLAGS = {
-		"hermes_cat":  "hermes_cat_enabled",
-		"qr_cat":      "qr_cat_enabled",
-		"money_cat":   "money_cat_enabled",
-		"host_cat":    "queue_cat_enabled",
-		"counter_cat": "counter_cat_enabled",
-		"trash_cat":   "trash_cat_enabled",
-		"hopper_cat":  "hopper_cat_enabled",
-	}
-	for cat_id in DEBUG_CAT_FLAGS:
-		if DebugConfig.get(DEBUG_CAT_FLAGS[cat_id]):
-			GlobalInventory.add_cat(cat_id)
-
 
 func _on_night_started() -> void:
 	# Fade to black, then swap to night screen, then fade back in

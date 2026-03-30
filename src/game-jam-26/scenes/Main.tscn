@@ -40,6 +40,7 @@ visible = false
 [node name="CatPlacementPage" parent="CatPlacementPage" unique_id=916910687 instance=ExtResource("18_bb450")]
 
 [node name="PauseMenu" type="CanvasLayer" parent="." unique_id=883316050]
+layer = 10
 visible = false
 
 [node name="Puase menu" parent="PauseMenu" unique_id=331887434 instance=ExtResource("16_cvmbd")]

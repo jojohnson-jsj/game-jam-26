@@ -96,7 +96,8 @@ func _on_resume() -> void:
 	SoundManager.play_sfx(INTERACT_SFX)
 	get_tree().paused = false
 	get_parent().visible = false
-	_set_hud_visible(true)
+	if get_tree().current_scene.get_node("GameWorld").visible:
+		_set_hud_visible(true)
 
 
 func _on_back_to_menu() -> void:
@@ -115,13 +116,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 
 	if event.is_action_pressed("pause"):
-		var main = get_tree().current_scene
-		if not main.get_node("GameWorld").visible:
-			return
 		var pausing = not get_tree().paused
 		get_tree().paused = pausing
 		get_parent().visible = pausing
-		_set_hud_visible(not pausing)
+		if not pausing and get_tree().current_scene.get_node("GameWorld").visible:
+			_set_hud_visible(true)
+		elif pausing:
+			_set_hud_visible(false)
 
 
 func _set_hud_visible(show: bool) -> void:
