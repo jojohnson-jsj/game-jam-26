@@ -299,6 +299,8 @@ func _on_place_pressed():
 	self.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 	_in_placement_mode = true
+	for cat_id in _cat_buttons:
+		_cat_buttons[cat_id].tooltip_text = ""
 
 
 func _on_bed_clicked(bed):
@@ -321,6 +323,8 @@ func _on_bed_clicked(bed):
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
 	self.visible = true
 	_in_placement_mode = false
+	for cat_id in _cat_buttons:
+		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
 	_selected_label.text = "Placed!"
 	_place_btn.text = "Remove"
 	_place_btn.visible = true
@@ -362,6 +366,8 @@ func is_in_placement_mode() -> bool:
 func cancel_placement() -> void:
 	_in_placement_mode = false
 	_exit_placement_mode()
+	for cat_id in _cat_buttons:
+		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
 	var game_world = get_tree().root.get_node("Main/GameWorld")
 	game_world.visible = false
 	game_world.process_mode = Node.PROCESS_MODE_DISABLED
