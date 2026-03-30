@@ -235,6 +235,10 @@ func _on_cat_selected(cat_id: String):
 	SoundManager.play_sfx(INTERACT_SFX)
 	selected_cat_id = cat_id
 	_selected_label.text = "Selected: " + _format_cat_name(cat_id)
+	if GlobalInventory.is_placed(cat_id):
+		_place_btn.text = "Remove"
+	else:
+		_place_btn.text = "Place"
 	_place_btn.visible = true
 	_exit_placement_mode()
 	for id in _cat_buttons:
@@ -253,6 +257,16 @@ func _on_place_pressed():
 	SoundManager.play_sfx(INTERACT_SFX)
 	if selected_cat_id == "":
 		return
+
+	# Remove path
+	if GlobalInventory.is_placed(selected_cat_id):
+		for bed in get_tree().get_nodes_in_group("cat_beds"):
+			if bed.assigned_cat and bed.assigned_cat.cat_name == selected_cat_id:
+				bed.remove_cat()
+		_selected_label.text = "Removed!"
+		_place_btn.text = "Place"
+		return
+
 	var def = CatBed.CAT_DEFINITIONS.get(selected_cat_id, {})
 	if def.is_empty():
 		return
@@ -301,8 +315,8 @@ func _on_bed_clicked(bed):
 	self.visible = true
 	_in_placement_mode = false
 	_selected_label.text = "Placed!"
-	selected_cat_id = ""
-	_place_btn.visible = false
+	_place_btn.text = "Remove"
+	_place_btn.visible = true
 
 
 func _exit_placement_mode():

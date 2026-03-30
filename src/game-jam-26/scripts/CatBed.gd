@@ -384,6 +384,7 @@ func _activate_cat(cat: Cat):
 
 
 func _deactivate_cat(cat: Cat):
+	GlobalInventory.placed_cats.erase(cat.cat_name)
 	match cat.ability_type:
 		Cat.AbilityType.HERMES:
 			var player = _get_player()
