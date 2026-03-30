@@ -5,7 +5,9 @@ signal start_day_pressed
 const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
 
 var _header_label: Label
-var _money_label: Label
+var _prev_label: Label
+var _earned_label: Label
+var _total_label: Label
 
 
 func _ready() -> void:
@@ -58,21 +60,37 @@ func _ready() -> void:
 	sep1.add_theme_color_override("font_color", Color(0.60, 0.42, 0.22, 0.7))
 	vbox.add_child(sep1)
 
-	var money_row := HBoxContainer.new()
-	money_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	money_row.add_theme_constant_override("separation", 5)
-	vbox.add_child(money_row)
+	# Previous total row
+	_prev_label = Label.new()
+	_prev_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_prev_label.add_theme_color_override("font_color", Color(0.45, 0.28, 0.12, 0.7))
+	_prev_label.add_theme_font_size_override("font_size", 11)
+	vbox.add_child(_prev_label)
+
+	# Earned row
+	_earned_label = Label.new()
+	_earned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_earned_label.add_theme_color_override("font_color", Color(0.15, 0.50, 0.15, 1.0))
+	_earned_label.add_theme_font_size_override("font_size", 14)
+	vbox.add_child(_earned_label)
+
+	# Total row with coin icon
+	var total_row := HBoxContainer.new()
+	total_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	total_row.add_theme_constant_override("separation", 5)
+	vbox.add_child(total_row)
 
 	var coin_icon := TextureRect.new()
 	coin_icon.texture = load("res://assets/Misc/coin.png")
 	coin_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	coin_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	coin_icon.custom_minimum_size = Vector2(24, 24)
-	money_row.add_child(coin_icon)
+	total_row.add_child(coin_icon)
 
-	_money_label = Label.new()
-	_money_label.add_theme_color_override("font_color", Color(0.20, 0.10, 0.02, 1.0))
-	money_row.add_child(_money_label)
+	_total_label = Label.new()
+	_total_label.add_theme_color_override("font_color", Color(0.20, 0.10, 0.02, 1.0))
+	_total_label.add_theme_font_size_override("font_size", 16)
+	total_row.add_child(_total_label)
 
 	# Dashed separator
 	var sep2 := Label.new()
@@ -108,11 +126,22 @@ func _ready() -> void:
 	vbox.add_child(start_btn)
 
 
-func refresh(completed_day: int, current_money: float) -> void:
+func refresh(completed_day: int, prev_money: float, total_money: float) -> void:
 	if _header_label:
 		_header_label.text = "— DAY %d SUMMARY —" % completed_day
-	if _money_label:
-		_money_label.text = "$%.0f" % current_money
+	var earned = total_money - prev_money
+	if _prev_label:
+		_prev_label.text = "Previous: $%.0f" % prev_money
+	if _earned_label:
+		_earned_label.text = "+ $0"
+	if _total_label:
+		_total_label.text = "$%.0f" % prev_money
+	# Animate earned counting up
+	var tween = create_tween()
+	tween.tween_method(func(v: float):
+		if _earned_label: _earned_label.text = "+ $%.0f" % v
+		if _total_label:  _total_label.text  = "$%.0f" % (prev_money + v)
+	, 0.0, earned, 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
 func _on_start_day_pressed() -> void:

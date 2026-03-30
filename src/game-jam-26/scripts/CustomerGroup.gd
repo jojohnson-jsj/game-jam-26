@@ -28,7 +28,8 @@ func setup(customer_list: Array, parent: Node, waiting_time: float = 30.0):
 
 
 func stop_waiting_timer():
-	waiting_timer.stop()
+	if is_instance_valid(waiting_timer):
+		waiting_timer.stop()
 
 
 func seat_at_table(table, _room_scene: Node):

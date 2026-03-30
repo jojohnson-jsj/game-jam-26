@@ -6,6 +6,7 @@ var _night_screen_ctrl: Control
 var _hud: CanvasLayer
 var _fade_rect: ColorRect
 var _night_music: AudioStreamPlayer
+var _money_at_day_start: float = 0.0
 
 
 var _first_day: bool = true
@@ -73,7 +74,7 @@ func _on_night_started() -> void:
 		$NightScreen.visible = true
 		$NightScreen.process_mode = Node.PROCESS_MODE_ALWAYS
 		# Day hasn't incremented yet — pass the completed day number
-		_night_screen_ctrl.refresh(GlobalInventory.day, Wallet.money_owned)
+		_night_screen_ctrl.refresh(GlobalInventory.day, _money_at_day_start, Wallet.money_owned)
 		_fade_to(0.0, FADE_DURATION)
 	)
 
@@ -107,6 +108,7 @@ func _on_start_day_pressed() -> void:
 		$GameWorld.visible = true
 		$GameWorld.process_mode = Node.PROCESS_MODE_PAUSABLE
 		$GameWorld.startDay()
+		_money_at_day_start = Wallet.money_owned
 		_night_music.stop()
 		if not $GameWorld/Music.playing:
 			$GameWorld/Music.play()
