@@ -119,6 +119,20 @@ func _handle_interact():
 			_flash_error()
 		return
 
+	# Check non-area interactables (e.g. CatBed)
+	for item in _nearby_interactables:
+		if not is_instance_valid(item):
+			continue
+		if not item.has_method("interact"):
+			continue
+		if item.has_method("can_interact") and not item.can_interact(inventory):
+			continue
+		var success = item.interact(inventory)
+		_update_inventory_display()
+		if success:
+			SoundManager.play_sfx(INTERACT_SFX)
+		return
+
 	# Nothing was actionable — flash if something nearby is actively waiting
 	# on the player but the current inventory is the bottleneck.
 	for body in bodies:
@@ -206,6 +220,11 @@ func _on_area_entered(area):
 		if not _nearby_interactables.has(area):
 			_nearby_interactables.append(area)
 		_refresh_interactable_highlight(area)
+	elif area.has_meta("cat_bed"):
+		var bed = area.get_meta("cat_bed")
+		if not _nearby_interactables.has(bed):
+			_nearby_interactables.append(bed)
+		_refresh_interactable_highlight(bed)
 
 
 func _on_area_exited(area):
@@ -227,6 +246,10 @@ func _on_area_exited(area):
 	elif area.has_method("interact"):
 		_nearby_interactables.erase(area)
 		area.unhighlight()
+	elif area.has_meta("cat_bed"):
+		var bed = area.get_meta("cat_bed")
+		_nearby_interactables.erase(bed)
+		bed.unhighlight()
 
 
 func _refresh_interactable_highlight(area):

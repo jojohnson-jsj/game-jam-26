@@ -135,6 +135,7 @@ func _ready() -> void:
 	_interaction_area.mouse_entered.connect(_on_bed_mouse_entered)
 	_interaction_area.mouse_exited.connect(_on_bed_mouse_exited)
 	_interaction_area.input_event.connect(_on_bed_input_event)
+	_interaction_area.set_meta("cat_bed", self)
 	add_child(_interaction_area)
 
 	SaveManager.register_bed(self)
@@ -323,6 +324,27 @@ func _on_bed_input_event(_viewport, event, _shape_idx) -> void:
 			_placement_callback.call(self)
 		elif _cat_sprite and _cat_sprite.visible and not _is_being_petted:
 			_do_pet()
+
+
+func interact(_player_inventory: Array) -> bool:
+	if _cat_sprite and _cat_sprite.visible and not _is_being_petted:
+		_do_pet()
+		return true
+	return false
+
+
+func can_interact(_player_inventory: Array) -> bool:
+	return _cat_sprite != null and _cat_sprite.visible
+
+
+func highlight():
+	if _cat_sprite and _cat_sprite.visible:
+		_cat_sprite.modulate = Color(1.4, 1.4, 1.4)
+
+
+func unhighlight():
+	if _cat_sprite:
+		_cat_sprite.modulate = Color(1, 1, 1)
 
 
 func _do_pet() -> void:
