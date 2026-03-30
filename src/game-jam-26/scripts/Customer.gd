@@ -49,6 +49,8 @@ const EMOJI_ANGRY   = preload("res://assets/characters/emojis/emoji_angry.png")
 
 var _emoji_indicator: Sprite2D = null
 var _showing_heart: bool = false
+var _shown_vein: bool = false
+var _shown_tornado: bool = false
 var _eating_sprite: Sprite2D = null
 
 var _bar_bg: ColorRect = null
@@ -294,6 +296,8 @@ func _on_thinking_finished():
 	_show_order_indicator()
 	$PatienceTimer.wait_time = initial_patience
 	$PatienceTimer.start()
+	_shown_vein = false
+	_shown_tornado = false
 	_update_proximity_highlight()
 
 
@@ -317,6 +321,8 @@ func interact(player_inventory: Array) -> bool:
 			_show_food_indicator()
 			$PatienceTimer.wait_time = delivery_patience
 			$PatienceTimer.start()
+			_shown_vein = false
+			_shown_tornado = false
 			_update_proximity_highlight()
 			return true
 		State.ORDER_TAKEN:
@@ -512,14 +518,15 @@ func _update_emoji():
 	var ratio = $PatienceTimer.time_left / $PatienceTimer.wait_time
 
 	if ratio > 0.5:
-		# Customer is still content — no emoji yet.
 		_emoji_indicator.visible = false
 	elif ratio > 0.25:
-		_emoji_indicator.texture = EMOJI_VEIN
-		_emoji_indicator.visible = true
+		if not _shown_vein:
+			_shown_vein = true
+			_show_reaction_emoji(EMOJI_VEIN)
 	else:
-		_emoji_indicator.texture = EMOJI_TORNADO
-		_emoji_indicator.visible = true
+		if not _shown_tornado:
+			_shown_tornado = true
+			_show_reaction_emoji(EMOJI_TORNADO)
 
 
 ## Shows a reaction emoji. Pass persistent=true to skip the auto-hide timer
@@ -530,7 +537,11 @@ func _show_reaction_emoji(texture: Texture2D, persistent: bool = false):
 		_emoji_indicator.texture = texture
 		_emoji_indicator.visible = true
 	if not persistent:
-		get_tree().create_timer(2.0).timeout.connect(_on_reaction_finished)
+		var timer = get_tree().create_timer(2.0)
+		timer.timeout.connect(func():
+			if is_instance_valid(self):
+				_on_reaction_finished()
+		)
 
 
 func _on_reaction_finished():
