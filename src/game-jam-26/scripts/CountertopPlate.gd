@@ -39,7 +39,7 @@ func interact(player_inventory: Array) -> bool:
 		return true
 	else:
 		# Pick up the stored item if there's room
-		if player_inventory.size() >= (3 if GlobalInventory.has_nihao_cat() else 2):
+		if player_inventory.size() >= GlobalInventory.get_inventory_max():
 			return false
 		player_inventory.append(stored_item)
 		stored_item = {}
@@ -51,7 +51,7 @@ func can_interact(player_inventory: Array) -> bool:
 	if stored_item.is_empty():
 		return _find_food(player_inventory) != null
 	else:
-		return player_inventory.size() < (3 if GlobalInventory.has_nihao_cat() else 2)
+		return player_inventory.size() < GlobalInventory.get_inventory_max()
 
 
 func is_relevant() -> bool:

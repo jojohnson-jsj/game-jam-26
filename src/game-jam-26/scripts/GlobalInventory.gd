@@ -114,3 +114,6 @@ func get_valentines_reduction() -> float:
 
 func has_nihao_cat() -> bool:
 	return is_placed('nihao_cat')
+
+func get_inventory_max() -> int:
+	return 3 if has_nihao_cat() else 2

@@ -2,7 +2,7 @@ extends Node2D
 
 signal money_changed
 
-var money_owned:float = 0 
+var money_owned:float = 40.0 
 
 func add_money(number: int) -> void:
 	money_owned += number

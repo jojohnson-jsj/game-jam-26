@@ -365,7 +365,7 @@ func find_food_in_inventory(player_inventory: Array):
 
 
 func _inv_max() -> int:
-	return 3 if GlobalInventory.has_nihao_cat() else 2
+	return GlobalInventory.get_inventory_max()
 
 
 func _on_patience_expired():

@@ -385,7 +385,7 @@ func _show_hover_label(text: String) -> void:
 	lbl.add_theme_color_override("font_color", Color(0.28, 0.15, 0.05))
 	lbl.add_theme_font_size_override("font_size", 11)
 	panel.add_child(lbl)
-	var screen_pos = get_viewport().get_canvas_transform() * global_position
+	var screen_pos = get_global_transform_with_canvas().origin
 	panel.position = screen_pos + Vector2(10, -50)
 	page._cancel_layer.add_child(panel)
 

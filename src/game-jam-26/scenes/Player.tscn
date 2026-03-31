@@ -126,11 +126,17 @@ flip_h = true
 [node name="InventorySlot1" type="Sprite2D" parent="." unique_id=940084519]
 visible = false
 position = Vector2(-20, -8)
+z_index = 9
+z_as_relative = false
 
 [node name="InventorySlot2" type="Sprite2D" parent="." unique_id=135988541]
 visible = false
 position = Vector2(20, -8)
+z_index = 9
+z_as_relative = false
 
 [node name="InventorySlot3" type="Sprite2D" parent="." unique_id=135988542]
 visible = false
 position = Vector2(0, -28)
+z_index = 9
+z_as_relative = false

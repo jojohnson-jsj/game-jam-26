@@ -38,7 +38,7 @@ var has_hopper_cat: bool = false
 
 const ITEM_PRICES = {
 	"latte": 6.0,
-	"pie": 15.0
+	"pie": 18.0
 }
 
 # Texture registries — add new item types here as art becomes available
@@ -192,8 +192,8 @@ func _apply_day_scaling() -> void:
 	tip_floor_time = max(30.0, 50.0 - s * 20.0)
 	# Max group size: 3 on day 1, +1 at day 5, +1 at day 10 (cap 5)
 	max_group_size = min(5, 3 + int(GlobalInventory.day >= 5) + int(GlobalInventory.day >= 10))
-	# Pie order rate: floor raised to 40%
-	_pie_chance = clamp(0.15 + s * 0.50, 0.15, 0.40)
+	# Pie order rate: cap lowered to 30%
+	_pie_chance = clamp(0.15 + s * 0.50, 0.15, 0.30)
 	# Per-customer seated patience: half as punishing (scale factor / 2)
 	_customer_initial_patience  = max(15.0, 40.0 - s * 11.0)
 	_customer_delivery_patience = max(20.0, 60.0 - s * 17.5)
@@ -207,10 +207,9 @@ func start_day():
 	_apply_day_scaling()
 
 	spawn_timer.wait_time = max(5.0, spawn_interval - GlobalInventory.get_spawn_interval_reduction())
-	queue_patience += GlobalInventory.get_patience_bonus()
 	tip_floor_time += GlobalInventory.get_tip_floor_bonus()
 	day_timer.wait_time = day_duration
-	# Patience cat also buffs seated patience
+	# Patience cat buffs seated initial + delivery patience
 	var patience_bonus = GlobalInventory.get_patience_bonus()
 	_customer_initial_patience  += patience_bonus
 	_customer_delivery_patience += patience_bonus

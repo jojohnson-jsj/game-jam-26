@@ -49,7 +49,7 @@ func _spawn_pickup_label() -> void:
 	lbl.add_theme_constant_override("shadow_offset_x", 1)
 	lbl.add_theme_constant_override("shadow_offset_y", 1)
 	lbl.z_index = 20
-	get_tree().current_scene.add_child(lbl)
+	get_parent().add_child(lbl)
 	lbl.global_position = global_position + Vector2(-10, -8)
 	var t = lbl.create_tween()
 	t.tween_property(lbl, "global_position", lbl.global_position + Vector2(0, -20), 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
