@@ -82,10 +82,11 @@ func unlock_equipment(equipment:String) -> int:
 
 #Cat mutations 
 func get_patience_bonus() -> float:
-	return min(copies_of('patience_cat'), 2) * 8 if is_placed('patience_cat') else 0.0
+	# Adds to seated initial + delivery patience (much more impactful than queue)
+	return min(copies_of('patience_cat'), 2) * 10.0 if is_placed('patience_cat') else 0.0
 	
 func get_cooking_bonus() -> float:
-	return min(copies_of('cooking_cat'), 2) * 3 if is_placed('cooking_cat') else 0.0
+	return min(copies_of('cooking_cat'), 2) * 6.0 if is_placed('cooking_cat') else 0.0
 	
 func get_price_bonus() -> float:
 	return [0.0, 0.10, 0.15][min(copies_of('quality_control_cat'), 2)] if is_placed('quality_control_cat') else 0.0

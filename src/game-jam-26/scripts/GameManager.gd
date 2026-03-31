@@ -177,7 +177,7 @@ func _reset_for_new_day() -> void:
 ## Returns a 0→1 scalar that grows quickly in early days and flattens later.
 ## Day 1 = 0.0, Day 5 ≈ 0.59, Day 10 ≈ 0.89, Day 20 ≈ 0.99
 func _get_day_scale() -> float:
-	return 1.0 - pow(0.80, GlobalInventory.day - 1)
+	return 1.0 - pow(0.85, GlobalInventory.day - 1)
 
 
 ## Applies difficulty parameters for the current day number.
@@ -185,9 +185,9 @@ func _get_day_scale() -> float:
 func _apply_day_scaling() -> void:
 	var s := _get_day_scale()
 	# Spawn interval: day 1 = 22s → floors at 7s around day 15
-	spawn_interval = max(7.0, 22.0 - s * 15.0)
+	spawn_interval = max(5.0, 15.0 - s * 8.0)
 	# Queue patience: day 1 = 45s → floors at 15s
-	queue_patience = max(15.0, 45.0 - s * 30.0)
+	queue_patience = max(20.0, 45.0 - s * 25.0)
 	# Tip floor: day 1 = 50s → floors at 20s (tips decay sooner)
 	tip_floor_time = max(20.0, 50.0 - s * 30.0)
 	# Max group size: 3 on day 1, +1 at day 5, +1 at day 10 (cap 5)
@@ -210,6 +210,10 @@ func start_day():
 	queue_patience += GlobalInventory.get_patience_bonus()
 	tip_floor_time += GlobalInventory.get_tip_floor_bonus()
 	day_timer.wait_time = day_duration + GlobalInventory.get_day_extension()
+	# Patience cat also buffs seated patience
+	var patience_bonus = GlobalInventory.get_patience_bonus()
+	_customer_initial_patience  += patience_bonus
+	_customer_delivery_patience += patience_bonus
 
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
