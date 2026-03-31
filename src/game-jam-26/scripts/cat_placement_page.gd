@@ -11,6 +11,7 @@ var _in_placement_mode: bool = false
 var _all_cats_unlocked: bool = false
 var _original_cats: Dictionary = {}
 var _cancel_placement_btn: Button = null
+var _cancel_layer: CanvasLayer = null
 var _unlock_btn: Button = null
 
 const BROWN      = Color(0.45, 0.28, 0.12, 1.0)
@@ -111,6 +112,7 @@ func _ready():
 	var cancel_layer := CanvasLayer.new()
 	cancel_layer.layer = 20
 	add_child(cancel_layer)
+	_cancel_layer = cancel_layer
 	_cancel_placement_btn = _make_red_btn("Cancel")
 	_cancel_placement_btn.visible = false
 	_cancel_placement_btn.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)

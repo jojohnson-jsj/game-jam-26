@@ -293,19 +293,20 @@ func _do_yawn() -> void:
 
 func _on_bed_mouse_entered() -> void:
 	if _placement_callback.is_valid():
-		# Kill the idle pulse, do a bigger hover pop
 		if has_meta("placement_tween"):
 			get_meta("placement_tween").kill()
 		var tween = create_tween()
 		tween.tween_property(self, "scale", Vector2(1.25, 1.25), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		modulate = Color(1.5, 1.5, 1.0)
+		if assigned_cat:
+			_show_hover_label(_get_cat_tooltip(assigned_cat.cat_name))
 	elif _cat_sprite and _cat_sprite.visible:
 		_cat_sprite.modulate = Color(1.4, 1.4, 1.4)
 
 
 func _on_bed_mouse_exited() -> void:
+	_hide_hover_label()
 	if _placement_callback.is_valid():
-		# Return to idle pulse
 		var tween = create_tween()
 		tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_SINE)
 		modulate = Color(1, 1, 1)
@@ -365,8 +366,62 @@ func _do_pet() -> void:
 	t.tween_callback(func(): _is_being_petted = false)
 
 
+func _show_hover_label(text: String) -> void:
+	_hide_hover_label()
+	var page = get_tree().root.get_node_or_null("Main/CatPlacementPage/CatPlacementPage")
+	if page == null or page._cancel_layer == null:
+		return
+	var panel := PanelContainer.new()
+	panel.name = "_bed_hover_label"
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.98, 0.95, 0.88, 0.95)
+	style.border_color = Color(0.45, 0.28, 0.12, 1.0)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(3)
+	style.set_content_margin_all(6)
+	panel.add_theme_stylebox_override("panel", style)
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.add_theme_color_override("font_color", Color(0.28, 0.15, 0.05))
+	lbl.add_theme_font_size_override("font_size", 11)
+	panel.add_child(lbl)
+	var screen_pos = get_viewport().get_canvas_transform() * global_position
+	panel.position = screen_pos + Vector2(10, -50)
+	page._cancel_layer.add_child(panel)
+
+func _hide_hover_label() -> void:
+	var page = get_tree().root.get_node_or_null("Main/CatPlacementPage/CatPlacementPage")
+	if page == null or page._cancel_layer == null:
+		return
+	var lbl = page._cancel_layer.get_node_or_null("_bed_hover_label")
+	if lbl:
+		lbl.queue_free()
+
 func _get_player():
 	return get_tree().get_first_node_in_group("player")
+
+func _get_cat_tooltip(cat_name: String) -> String:
+	const TOOLTIPS = {
+		'qr_cat': 'QR Cat\nClick seated customers to take their order',
+		'hermes_cat': 'Hermes Cat\nGrants you a dash ability (press Shift)',
+		'money_cat': 'Money Cat\nAutomatically collects money',
+		'host_cat': 'Host Cat\nClick waiting groups to seat them instantly',
+		'hopper_cat': 'Hopper Cat\nQueue an extra order into a machine',
+		'nihao_cat': 'Nihao Cat\nMakes the day last longer',
+		'counter_cat': 'Counter Cat\nUnlocks countertop plates',
+		'trash_cat': 'Trash Cat\nClick trash can to discard inventory',
+		'patience_cat': 'Patience Cat\nCustomers have more patience',
+		'cooking_cat': 'Chef Cat\nDecreases cooking time',
+		'quality_control_cat': 'Inspector Cat\nItems sell for more',
+		'cheetah_cat': 'Cheetah Cat\nPlayer moves faster',
+		'pretty_cat': 'Pretty Cat\nCustomers tip more generously',
+		'valentines_cat': 'Valentines Cat\nFewer solo customers',
+		'fat_cat': 'Fat Cat\nCustomers eat faster',
+		'sign_spinner_cat': 'Sign Spinner Cat\nMore customers arrive',
+		'ankle_biter_cat': 'Ankle Biter Cat\nCustomers walk faster',
+		'reccomendation_cat': 'Recommendation Cat\nCustomers order faster',
+	}
+	return TOOLTIPS.get(cat_name, cat_name)
 
 
 func _activate_cat(cat: Cat):
