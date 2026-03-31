@@ -116,6 +116,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 
 	if event.is_action_pressed("pause"):
+		var is_valid = event is InputEventKey or (event is InputEventJoypadButton and event.button_index == 11)
+		if not is_valid:
+			return
 		var pausing = not get_tree().paused
 		get_tree().paused = pausing
 		get_parent().visible = pausing
