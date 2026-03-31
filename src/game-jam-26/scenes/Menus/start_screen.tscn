@@ -18,6 +18,8 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbwny"]
 bg_color = Color(0.95500356, 0.8755671, 0.7505323, 1)
 
+[sub_resource type="Theme" id="Theme_tbwny"]
+
 [node name="Start Screen" type="Control" unique_id=450327167]
 layout_mode = 3
 anchors_preset = 15
@@ -141,6 +143,17 @@ offset_bottom = -0.21606445
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_tbwny")
 text = "Tutorial"
+
+[node name="Credits" type="RichTextLabel" parent="." unique_id=1693766216]
+layout_mode = 0
+offset_left = 713.0
+offset_top = 623.0
+offset_right = 1213.0
+offset_bottom = 663.0
+theme = SubResource("Theme_tbwny")
+theme_override_colors/default_color = Color(0.5411765, 0.40392157, 0.2784314, 1)
+text = "Made by Meggie, Jo, Meghana and Sarah"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="playButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="pullButton" to="." method="_on_pull_button_pressed"]
