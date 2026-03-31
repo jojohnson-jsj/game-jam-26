@@ -15,13 +15,14 @@ func _ready() -> void:
 	# Initial visibility: only the start menu is active
 	$GameWorld.visible = false
 	$GameWorld.process_mode = Node.PROCESS_MODE_DISABLED
-	$StartMenu.visible = true
-	$StartMenu.process_mode = Node.PROCESS_MODE_ALWAYS
+	$StartMenu.visible = false
+	$StartMenu.process_mode = Node.PROCESS_MODE_DISABLED
 	$NightScreen.visible = false
 	$NightScreen.process_mode = Node.PROCESS_MODE_DISABLED
 	$StoreMenu.visible = false
 	$StoreMenu.process_mode = Node.PROCESS_MODE_DISABLED
-
+	$Tutorial.visible = true
+	
 	# Build the night screen UI and wire its button back here
 	_night_screen_ctrl = load("res://scripts/night_screen.gd").new()
 	_night_screen_ctrl.start_day_pressed.connect(_on_night_continue_pressed)

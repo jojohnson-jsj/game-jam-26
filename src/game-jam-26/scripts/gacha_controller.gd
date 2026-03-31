@@ -63,6 +63,9 @@ func _input(event):
 			pass
 			#skip_animation()
 		else:
+			if GameManager.in_tutorial:
+				$"Equip Reminder".visible = true
+				return
 			visible = false
 			$"../".visible = true
 			queue_free()

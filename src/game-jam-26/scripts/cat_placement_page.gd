@@ -333,15 +333,22 @@ func _on_place_pressed():
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = ""
 	_cancel_placement_btn.visible = true
-	get_tree().root.get_node("Main").add_child(_cancel_placement_btn)
+	_cancel_layer.visible = true
 
 
 func _on_bed_clicked(bed):
+	if not _in_placement_mode:
+		return
+	_in_placement_mode = false
 	_exit_placement_mode()
 	for other_bed in get_tree().get_nodes_in_group("cat_beds"):
 		if other_bed.assigned_cat and other_bed.assigned_cat.cat_name == selected_cat_id:
 			other_bed.remove_cat()
 	var def = CatBed.CAT_DEFINITIONS.get(selected_cat_id, {})
+	print("def empty: ", def.is_empty(), " bed unlocked: ", bed.unlocked)
+	if def.is_empty():
+		cancel_placement()
+		return
 	var cat = Cat.new()
 	cat.cat_name = selected_cat_id
 	cat.cat_type = def.get("cat_type", Cat.CatType.NON_TABLE)
@@ -355,10 +362,10 @@ func _on_bed_clicked(bed):
 	self.modulate.a = 1.0
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
 	self.visible = true
-	_in_placement_mode = false
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
 	_cancel_placement_btn.visible = false
+	_cancel_layer.visible = false
 	_selected_label.text = "Placed!"
 	_place_btn.text = "Remove"
 	_place_btn.visible = true
@@ -401,6 +408,7 @@ func cancel_placement() -> void:
 	_in_placement_mode = false
 	_exit_placement_mode()
 	_cancel_placement_btn.visible = false
+	_cancel_layer.visible = false
 	_selected_label.text = "Select a cat to place"
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
@@ -414,6 +422,7 @@ func cancel_placement() -> void:
 	self.visible = true
 
 func _on_exit_pressed() -> void:
+	print("_on_exit_pressed called")
 	SoundManager.play_sfx(INTERACT_SFX)
 	selected_cat_id = ""
 	_place_btn.visible = false

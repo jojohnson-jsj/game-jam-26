@@ -1,17 +1,21 @@
 [gd_scene format=3 uid="uid://5ps51ggh5105"]
 
 [ext_resource type="Script" uid="uid://buqfqpq3lx2ws" path="res://scenes/Menus/tutorial.gd" id="1_1xo7s"]
-[ext_resource type="Texture2D" uid="uid://bchcjitojdyv2" path="res://assets/ui-assets/Exit-button.png" id="1_8gplp"]
-[ext_resource type="Texture2D" uid="uid://der640forgg82" path="res://assets/ui-assets/Exit-button-on-hover.png" id="2_1xo7s"]
 [ext_resource type="Texture2D" uid="uid://bti681g8c8i0a" path="res://assets/characters/idle/girl1_idle.png" id="4_6gef8"]
 [ext_resource type="Texture2D" uid="uid://ctrpfwp2d311g" path="res://assets/ui-assets/Tutorial assets/Move buttons.png" id="5_tro7r"]
-[ext_resource type="Texture2D" uid="uid://cgggf8oomh10r" path="res://assets/ui-assets/Tutorial assets/Game Screen 2.png" id="5_wpxp0"]
+[ext_resource type="Texture2D" uid="uid://bduh71f3mkhwi" path="res://assets/ui-assets/Tutorial assets/Game Screen.png" id="5_wpxp0"]
 [ext_resource type="Texture2D" uid="uid://ny3v8oprabwj" path="res://assets/ui-assets/Tutorial assets/Interact buttons.png" id="6_to5ty"]
 [ext_resource type="Texture2D" uid="uid://cxi3ca76kyrr0" path="res://assets/ui-assets/Tutorial assets/Interact click.png" id="7_0ehet"]
 [ext_resource type="Texture2D" uid="uid://b0wt4evcnmbib" path="res://assets/ui-assets/Tutorial assets/pause.png" id="7_to5ty"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_to5ty"]
+bg_color = Color(0.97625893, 0.9561896, 0.89590096, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xo7s"]
 bg_color = Color(0.98844606, 0.9669935, 0.84200066, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ehet"]
+bg_color = Color(0.13333334, 0.078431375, 0.050980393, 1)
 
 [node name="Tutorial" type="CanvasLayer" unique_id=1272786662]
 script = ExtResource("1_1xo7s")
@@ -24,21 +28,20 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.13333334, 0.078431375, 0.050980393, 1)
 
-[node name="quitButton" type="TextureButton" parent="ColorRect" unique_id=710930140]
+[node name="quitButton" type="Button" parent="ColorRect" unique_id=1939079678]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.91700006
-anchor_top = 0.864
-anchor_right = 1.003
-anchor_bottom = 1.0120001
-offset_left = -0.3840332
-offset_top = 0.12799072
-offset_right = -0.4560547
-offset_bottom = -1.776062
-texture_normal = ExtResource("1_8gplp")
-texture_hover = ExtResource("2_1xo7s")
-ignore_texture_size = true
-stretch_mode = 0
+anchor_left = 0.86100006
+anchor_top = 0.901
+anchor_right = 0.98600006
+anchor_bottom = 0.975
+offset_left = 0.12792969
+offset_top = 8.151978
+offset_right = 0.12792969
+offset_bottom = 0.2000122
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_to5ty")
+text = "Leave"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ColorRect" unique_id=1378693817]
 layout_mode = 1
@@ -72,7 +75,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_stretch_ratio = 2.0
 theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
-text = "Welcome, Player to your newly opened, hit Catcha Cafe, owned, managed and waited by the one and only you!
+text = "Welcome, Player to your newly opened Catcha Cafe, owned, managed and waited by the one and only you!
 Bring your cafe to new heights by buying new equipment and hiring more staff (cats)."
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Intro/HBoxContainer" unique_id=1162491180]
@@ -108,20 +111,22 @@ bbcode_enabled = true
 text = "[b]How to Play"
 fit_content = true
 
-[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1625605022]
+[node name="Text" type="RichTextLabel" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=354399168]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
 text = "Gameplay is split into day/night cycles, where you'll switch between running your cafe and customizing your cafe. 
 
-During the day, you will cycle between greeting customers, taking orders, and making orders. Interact with the customers at the door to greet them. Customers that have been greeted will automatically seat themselves. When their orders are ready, interact again to take their orders. You can then bring their order to the correct machine to start preparing it, before bringing the finished item back to the table to serve that customer. Keep in mind you can only carry two items at a time! When the customer is finished eating, they will leave their payment for their food on the table. Interact with the table again to pick up their check. If you serve them quickly you may even get some extra money as a tip! 
+During the day, you will cycle between greeting customers, taking orders, and making orders. [b]Interact[/b] with the customers at the door to greet them. Customers that have been greeted will automatically seat themselves and begin to look at the menu. When they are ready to orders, [b]interact[/b] again to take their orders. You can then [b]interact[/b] with the correct machine with their order to start preparing it, before bringing the finished item back to the table and [b]interacting[/b] with the customer to serve them. [b]Keep in mind you can only carry two items at a time! [/b]When the customer is finished eating, they will leave their payment on the table. [b]Interact [/b]with the table again to pick up their money. If you serve them quickly you may even get some extra money as a tip! 
 
-Make sure you watch that patience bar! Patience will start winding down as soon as the customer enters your cafe, and customers that run out of patience will storm out!
+Make sure you watch that patience bar! Patience will start winding down [b]as soon as the customer enters your cafe[/b], and customers that run out of patience will storm out!
 
-During the night, you will be able to purchase more equipment for your cafe, switch around your cats, as well as gacha for new cats. You can buy new equipment and adopt new cats in the store, and equip your cats in the My Cats menu. You will need a free cat bed in order to bring a new cats. Cats that are brought to the cafe will automatically have their buffs applied during the next day cycle. "
-autowrap_mode = 3
+During the night, you will be able to purchase more equipment for your cafe, switch around your cats, as well as gacha for new cats. You can buy new equipment and adopt new cats in the store. [b] Pulled cats can then be selected to be brought to the cafe in the My Cats menu [/b]in order to apply their buffs. You will need a free cat bed in order to bring a new cat. Cats that are brought to the cafe will automatically have their buffs applied during the next day cycle. "
+fit_content = true
+scroll_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/How to play/VBoxContainer" unique_id=1286291975]
 layout_mode = 2
@@ -269,4 +274,30 @@ text = "
 Press Escape while the day is started to pause the game and adjust the volume
 "
 
+[node name="Entry part" type="MarginContainer" parent="ColorRect/ScrollContainer/VBoxContainer" unique_id=839237825]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/ScrollContainer/VBoxContainer/Entry part" unique_id=1053016392]
+layout_mode = 2
+
+[node name="Text" type="Label" parent="ColorRect/ScrollContainer/VBoxContainer/Entry part/VBoxContainer" unique_id=160497943]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0.086104214, 1)
+text = "
+Ready to begin? Let's go and adopt your first cat!
+"
+
+[node name="GoButton" type="Button" parent="ColorRect/ScrollContainer/VBoxContainer/Entry part/VBoxContainer" unique_id=324243974]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_0ehet")
+text = "  Let's do this!  "
+
 [connection signal="pressed" from="ColorRect/quitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="ColorRect/ScrollContainer/VBoxContainer/Entry part/VBoxContainer/GoButton" to="." method="_on_go_button_pressed"]

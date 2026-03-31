@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dx10yh8s6elgy" path="res://assets/cats/splashes/cat_splash_background_grass.png" id="6_qs5rk"]
 [ext_resource type="Texture2D" uid="uid://cubl473nvtgdb" path="res://assets/cats/splashes/cat_splash_background_grass_lit.png" id="7_j6sa8"]
 [ext_resource type="Texture2D" uid="uid://pnl48nvflp6h" path="res://assets/cats/splashes/cat_splash_box.png" id="8_vibdx"]
+[ext_resource type="PackedScene" uid="uid://cx16n284so62c" path="res://scenes/Menus/equip_reminder.tscn" id="9_3olcx"]
 
 [node name="GachaController" type="CanvasLayer" unique_id=1338557837]
 script = ExtResource("1_fjbti")
@@ -117,3 +118,6 @@ offset_bottom = 105.0
 text = "INSUFFICIENT FUNDS"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Equip Reminder" parent="." unique_id=484951150 instance=ExtResource("9_3olcx")]
+visible = false

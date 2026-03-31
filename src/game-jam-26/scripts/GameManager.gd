@@ -17,6 +17,7 @@ var day_active: bool = false
 @export var tip_floor_time: float = 50.0
 @export var tip_ceiling_time: float = 120.0
 @export var tip_max_percent: float = 0.4
+@export var in_tutorial = true
 
 # Day-scaling state — set each day by _apply_day_scaling()
 var _pie_chance: float = 0.1

@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://cx16n284so62c"]
+
+[ext_resource type="Script" uid="uid://dx7tlf7j62s6k" path="res://scenes/Menus/equip_reminder.gd" id="1_nefkx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nefkx"]
+bg_color = Color(0.13333334, 0.078431375, 0.050980393, 1)
+
+[node name="Equip Reminder" type="CanvasLayer" unique_id=484951150]
+layer = 4
+script = ExtResource("1_nefkx")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1841805697]
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.21000001
+anchor_right = 0.71500003
+anchor_bottom = 0.66700006
+offset_top = -0.08000183
+offset_right = 0.3199463
+offset_bottom = -0.21603394
+color = Color(0.9699027, 0.93397856, 0.7695595, 1)
+
+[node name="Label" type="Label" parent="ColorRect" unique_id=1032582686]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "
+Remember to equip your new cat in the My Cats menu in order to use their buffs! "
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="ColorRect" unique_id=1614473329]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.358
+anchor_top = 0.73
+anchor_right = 0.61200005
+anchor_bottom = 0.86500007
+offset_left = 0.11199951
+offset_top = -0.08000183
+offset_right = -0.03201294
+offset_bottom = -0.040008545
+theme_override_styles/normal = SubResource("StyleBoxFlat_nefkx")
+text = "Got It!"
+
+[connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]

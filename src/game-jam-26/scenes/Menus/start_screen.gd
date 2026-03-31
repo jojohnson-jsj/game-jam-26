@@ -107,4 +107,5 @@ func _on_cat_button_pressed() -> void:
 
 func _on_tutorial_button_pressed() -> void:
 	$"../../Tutorial".visible = true
+	$"../../Tutorial".process_mode = Node.PROCESS_MODE_ALWAYS
 	
