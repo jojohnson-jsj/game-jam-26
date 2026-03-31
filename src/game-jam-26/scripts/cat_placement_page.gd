@@ -242,6 +242,8 @@ func _make_red_btn(text: String) -> Button:
 func open():
 	$"../".visible = true
 	$"../".process_mode = Node.PROCESS_MODE_ALWAYS
+	_selected_label.text = "Select a cat to place"
+	_place_btn.visible = false
 	var game_world = get_tree().root.get_node_or_null("Main/GameWorld")
 	if game_world and game_world.has_method("_apply_equipment_unlocks"):
 		game_world._apply_equipment_unlocks()
@@ -397,6 +399,7 @@ func cancel_placement() -> void:
 	_in_placement_mode = false
 	_exit_placement_mode()
 	_cancel_placement_btn.visible = false
+	_selected_label.text = "Select a cat to place"
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
 	var game_world = get_tree().root.get_node("Main/GameWorld")

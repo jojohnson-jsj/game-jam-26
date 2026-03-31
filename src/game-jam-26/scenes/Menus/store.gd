@@ -195,6 +195,17 @@ func _build_ui() -> void:
 	adopt_btn.pressed.connect(_on_adopt_pressed)
 	adopt_vbox.add_child(adopt_btn)
 
+	var place_shortcut_btn := _make_button("Go To Place Cats", 200)
+	place_shortcut_btn.pressed.connect(func():
+		SoundManager.play_sfx(INTERACT_SFX)
+		$"../".visible = false
+		$"../".process_mode = Node.PROCESS_MODE_DISABLED
+		var page = get_tree().root.get_node_or_null("Main/CatPlacementPage/CatPlacementPage")
+		if page:
+			page.open()
+	)
+	adopt_vbox.add_child(place_shortcut_btn)
+
 	_tab_contents.append(adopt_panel)
 
 	# Footer
