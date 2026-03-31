@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 const INVENTORY_MAX = 2
+
+func _get_inventory_max() -> int:
+	return 3 if GlobalInventory.has_nihao_cat() else INVENTORY_MAX
 const ACCELERATION = 1800.0
 const FRICTION = 1400.0
 
@@ -86,6 +89,37 @@ func _unhandled_input(event):
 		_handle_interact()
 	if event.is_action_pressed("dash") and has_dash_cat:
 		_try_dash()
+	if event.is_action_pressed("click") and event is InputEventJoypadButton:
+		_handle_controller_click()
+
+
+func _handle_controller_click() -> void:
+	# Queue cat — seat nearest waiting group
+	if GameManager.has_queue_cat:
+		var best_group = null
+		var best_dist = INF
+		for group in GameManager.waiting_queue:
+			for customer in group.customers:
+				if is_instance_valid(customer):
+					var d = global_position.distance_to(customer.global_position)
+					if d < best_dist:
+						best_dist = d
+						best_group = group
+		if best_group and best_dist < 120.0:
+			best_group.on_clicked()
+			return
+	# QR cat — take order from nearest waiting seated customer
+	if has_qr_cat:
+		var best = null
+		var best_dist = INF
+		for customer in GameManager.active_customers:
+			if is_instance_valid(customer) and customer.is_waiting_for_order():
+				var d = global_position.distance_to(customer.global_position)
+				if d < best_dist:
+					best_dist = d
+					best = customer
+		if best and best_dist < 120.0:
+			receive_order_from_qr(best)
 
 
 func _handle_interact():
@@ -148,7 +182,7 @@ func _handle_interact():
 
 
 func receive_order_from_qr(customer) -> void:
-	if inventory.size() >= INVENTORY_MAX:
+	if inventory.size() >= _get_inventory_max():
 		return
 	if not customer.is_waiting_for_order():
 		return
@@ -186,6 +220,15 @@ func _update_inventory_display():
 		$InventorySlot2.visible = tex != null
 	else:
 		$InventorySlot2.visible = false
+
+	# Slot 3 — above player (nihao cat only)
+	if inventory.size() >= 3:
+		var item = inventory[2]
+		var tex = _get_item_texture(item)
+		$InventorySlot3.texture = tex
+		$InventorySlot3.visible = tex != null
+	else:
+		$InventorySlot3.visible = false
 
 	# Re-evaluate highlights — interactability depends on what's in the inventory.
 	_refresh_all_interactable_highlights()

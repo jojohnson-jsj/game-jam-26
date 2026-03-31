@@ -130,3 +130,7 @@ position = Vector2(-20, -8)
 [node name="InventorySlot2" type="Sprite2D" parent="." unique_id=135988541]
 visible = false
 position = Vector2(20, -8)
+
+[node name="InventorySlot3" type="Sprite2D" parent="." unique_id=135988542]
+visible = false
+position = Vector2(0, -28)

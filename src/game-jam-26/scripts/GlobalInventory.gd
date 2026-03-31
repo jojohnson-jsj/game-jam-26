@@ -112,5 +112,5 @@ func get_npc_speed_bonus() -> float:
 func get_valentines_reduction() -> float:
 	return [0.0, 0.10, 0.30][min(copies_of('valentines_cat'), 2)] if is_placed('valentines_cat') else 0.0
 
-func get_day_extension() -> float:
-	return min(copies_of('nihao_cat'), 2) * 15.0 if is_placed('nihao_cat') else 0.0
+func has_nihao_cat() -> bool:
+	return is_placed('nihao_cat')
