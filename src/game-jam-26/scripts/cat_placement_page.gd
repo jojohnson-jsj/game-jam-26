@@ -10,6 +10,7 @@ var _cat_buttons: Dictionary = {}  # cat_id -> Button
 var _in_placement_mode: bool = false
 var _all_cats_unlocked: bool = false
 var _original_cats: Dictionary = {}
+var _cancel_placement_btn: Button = null
 var _unlock_btn: Button = null
 
 const BROWN      = Color(0.45, 0.28, 0.12, 1.0)
@@ -106,6 +107,17 @@ func _ready():
 	_place_btn.visible = false
 	_place_btn.pressed.connect(_on_place_pressed)
 	footer.add_child(_place_btn)
+
+	var cancel_layer := CanvasLayer.new()
+	cancel_layer.layer = 20
+	add_child(cancel_layer)
+	_cancel_placement_btn = _make_red_btn("Cancel")
+	_cancel_placement_btn.visible = false
+	_cancel_placement_btn.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	_cancel_placement_btn.position = Vector2(12, 34)
+	_cancel_placement_btn.custom_minimum_size = Vector2(120, 40)
+	_cancel_placement_btn.pressed.connect(cancel_placement)
+	cancel_layer.add_child(_cancel_placement_btn)
 
 	var close_btn := _make_btn("Close")
 	close_btn.pressed.connect(_on_exit_pressed)
@@ -211,6 +223,21 @@ func _make_btn(text: String) -> Button:
 	btn.add_theme_color_override("font_color", TEXT_DARK)
 	return btn
 
+func _make_red_btn(text: String) -> Button:
+	var btn := Button.new()
+	btn.text = text
+	btn.custom_minimum_size = Vector2(80, 32)
+	var red := Color(0.55, 0.08, 0.08, 1.0)
+	var red_dark := Color(0.40, 0.05, 0.05, 1.0)
+	var maroon := Color(0.35, 0.03, 0.03, 1.0)
+	var sn := _make_style(red); sn.border_color = maroon; sn.set_content_margin_all(6)
+	var sh := _make_style(red_dark); sh.border_color = maroon; sh.set_content_margin_all(6)
+	btn.add_theme_stylebox_override("normal",  sn)
+	btn.add_theme_stylebox_override("hover",   sh)
+	btn.add_theme_stylebox_override("pressed", sh)
+	btn.add_theme_color_override("font_color", Color.WHITE)
+	return btn
+
 
 func open():
 	$"../".visible = true
@@ -301,6 +328,8 @@ func _on_place_pressed():
 	_in_placement_mode = true
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = ""
+	_cancel_placement_btn.visible = true
+	get_tree().root.get_node("Main").add_child(_cancel_placement_btn)
 
 
 func _on_bed_clicked(bed):
@@ -325,6 +354,7 @@ func _on_bed_clicked(bed):
 	_in_placement_mode = false
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
+	_cancel_placement_btn.visible = false
 	_selected_label.text = "Placed!"
 	_place_btn.text = "Remove"
 	_place_btn.visible = true
@@ -366,6 +396,7 @@ func is_in_placement_mode() -> bool:
 func cancel_placement() -> void:
 	_in_placement_mode = false
 	_exit_placement_mode()
+	_cancel_placement_btn.visible = false
 	for cat_id in _cat_buttons:
 		_cat_buttons[cat_id].tooltip_text = CAT_DESCRIPTIONS.get(cat_id, "")
 	var game_world = get_tree().root.get_node("Main/GameWorld")
@@ -373,6 +404,8 @@ func cancel_placement() -> void:
 	game_world.process_mode = Node.PROCESS_MODE_DISABLED
 	self.modulate.a = 1.0
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	$"../".visible = true
+	$"../".process_mode = Node.PROCESS_MODE_ALWAYS
 	self.visible = true
 
 func _on_exit_pressed() -> void:
