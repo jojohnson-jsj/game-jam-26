@@ -20,7 +20,6 @@ func _on_go_button_pressed() -> void:
 	$"ColorRect/ScrollContainer/VBoxContainer/Entry part".visible = false
 	$ColorRect/quitButton.disabled = false
 	$ColorRect/quitButton.visible = true
-	Wallet.add_money(40)
 	$ColorRect/ScrollContainer.scroll_vertical = 0
 	$"../StoreMenu".visible = true
 	$"../StoreMenu".process_mode = Node.PROCESS_MODE_ALWAYS

@@ -127,7 +127,7 @@ func _ready() -> void:
 	# Bar outline + background
 	var bar_outline := PanelContainer.new()
 	var bar_style := StyleBoxFlat.new()
-	bar_style.bg_color = Color(0.45, 0.28, 0.12, 1.0)
+	bar_style.bg_color = Color(0.23, 0.12, 0.05, 1.0)
 	bar_style.set_content_margin_all(1)
 	bar_outline.add_theme_stylebox_override("panel", bar_style)
 	time_hbox.add_child(bar_outline)

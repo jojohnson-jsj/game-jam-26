@@ -560,7 +560,7 @@ func _create_patience_bar() -> void:
 	var outline := ColorRect.new()
 	outline.size = Vector2(BAR_WIDTH + O * 2, BAR_HEIGHT + O * 2)
 	outline.position = Vector2(-BAR_WIDTH / 2.0 - O, -16.0 - O)
-	outline.color = Color(0.45, 0.28, 0.12, 1.0)
+	outline.color = Color(0.23, 0.12, 0.05, 1.0)
 	outline.z_index = 7
 	outline.z_as_relative = false
 	outline.visible = false
