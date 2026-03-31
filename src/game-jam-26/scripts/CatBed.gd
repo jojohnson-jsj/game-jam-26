@@ -439,7 +439,7 @@ func _get_cat_tooltip(cat_name: String) -> String:
 		'patience_cat': 'Patience Cat\nCustomers have more patience',
 		'cooking_cat': 'Chef Cat\nDecreases cooking time',
 		'quality_control_cat': 'Inspector Cat\nItems sell for more',
-		'cheetah_cat': 'Cheetah Cat\nPlayer moves faster',
+		'cheetah_cat': 'Zoomies Cat\nPlayer moves faster',
 		'pretty_cat': 'Pretty Cat\nCustomers tip more generously',
 		'valentines_cat': 'Valentines Cat\nFewer solo customers',
 		'fat_cat': 'Fat Cat\nCustomers eat faster',

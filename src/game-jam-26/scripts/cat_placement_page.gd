@@ -144,7 +144,7 @@ const CAT_DESCRIPTIONS = {
 	'patience_cat':        "Customers absorb his serenity, and find they have more patience than before",
 	'cooking_cat':         "Decreases cooking time so dishes are ready faster",
 	'quality_control_cat': "He will only take the highest of quality items, your items sell for more",
-	'cheetah_cat':         "Helps the player get around faster (base speed increase)",
+	'cheetah_cat':         "She got the zoomies! Helps the player get around faster (base speed increase)",
 	'pretty_cat':          "Makes your customers more generous with their tips, as they get to look at her",
 	'valentines_cat':      "Less single people find their way to your cafe (more pairs or groups)",
 	'fat_cat':             "Eats customers' food so they eat faster",
@@ -161,7 +161,7 @@ func _format_cat_name(cat_id: String) -> String:
 		'host_cat': 'Host', 'hopper_cat': 'Hopper', 'nihao_cat': 'Nihao',
 		'counter_cat': 'Counter', 'trash_cat': 'Trash', 'patience_cat': 'Patience',
 		'cooking_cat': 'Cooking', 'quality_control_cat': 'Inspector',
-		'cheetah_cat': 'Cheetah', 'pretty_cat': 'Pretty', 'valentines_cat': 'Valentines',
+		'cheetah_cat': 'Zoomies', 'pretty_cat': 'Pretty', 'valentines_cat': 'Valentines',
 		'fat_cat': 'Fat', 'sign_spinner_cat': 'Sign Spinner',
 		'ankle_biter_cat': 'Ankle Biter', 'reccomendation_cat': 'Recommender'
 	}

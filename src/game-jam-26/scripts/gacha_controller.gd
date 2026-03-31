@@ -28,12 +28,12 @@ const CAT_DESCRIPTIONS = {
 	'money_cat':           ["Money Cat", "Automatically collects money so you don't have to"],
 	'host_cat':            ["Host Cat", "Click waiting groups so that the host can seat them instantly"],
 	'hopper_cat':          ["Hopper Cat", "Queue an extra order into a machine so you can load it and walk away"],
-	'nihao_cat':           ["Nihao Cat", "This famous cat carries their franchise's popularity. It's inspiring you to carry more as well! (player can now carry 3 items)"],
+	'nihao_cat':           ["Nihao Cat", "She makes the day last longer through her love and whimsy"],
 	'counter_cat':         ["Counter Cat", "Unlocks the countertop plates — drop off a finished dish and come back for it later!"],
 	'patience_cat':        ["Patience Cat", "Customers absorb his serenity, and find they have more patience than before"],
 	'cooking_cat':         ["Chef Cat", "Decreases cooking time so dishes are ready faster"],
 	'quality_control_cat': ["Inspector Cat", "He will only take the highest of quality items, your items sell for more"],
-	'cheetah_cat':         ["Cheetah Cat", "Helps the player get around faster (base speed increase)"],
+	'cheetah_cat':         ["Zoomies Cat", "She got the zoomies! Helps the player get around faster (base speed increase)"],
 	'pretty_cat':          ["Pretty Cat", "Makes your customers more generous with their tips, as they get to look at her"],
 	'valentines_cat':      ["Valentines Cat", "Less single people find their way to your cafe (more pairs or groups)"],
 	'fat_cat':             ["Fat Cat", "Eats customers' food so they eat faster"],
@@ -63,9 +63,6 @@ func _input(event):
 			pass
 			#skip_animation()
 		else:
-			if GameManager.in_tutorial:
-				$"Equip Reminder".visible = true
-				return
 			visible = false
 			$"../".visible = true
 			queue_free()
