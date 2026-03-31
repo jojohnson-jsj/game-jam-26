@@ -50,7 +50,7 @@ func _ready():
 	var outline := ColorRect.new()
 	outline.size = Vector2(BAR_WIDTH + O * 2, BAR_HEIGHT + O * 2)
 	outline.position = Vector2(-BAR_WIDTH / 2.0 - O, bar_y - O)
-	outline.color = Color(0, 0, 0, 0.8)
+	outline.color = Color(0.45, 0.28, 0.12, 1.0)
 	outline.visible = false
 	add_child(outline)
 

@@ -124,11 +124,18 @@ func _ready() -> void:
 	sun.custom_minimum_size = Vector2(32, 32)
 	time_hbox.add_child(sun)
 
-	# Bar background
+	# Bar outline + background
+	var bar_outline := PanelContainer.new()
+	var bar_style := StyleBoxFlat.new()
+	bar_style.bg_color = Color(0.45, 0.28, 0.12, 1.0)
+	bar_style.set_content_margin_all(1)
+	bar_outline.add_theme_stylebox_override("panel", bar_style)
+	time_hbox.add_child(bar_outline)
+
 	var bar_bg := ColorRect.new()
 	bar_bg.color = Color(0.45, 0.28, 0.12, 0.3)
-	bar_bg.custom_minimum_size = Vector2(400, 32)
-	time_hbox.add_child(bar_bg)
+	bar_bg.custom_minimum_size = Vector2(400, 30)
+	bar_outline.add_child(bar_bg)
 
 	# Bar fill (child of bar_bg so it's clipped naturally)
 	_time_bar_fill = ColorRect.new()
