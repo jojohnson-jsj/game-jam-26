@@ -19,6 +19,8 @@ var _interaction_area: Area2D = null
 
 var _placement_callback: Callable = Callable()
 
+var _is_hovered: bool = false
+
 func enter_placement_mode(callback: Callable) -> void:
 	_placement_callback = callback
 	# Gentle idle pulse to indicate this bed is selectable
@@ -29,6 +31,9 @@ func enter_placement_mode(callback: Callable) -> void:
 
 func exit_placement_mode() -> void:
 	_placement_callback = Callable()
+	if _is_hovered:
+		_is_hovered = false
+		_hide_hover_label()
 	if has_meta("placement_tween"):
 		get_meta("placement_tween").kill()
 		remove_meta("placement_tween")
@@ -37,11 +42,39 @@ func exit_placement_mode() -> void:
 
 func _input(event: InputEvent) -> void:
 	if not _placement_callback.is_valid():
+		if _is_hovered:
+			_is_hovered = false
+			_hide_hover_label()
+		return
+	if event is InputEventMouseMotion:
+		var close = global_position.distance_to(get_global_mouse_position()) < 16.0
+		if close and not _is_hovered:
+			_is_hovered = true
+			# hover enter during placement
+			if has_meta("placement_tween"):
+				get_meta("placement_tween").kill()
+			var tween = create_tween()
+			tween.tween_property(self, "scale", Vector2(1.25, 1.25), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			modulate = Color(1.5, 1.5, 1.0)
+			if assigned_cat:
+				_show_hover_label(_get_cat_tooltip(assigned_cat.cat_name))
+		elif not close and _is_hovered:
+			_is_hovered = false
+			# hover exit during placement
+			_hide_hover_label()
+			var tween = create_tween()
+			tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_SINE)
+			modulate = Color(1, 1, 1)
+			var loop_tween = create_tween().set_loops()
+			loop_tween.tween_property(self, "scale", Vector2(1.08, 1.08), 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			loop_tween.tween_property(self, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			set_meta("placement_tween", loop_tween)
 		return
 	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		return
 	if global_position.distance_to(get_global_mouse_position()) < 16.0:
 		_placement_callback.call(self)
+		get_viewport().set_input_as_handled()
 
 # ── Animation ─────────────────────────────────────────────────────────────────
 var _is_yawning:     bool = false
@@ -293,37 +326,22 @@ func _do_yawn() -> void:
 
 func _on_bed_mouse_entered() -> void:
 	if _placement_callback.is_valid():
-		if has_meta("placement_tween"):
-			get_meta("placement_tween").kill()
-		var tween = create_tween()
-		tween.tween_property(self, "scale", Vector2(1.25, 1.25), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		modulate = Color(1.5, 1.5, 1.0)
-		if assigned_cat:
-			_show_hover_label(_get_cat_tooltip(assigned_cat.cat_name))
-	elif _cat_sprite and _cat_sprite.visible:
+		return  # handled by _input
+	if _cat_sprite and _cat_sprite.visible:
 		_cat_sprite.modulate = Color(1.4, 1.4, 1.4)
 
 
 func _on_bed_mouse_exited() -> void:
-	_hide_hover_label()
 	if _placement_callback.is_valid():
-		var tween = create_tween()
-		tween.tween_property(self, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_SINE)
-		modulate = Color(1, 1, 1)
-		var loop_tween = create_tween().set_loops()
-		loop_tween.tween_property(self, "scale", Vector2(1.08, 1.08), 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		loop_tween.tween_property(self, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		set_meta("placement_tween", loop_tween)
-	elif _cat_sprite:
+		return  # handled by _input
+	_hide_hover_label()
+	if _cat_sprite:
 		_cat_sprite.modulate = Color(1, 1, 1)
 
 
 func _on_bed_input_event(_viewport, event, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("bed input, callback valid: ", _placement_callback.is_valid())
-		if _placement_callback.is_valid():
-			_placement_callback.call(self)
-		elif _cat_sprite and _cat_sprite.visible and not _is_being_petted:
+		if not _placement_callback.is_valid() and _cat_sprite and _cat_sprite.visible and not _is_being_petted:
 			_do_pet()
 
 
@@ -385,9 +403,18 @@ func _show_hover_label(text: String) -> void:
 	lbl.add_theme_color_override("font_color", Color(0.28, 0.15, 0.05))
 	lbl.add_theme_font_size_override("font_size", 11)
 	panel.add_child(lbl)
-	var screen_pos = get_viewport().get_canvas_transform() * global_position
-	panel.position = screen_pos + Vector2(10, -50)
+	var sprite_world_pos = global_position + Vector2(0, -7)
+	var screen_pos = get_viewport().get_canvas_transform() * sprite_world_pos
+	var is_right_bed = global_position.x >= 240
+	# Add first so size is computed, then reposition
 	page._cancel_layer.add_child(panel)
+	await get_tree().process_frame
+	if not is_instance_valid(panel):
+		return
+	if is_right_bed:
+		panel.position = screen_pos + Vector2(-panel.size.x - 30, -30)
+	else:
+		panel.position = screen_pos + Vector2(28, -30)
 
 func _hide_hover_label() -> void:
 	var page = get_tree().root.get_node_or_null("Main/CatPlacementPage/CatPlacementPage")
