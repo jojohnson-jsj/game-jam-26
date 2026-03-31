@@ -6,7 +6,7 @@ const GACHA_SCENE = preload("res://scenes/GachaController.tscn")
 
 var _money_label: Label
 var _day_label: Label
-var _active_tab: int = 0
+var _active_tab: int = 1
 var _tab_contents: Array = []
 var _tab_buttons: Array = []
 var _item_rows: Array = []  # [{price_lbl, buy_btn, owned_lbl, item}]
@@ -195,9 +195,11 @@ func _build_ui() -> void:
 	adopt_btn.pressed.connect(_on_adopt_pressed)
 	adopt_vbox.add_child(adopt_btn)
 
-	var place_shortcut_btn := _make_button("Go To Place Cats", 200)
+	var place_shortcut_btn := _make_button("Go To My Cats", 200)
 	place_shortcut_btn.pressed.connect(func():
 		SoundManager.play_sfx(INTERACT_SFX)
+		_active_tab = 0
+		_refresh_tabs()
 		$"../".visible = false
 		$"../".process_mode = Node.PROCESS_MODE_DISABLED
 		var page = get_tree().root.get_node_or_null("Main/CatPlacementPage/CatPlacementPage")
@@ -340,6 +342,8 @@ func _on_exit_pressed() -> void:
 	SoundManager.play_sfx(INTERACT_SFX)
 	$"../../StartMenu".visible = true
 	$"../../StartMenu".process_mode = Node.PROCESS_MODE_ALWAYS
+	_active_tab = 0
+	_refresh_tabs()
 	$"../".visible = false
 	$"../".process_mode = Node.PROCESS_MODE_DISABLED
 
