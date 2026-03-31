@@ -139,7 +139,7 @@ const CAT_DESCRIPTIONS = {
 	'money_cat':           "Automatically collects money so you don't have to",
 	'host_cat':            "Click waiting groups so that the host can seat them instantly",
 	'hopper_cat':          "Queue an extra order into a machine so you can load it and walk away",
-	'nihao_cat':           "She makes the day last longer through her love and whimsy",
+	'nihao_cat':           "This famous cat carries their franchise's popularity. It's inspiring you to carry more as well! (player can now carry 3 items)",
 	'counter_cat':         "Unlocks the countertop plates — drop off a finished dish and come back for it later!",
 	'patience_cat':        "Customers absorb his serenity, and find they have more patience than before",
 	'cooking_cat':         "Decreases cooking time so dishes are ready faster",

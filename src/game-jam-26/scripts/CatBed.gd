@@ -433,7 +433,7 @@ func _get_cat_tooltip(cat_name: String) -> String:
 		'money_cat': 'Money Cat\nAutomatically collects money',
 		'host_cat': 'Host Cat\nClick waiting groups to seat them instantly',
 		'hopper_cat': 'Hopper Cat\nQueue an extra order into a machine',
-		'nihao_cat': 'Nihao Cat\nMakes the day last longer',
+		'nihao_cat': 'Nihao Cat\nPlayer can now carry 3 items',
 		'counter_cat': 'Counter Cat\nUnlocks countertop plates',
 		'trash_cat': 'Trash Cat\nClick trash can to discard inventory',
 		'patience_cat': 'Patience Cat\nCustomers have more patience',
