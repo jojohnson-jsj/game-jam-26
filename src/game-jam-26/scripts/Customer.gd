@@ -11,14 +11,14 @@ var current_state = State.WALKING_TO_SEAT
 @export var order_item: String = "latte"
 @export var initial_patience: float = 30.0
 @export var delivery_patience: float = 50.0
-@export var eating_time: float = 10.0
-@export var thinking_time_min: float = 3.0
-@export var thinking_time_max: float = 8.0
+@export var eating_time: float = 7.0
+@export var thinking_time_min: float = 2.0
+@export var thinking_time_max: float = 4.0
 
 ## Customers served within this many seconds (from queue entry) get a heart emoji.
-@export var fast_service_threshold: float = 20.0
+@export var fast_service_threshold: float = 30.0
 ## Customers served within this many seconds get a smile emoji (above fast threshold).
-@export var smile_service_threshold: float = 35.0
+@export var smile_service_threshold: float = 50.0
 
 var queue_entry_time: int = 0
 var tip_delta: float = 0.0
@@ -304,16 +304,15 @@ func _on_thinking_finished():
 func interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
-			# Hotswap: player already has matching food → deliver immediately,
-			# hand back the order slip (mirrors equipment hotswap behaviour).
+			# Hotswap: only when inventory is full and player has matching food
 			var food = find_food_in_inventory(player_inventory)
-			if food != null:
+			if food != null and player_inventory.size() >= _inv_max():
 				player_inventory.erase(food)
 				emit_signal("order_placed", order_item)
 				receive_food()
 				return true
 			# Normal path: take the order if there's inventory room.
-			if player_inventory.size() >= 2:
+			if player_inventory.size() >= _inv_max():
 				return false
 			modulate = Color(1, 1, 1)
 			emit_signal("order_placed", order_item)
@@ -363,6 +362,10 @@ func find_food_in_inventory(player_inventory: Array):
 		if item["type"] == "food" and item["item"] == order_item:
 			return item
 	return null
+
+
+func _inv_max() -> int:
+	return GlobalInventory.get_inventory_max()
 
 
 func _on_patience_expired():
@@ -432,7 +435,7 @@ func can_interact(player_inventory: Array) -> bool:
 	match current_state:
 		State.WAITING_FOR_PLAYER:
 			# Hotswap path (food in hand) works even on a full inventory
-			return find_food_in_inventory(player_inventory) != null or player_inventory.size() < 2
+			return find_food_in_inventory(player_inventory) != null or player_inventory.size() < _inv_max()
 		State.ORDER_TAKEN:
 			return find_food_in_inventory(player_inventory) != null
 	return false

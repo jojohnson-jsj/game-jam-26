@@ -403,8 +403,7 @@ func _show_hover_label(text: String) -> void:
 	lbl.add_theme_color_override("font_color", Color(0.28, 0.15, 0.05))
 	lbl.add_theme_font_size_override("font_size", 11)
 	panel.add_child(lbl)
-	var sprite_world_pos = global_position + Vector2(0, -7)
-	var screen_pos = get_viewport().get_canvas_transform() * sprite_world_pos
+	var screen_pos = get_global_transform_with_canvas().origin
 	var is_right_bed = global_position.x >= 240
 	# Add first so size is computed, then reposition
 	page._cancel_layer.add_child(panel)

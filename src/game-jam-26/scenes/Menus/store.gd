@@ -18,9 +18,9 @@ const TEXT_DARK   = Color(0.28, 0.15, 0.05, 1.0)
 const TEXT_MID    = Color(0.45, 0.28, 0.12, 0.6)
 
 const HARDWARE_ITEMS = [
-	{"key": "oven",          "label": "Oven",          "desc": "Unlocks more ovens",          "base_price": 300, "price_step": 50,  "max": 4},
-	{"key": "latte_machine", "label": "Latte Machine", "desc": "Unlocks more latte machines", "base_price": 225, "price_step": 25,  "max": 4},
-	{"key": "cat_bed",       "label": "Cat Bed",       "desc": "Adds a cat bed slot",  "base_price": -70,  "price_step": 100, "max": 7},
+	{"key": "oven",          "label": "Oven",          "desc": "Unlocks more ovens",          "base_price": 100, "price_step": 50,  "max": 4},
+	{"key": "latte_machine", "label": "Latte Machine", "desc": "Unlocks more latte machines", "base_price": 75,  "price_step": 25,  "max": 4},
+	{"key": "cat_bed",       "label": "Cat Bed",       "desc": "Adds a cat bed slot",  "base_price": 40,  "price_step": 0,   "max": 7},
 ]
 
 func _get_price(item: Dictionary) -> int:

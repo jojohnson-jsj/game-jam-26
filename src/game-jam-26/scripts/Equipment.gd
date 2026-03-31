@@ -159,7 +159,7 @@ func interact(player_inventory: Array) -> bool:
 				unhighlight()
 				print("Swapped order for food, started cooking next: ", item_type)
 				return true
-			elif player_inventory.size() < 2:
+			elif player_inventory.size() < GlobalInventory.get_inventory_max():
 				player_inventory.append({"type": "food", "item": item_type})
 				$SpriteReady.position.y = -16.0 + indicator_y_offset
 				_has_queued_order = false
@@ -199,7 +199,7 @@ func can_interact(player_inventory: Array) -> bool:
 			return order_queue.size() < max_queue_size and find_order_in_inventory(player_inventory) != null
 		State.READY:
 			# Interactable if holding a matching order (swap) or inventory has room (pickup)
-			return find_order_in_inventory(player_inventory) != null or player_inventory.size() < 2
+			return find_order_in_inventory(player_inventory) != null or player_inventory.size() < GlobalInventory.get_inventory_max()
 	return false
 
 

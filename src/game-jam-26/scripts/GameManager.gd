@@ -16,7 +16,7 @@ var day_active: bool = false
 @export var queue_patience: float = 45.0
 @export var tip_floor_time: float = 50.0
 @export var tip_ceiling_time: float = 120.0
-@export var tip_max_percent: float = 0.3
+@export var tip_max_percent: float = 0.4
 @export var in_tutorial = true
 
 # Day-scaling state — set each day by _apply_day_scaling()
@@ -38,8 +38,8 @@ var has_trash_cat: bool = false
 var has_hopper_cat: bool = false
 
 const ITEM_PRICES = {
-	"latte": 3.0,
-	"pie": 8.0
+	"latte": 6.0,
+	"pie": 18.0
 }
 
 # Texture registries — add new item types here as art becomes available
@@ -187,17 +187,17 @@ func _apply_day_scaling() -> void:
 	var s := _get_day_scale()
 	# Spawn interval: day 1 = 22s → floors at 7s around day 15
 	spawn_interval = max(5.0, 15.0 - s * 8.0)
-	# Queue patience: day 1 = 45s → floors at 15s
-	queue_patience = max(20.0, 45.0 - s * 25.0)
+	# Queue patience: 1/3 as punishing (scale factor / 3)
+	queue_patience = max(20.0, 45.0 - s * 8.3)
 	# Tip floor: day 1 = 50s → floors at 20s (tips decay sooner)
-	tip_floor_time = max(20.0, 50.0 - s * 30.0)
+	tip_floor_time = max(30.0, 50.0 - s * 20.0)
 	# Max group size: 3 on day 1, +1 at day 5, +1 at day 10 (cap 5)
 	max_group_size = min(5, 3 + int(GlobalInventory.day >= 5) + int(GlobalInventory.day >= 10))
-	# Pie order rate: 10% on day 1, up to 60% as days progress
-	_pie_chance = clamp(0.15 + s * 0.50, 0.15, 0.60)
-	# Per-customer seated patience (used after they're thinking)
-	_customer_initial_patience  = max(15.0, 40.0 - s * 22.0)
-	_customer_delivery_patience = max(20.0, 60.0 - s * 35.0)
+	# Pie order rate: cap lowered to 30%
+	_pie_chance = clamp(0.15 + s * 0.50, 0.15, 0.30)
+	# Per-customer seated patience: half as punishing (scale factor / 2)
+	_customer_initial_patience  = max(15.0, 40.0 - s * 11.0)
+	_customer_delivery_patience = max(20.0, 60.0 - s * 17.5)
 	print("Day %d scaling — spawn:%.1fs  q_patience:%.1fs  grp_max:%d  pie:%.0f%%" % [
 		GlobalInventory.day, spawn_interval, queue_patience, max_group_size, _pie_chance * 100
 	])
@@ -208,10 +208,9 @@ func start_day():
 	_apply_day_scaling()
 
 	spawn_timer.wait_time = max(5.0, spawn_interval - GlobalInventory.get_spawn_interval_reduction())
-	queue_patience += GlobalInventory.get_patience_bonus()
 	tip_floor_time += GlobalInventory.get_tip_floor_bonus()
-	day_timer.wait_time = day_duration + GlobalInventory.get_day_extension()
-	# Patience cat also buffs seated patience
+	day_timer.wait_time = day_duration
+	# Patience cat buffs seated initial + delivery patience
 	var patience_bonus = GlobalInventory.get_patience_bonus()
 	_customer_initial_patience  += patience_bonus
 	_customer_delivery_patience += patience_bonus
@@ -233,6 +232,8 @@ func start_day():
 
 func _on_spawn_timer_timeout():
 	if not day_active:
+		return
+	if day_timer.time_left <= 3.0:
 		return
 	spawn_group(randi_range(min_group_size, max_group_size))
 
