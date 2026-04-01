@@ -110,10 +110,10 @@ grow_vertical = 2
 
 [node name="TextEdit" type="Label" parent="Control/Broke" unique_id=643261362]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.15, 0.05, 1)
 text = "Not enough coins!"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(0.28, 0.15, 0.05, 1)
 
 [node name="Equip Reminder" parent="." unique_id=484951150 instance=ExtResource("9_3olcx")]
 visible = false
