@@ -9,6 +9,7 @@ var _day_label: Label
 var _active_tab: int = 1
 var _tab_contents: Array = []
 var _tab_buttons: Array = []
+var _buy_button_refs: Array = []  # [{btn, item}] for affordability checks
 var _item_rows: Array = []  # [{price_lbl, buy_btn, owned_lbl, item}]
 
 const BROWN       = Color(0.45, 0.28, 0.12, 1.0)
@@ -194,6 +195,7 @@ func _build_ui() -> void:
 	var adopt_btn := _make_button("ADOPT  ($%d)" % GlobalInventory.PULL_COST, 200)
 	adopt_btn.pressed.connect(_on_adopt_pressed)
 	adopt_vbox.add_child(adopt_btn)
+	_buy_button_refs.append({"btn": adopt_btn, "item": {"base_price": GlobalInventory.PULL_COST, "price_step": 0, "key": ""}})
 
 	var place_shortcut_btn := _make_button("Go To My Cats", 200)
 	place_shortcut_btn.pressed.connect(func():
@@ -224,6 +226,7 @@ func _build_ui() -> void:
 	vbox.add_child(footer)
 
 	_refresh_tabs()
+	_refresh_affordability()
 
 func _make_item_row(item: Dictionary) -> Control:
 	var row := PanelContainer.new()
@@ -287,8 +290,10 @@ func _make_item_row(item: Dictionary) -> Control:
 	buy_btn.disabled = at_max
 	if at_max:
 		buy_btn.text = "MAX"
+		buy_btn.set_meta("maxed", true)
 	buy_btn.pressed.connect(_on_buy_pressed.bind(item, buy_btn, price_lbl, owned_lbl))
 	right_vbox.add_child(buy_btn)
+	_buy_button_refs.append({"btn": buy_btn, "item": item})
 
 	return row
 
@@ -325,6 +330,7 @@ func _on_buy_pressed(item: Dictionary, btn: Button, price_lbl: Label, owned_lbl:
 	if amt >= item.max:
 		btn.text = "MAX"
 		btn.disabled = true
+		btn.set_meta("maxed", true)
 		price_lbl.text = "SOLD OUT"
 	else:
 		price_lbl.text = "$%d" % _get_price(item)
@@ -353,3 +359,13 @@ func _on_money_changed(amount: float) -> void:
 		_money_label.text = "$%.0f" % amount
 	if _day_label:
 		_day_label.text = "DAY %d" % GlobalInventory.day
+	_refresh_affordability()
+
+
+func _refresh_affordability() -> void:
+	for ref in _buy_button_refs:
+		var btn: Button = ref.btn
+		if btn.get_meta("maxed", false):
+			continue  # permanently disabled
+		var can_afford = Wallet.money_owned >= _get_price(ref.item)
+		btn.disabled = not can_afford

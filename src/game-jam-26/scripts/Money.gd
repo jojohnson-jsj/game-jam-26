@@ -2,6 +2,7 @@ extends Area2D
 
 var amount: float = 0.0
 var source_table = null
+var _collecting: bool = false
 
 
 func setup(payout: float, table):
@@ -22,6 +23,9 @@ func can_interact(_player_inventory: Array) -> bool:
 
 
 func interact(_player_inventory: Array) -> bool:
+	if _collecting:
+		return false
+	_collecting = true
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
 		_fly_to(player.global_position)
