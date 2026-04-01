@@ -1,5 +1,7 @@
 extends Node
 
+const INTERACT_SFX = preload("res://assets/sound assests/interact-sound.mp3")
+
 func play_sfx(stream: AudioStream, volume_db := 0, pitch := 1.0):
 	var player = AudioStreamPlayer.new()
 	add_child(player)

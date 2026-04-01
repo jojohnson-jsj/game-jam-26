@@ -8,11 +8,8 @@ var _selected_label: Label = null
 var _active_beds: Array = []
 var _cat_buttons: Dictionary = {}  # cat_id -> Button
 var _in_placement_mode: bool = false
-var _all_cats_unlocked: bool = false
-var _original_cats: Dictionary = {}
 var _cancel_placement_btn: Button = null
 var _cancel_layer: CanvasLayer = null
-var _unlock_btn: Button = null
 
 const BROWN      = Color(0.45, 0.28, 0.12, 1.0)
 const CREAM      = Color(0.98, 0.95, 0.88, 1.0)
@@ -124,11 +121,6 @@ func _ready():
 	var close_btn := _make_btn("Close")
 	close_btn.pressed.connect(_on_exit_pressed)
 	footer.add_child(close_btn)
-
-	# Debug toggle — unlock all cats for QA testing
-	_unlock_btn = _make_btn("Unlock All (Debug)")
-	_unlock_btn.pressed.connect(_on_unlock_all_pressed)
-	footer.add_child(_unlock_btn)
 
 	_update_cat_buttons()
 
@@ -378,27 +370,6 @@ func _exit_placement_mode():
 			bed.exit_placement_mode()
 			bed.modulate = Color(1, 1, 1)
 	_active_beds.clear()
-
-
-func _on_unlock_all_pressed() -> void:
-	_all_cats_unlocked = not _all_cats_unlocked
-	if _all_cats_unlocked:
-		_original_cats.clear()
-		for cat_id in CAT_IDS:
-			_original_cats[cat_id] = GlobalInventory.cats[cat_id].duplicate()
-			GlobalInventory.add_cat(cat_id)
-		for bed in get_tree().get_nodes_in_group("cat_beds"):
-			bed.set_unlocked(true)
-	else:
-		for cat_id in CAT_IDS:
-			if _original_cats.has(cat_id):
-				GlobalInventory.cats[cat_id] = _original_cats[cat_id].duplicate()
-		# Restore bed unlock state from equipment_amt
-		var game_world = get_tree().root.get_node_or_null("Main/GameWorld")
-		if game_world and game_world.has_method("_apply_equipment_unlocks"):
-			game_world._apply_equipment_unlocks()
-	_update_cat_buttons()
-	_unlock_btn.text = "Lock All (Debug)" if _all_cats_unlocked else "Unlock All (Debug)"
 
 
 func is_in_placement_mode() -> bool:

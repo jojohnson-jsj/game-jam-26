@@ -42,6 +42,7 @@ func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var player = get_tree().get_first_node_in_group("player")
 		if player and not player.inventory.is_empty():
+			SoundManager.play_sfx(SoundManager.INTERACT_SFX)
 			player.inventory.clear()
 			player._update_inventory_display()
 			unhighlight()

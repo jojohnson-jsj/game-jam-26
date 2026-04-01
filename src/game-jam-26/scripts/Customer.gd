@@ -403,12 +403,14 @@ func _on_mouse_exited():
 func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if group != null and not group.is_seated and GameManager.has_queue_cat:
+			SoundManager.play_sfx(SoundManager.INTERACT_SFX)
 			group.unhighlight()
 			group.on_clicked()
 			return
 		if current_state == State.WAITING_FOR_PLAYER and (group == null or group.is_seated):
 			var player = get_tree().get_first_node_in_group("player")
 			if player and player.has_qr_cat:
+				SoundManager.play_sfx(SoundManager.INTERACT_SFX)
 				modulate = Color(1, 1, 1)
 				player.receive_order_from_qr(self)
 
